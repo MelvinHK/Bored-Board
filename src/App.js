@@ -14,8 +14,8 @@ function App() {
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path=':forumURL' element={<Forum />}>
-                    <Route path='thread/:threadID' element={<Thread />} />
                     <Route index element={<ThreadList />} />
+                    <Route path='thread/:threadID' element={<Thread />} />
                 </Route>
                 <Route path='about' element={<About />} />
                 <Route path='*' element={<NotFound />} />
