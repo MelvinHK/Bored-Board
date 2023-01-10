@@ -17,6 +17,7 @@ function Thread() {
 
     if (!thread)
         return <NotFound error={"Thread does not exist"}/>
+        
     return (
         <div>
             <h3>{thread.title}</h3>
