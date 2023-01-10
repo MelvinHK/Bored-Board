@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useParams } from 'react-router-dom'
 import * as firestore from '../firestore'
 
-function ThreadList({ children }) {
+function ThreadList({ postThreadModal }) {
     const [threads, setThreads] = useState([])
     const { forumURL } = useParams()
 
@@ -15,7 +15,12 @@ function ThreadList({ children }) {
     }, [])
 
     if (!threads)
-        return <p>No threads posted yet...</p>
+        return (
+            <>
+                <p>No threads posted yet...</p>
+                {postThreadModal}
+            </>
+        )
 
     return (
         <ul>
@@ -29,7 +34,7 @@ function ThreadList({ children }) {
                     {thread.date}
                 </li>
             )}
-            {children}
+            {postThreadModal}
         </ul>
     )
 }

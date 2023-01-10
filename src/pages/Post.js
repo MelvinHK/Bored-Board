@@ -4,13 +4,13 @@ import '../App.css'
 function Post({ deepLink }) {
     const navigate = useNavigate();
     const { forumURL } = useParams()
-    const closeURL = deepLink ? `/${forumURL}` : -1
+    const previousURL = deepLink ? `/${forumURL}` : -1
 
     return (
         <div className='modalDiv'>
             <div className='modal'>
                 <h3>Post Thread</h3>
-                <button onClick={() => navigate(closeURL)}>Close</button>
+                <button onClick={() => navigate(previousURL)}>Close</button>
             </div>
         </div>
     )

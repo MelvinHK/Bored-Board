@@ -20,14 +20,18 @@ function App() {
                 <Route path=':forumURL' element={<Forum />}>
                     <Route index element={<ThreadList />} />
                     <Route path='thread/:threadID' element={<Thread />} />
-                    <Route path='post' element={<ThreadList><Post deepLink={true} /></ThreadList>} />
+                    <Route path='post' element={ // Post component has to be a child of ThreadList, otherwise, when you 
+                        <ThreadList postThreadModal={ // deep link to :forumURL/post, the thread list doesn't load in the background
+                            <Post deepLink={true} />
+                        } />
+                    } />
                 </Route>
                 <Route path='about' element={<About />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
             {background && (
                 <Routes>
-                    <Route path=":forumURL/post" element={<Post />} />
+                    <Route path=":forumURL/post" element={<Post />} /> 
                 </Routes>
             )}
         </>
