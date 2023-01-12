@@ -44,3 +44,10 @@ button:hover {
 .is-active {
   background-color: #e7e7e7;
 }
+
+.ProseMirror p {
+  margin-top: 0;
+  margin-bottom: 0;
+  border-radius: 2px;
+  padding: 1px;
+}

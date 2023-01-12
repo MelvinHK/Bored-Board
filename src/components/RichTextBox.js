@@ -61,7 +61,7 @@ function RichTextBox() {
 
     return (
         <div>
-            <MenuBar editor={editor} />
+                    <MenuBar editor={editor} />
             <EditorContent editor={editor} />
         </div>
     )
