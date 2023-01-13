@@ -16,7 +16,7 @@ const MenuBar = ({ editor }) => {
 
     const toggleLink = useCallback(() => {
         const previousUrl = editor.getAttributes('link').href
-        const url = window.prompt('URL', previousUrl)
+        const url = window.prompt('Enter URL:', previousUrl)
 
         if (url === null)
             return

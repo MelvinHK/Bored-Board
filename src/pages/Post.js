@@ -12,14 +12,18 @@ function Post({ deepLink }) {
             <div className='modal'>
                 <div className='container'>
                     <h3>Post Thread</h3>
-                    <input placeholder='Title' style={{marginBottom: '10px', width: '96%'}}/>
+                    <input placeholder='Title' style={{ marginBottom: '10px', width: '100%' }} />
                     <RichTextBox />
-                    <button
-                        onClick={() => navigate(previousURL)}
-                        className='close-modal-button'
-                    >
-                        {'\u2716'}
-                    </button>
+                    <div style={{ textAlign: 'right' }}>
+                        <button style={{ marginRight: '10px' }}>
+                            Submit
+                        </button>
+                        <button
+                            onClick={() => navigate(previousURL)}
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
