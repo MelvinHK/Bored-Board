@@ -1,6 +1,5 @@
-html *
-{
-   font-family: Arial !important;
+html * {
+  font-family: Arial !important;
 }
 
 .container {
@@ -15,7 +14,7 @@ html *
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(91, 112, 131, 0.4);
+  background-color: rgba(130, 130, 130, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,6 +47,10 @@ html *
 .nav li {
   display: inline-block;
   padding-right: 20px;
+}
+
+li {
+  list-style-type: none;
 }
 
 button {
@@ -111,4 +114,12 @@ input {
   padding-left: 10px;
   height: 200px;
   overflow: auto;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: gray;
+  pointer-events: none;
+  height: 0;
 }

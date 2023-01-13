@@ -16,10 +16,10 @@ function ThreadList({ postThreadModal }) {
 
     if (!threads)
         return (
-            <>
-                <p>No threads posted yet...</p>
+            <ul>
+                <li>No threads posted yet...</li>
                 {postThreadModal}
-            </>
+            </ul>
         )
 
     return (

@@ -19,11 +19,11 @@ function Thread() {
         return <NotFound error={"Thread does not exist"}/>
         
     return (
-        <div>
+        <ul>
             <h3>{thread.title}</h3>
             <p>{thread.date}</p>
             <p>{thread.description}</p>
-        </div>
+        </ul>
     )
 }
 

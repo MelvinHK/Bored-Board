@@ -12,7 +12,7 @@ function Post({ deepLink }) {
             <div className='modal'>
                 <div className='container'>
                     <h3>Post Thread</h3>
-                    <input placeholder='Title' style={{marginBottom: '10px'}}/>
+                    <input placeholder='Title' style={{marginBottom: '10px', width: '96%'}}/>
                     <RichTextBox />
                     <button
                         onClick={() => navigate(previousURL)}
