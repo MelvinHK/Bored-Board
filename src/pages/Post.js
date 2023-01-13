@@ -10,10 +10,17 @@ function Post({ deepLink }) {
     return (
         <div className='modalDiv'>
             <div className='modal'>
-                <h3>Post Thread</h3>
-                <input placeholder='Title' />
-                <RichTextBox />
-                <button onClick={() => navigate(previousURL)}>Close</button>
+                <div className='container'>
+                    <h3>Post Thread</h3>
+                    <input placeholder='Title' style={{marginBottom: '10px'}}/>
+                    <RichTextBox />
+                    <button
+                        onClick={() => navigate(previousURL)}
+                        className='close-modal-button'
+                    >
+                        {'\u2716'}
+                    </button>
+                </div>
             </div>
         </div>
     )
