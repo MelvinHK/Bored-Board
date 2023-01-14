@@ -23,7 +23,7 @@ function Post({ deepLink }) {
         navigate(`/${forumURL}/thread/${res.id}`)
     }
 
-    const postInvalid = () => {
+    const postInvalid = () => { // Description validation detailed in '../components/RichTextBox'
         if (title === '' || title.trim().length === 0 || description === '')
             return true
         return false

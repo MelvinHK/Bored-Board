@@ -6,16 +6,16 @@ import * as firestore from '../firestore'
 
 function Thread() {
     const { threadID } = useParams()
-    const [thread, setThread] = useState([])
+    const [thread, setThread] = useState()
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const handleGetThreadAndForum = async () => {
+        const handleGetThread = async () => {
             const threadData = await firestore.getThread(threadID)
             setThread(threadData)
             setLoading(false)
         }
-        handleGetThreadAndForum()
+        handleGetThread()
     }, [])
 
     if (loading) 

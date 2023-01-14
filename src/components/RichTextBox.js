@@ -43,7 +43,9 @@ const MenuBar = ({ editor }) => {
             if (!url.startsWith('https://') && !url.startsWith('http://'))
                 url = 'https://' + url
             editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+            return
         }
+        window.alert('Invalid URL')
     }, [editor])
 
     if (!editor)
@@ -118,6 +120,7 @@ export function RichTextBox({ getContent }) {
             })
         ],
         onUpdate: ({ editor }) => {
+            // Validation
             const html =
                 editor.isEmpty || editor.getText().trim().length === 0 ?
                     '' :
