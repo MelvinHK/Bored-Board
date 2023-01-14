@@ -14,9 +14,22 @@ import '../App.css'
 
 const MenuBar = ({ editor }) => {
 
+    function isValidHttpUrl(str) {
+        const pattern = new RegExp(
+            '^(https?:\\/\\/)?' + // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+            '(\\#[-a-z\\d_]*)?$', // fragment locator
+            'i'
+        );
+        return pattern.test(str);
+    }
+
     const toggleLink = useCallback(() => {
         const previousUrl = editor.getAttributes('link').href
-        const url = window.prompt('Enter URL:', previousUrl)
+        var url = window.prompt('Enter URL:', previousUrl)
 
         if (url === null)
             return
@@ -26,7 +39,11 @@ const MenuBar = ({ editor }) => {
             return
         }
 
-        editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+        if (isValidHttpUrl(url)) {
+            if (!url.startsWith('https://') && !url.startsWith('http://'))
+                url = 'https://' + url
+            editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+        }
     }, [editor])
 
     if (!editor)
@@ -88,7 +105,7 @@ const MenuBar = ({ editor }) => {
     )
 }
 
-function RichTextBox() {
+export function RichTextBox({ getContent }) {
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -98,10 +115,16 @@ function RichTextBox() {
             }),
             Placeholder.configure({
                 placeholder: 'Text',
-            }),
-        ]
+            })
+        ],
+        onUpdate: ({ editor }) => {
+            const html =
+                editor.isEmpty || editor.getText().trim().length === 0 ?
+                    '' :
+                    editor.getHTML()
+            getContent(html)
+        }
     })
-
     return (
         <div className='rtb'>
             <div className='rtb-menu'>

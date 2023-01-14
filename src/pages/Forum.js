@@ -18,10 +18,13 @@ function Forum() {
         handleGetForum()
     }, [])
 
+    if (loading)
+        return
+
     if (!forum)
         return <NotFound error={"Board does not exist"} />
 
-    return !loading && (
+    return (
         <div>
             <h2>
                 <Link to={`/${forum.id}`}>

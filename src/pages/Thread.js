@@ -1,29 +1,35 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import NotFound from '../components/NotFound'
+import parse from 'html-react-parser'
 import * as firestore from '../firestore'
 
 function Thread() {
     const { threadID } = useParams()
     const [thread, setThread] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const handleGetThreadAndForum = async () => {
             const threadData = await firestore.getThread(threadID)
             setThread(threadData)
+            setLoading(false)
         }
         handleGetThreadAndForum()
     }, [])
 
+    if (loading) 
+        return
+
     if (!thread)
-        return <NotFound error={"Thread does not exist"}/>
-        
+        return <NotFound error={"Thread does not exist"} />
+
     return (
-        <ul>
+        <div>
             <h3>{thread.title}</h3>
             <p>{thread.date}</p>
-            <p>{thread.description}</p>
-        </ul>
+            {parse(thread.description)}
+        </div>
     )
 }
 
