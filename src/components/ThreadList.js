@@ -6,13 +6,24 @@ function ThreadList({ postThreadModal }) {
     const [threads, setThreads] = useState([])
     const { forumURL } = useParams()
 
+    const handleGetThreads = async () => {
+        const data = await firestore.getThreads(forumURL)
+        setThreads(data)
+    }
+
     useEffect(() => {
-        const handleGetThreads = async () => {
-            const data = await firestore.getThreads(forumURL)
-            setThreads(data)
-        }
         handleGetThreads()
     }, [])
+
+    // Bottomless scrolling
+    window.onscroll = async (ev) => {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            const nextThreads = await firestore.getThreads(forumURL, threads[threads.length - 1].id)
+            if (!nextThreads)
+                return
+            setThreads(threads.concat(nextThreads))
+        }
+    }
 
     if (!threads)
         return (
@@ -23,7 +34,7 @@ function ThreadList({ postThreadModal }) {
         )
 
     return (
-        <ul>
+        <ul style={{ padding: '0', listStyleType: 'none', }}>
             {threads.map((thread) =>
                 <li key={thread.id}>
                     <h3>

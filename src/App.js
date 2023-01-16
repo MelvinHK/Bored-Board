@@ -10,13 +10,13 @@ import Post from './pages/Post'
 
 function App() {
     const location = useLocation()
-    const background = location.state && location.state.background
+    const postModalBackground = location.state && location.state.postModalBackground
 
     return (
         <div className='container'>
             <Navbar />
             <div className='container'>
-                <Routes location={background || location}>
+                <Routes location={postModalBackground || location}>
                     <Route path='/' element={<Home />} />
                     <Route path=':forumURL' element={<Forum />}>
                         <Route index element={<ThreadList />} />
@@ -30,7 +30,7 @@ function App() {
                     <Route path='about' element={<About />} />
                     <Route path='*' element={<NotFound />} />
                 </Routes>
-                {background && (
+                {postModalBackground && (
                     <Routes>
                         <Route path=":forumURL/post" element={<Post />} />
                     </Routes>

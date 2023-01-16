@@ -9,12 +9,13 @@ function Forum() {
     const { forumURL } = useParams()
     const location = useLocation()
 
+    const handleGetForum = async () => {
+        const data = await firestore.getForum(forumURL)
+        setForum(data)
+        setLoading(false)
+    }
+
     useEffect(() => {
-        const handleGetForum = async () => {
-            const data = await firestore.getForum(forumURL)
-            setForum(data)
-            setLoading(false)
-        }
         handleGetForum()
     }, [])
 
@@ -32,8 +33,10 @@ function Forum() {
                 </Link>
             </h2>
             <p>{forum.description}</p>
-            <Link to={`/${forumURL}/post`} state={{ background: location }}>
-                Post Thread
+            <Link to={`/${forumURL}/post`} state={{ postModalBackground: location }}>
+                <button>
+                    Post Thread
+                </button>
             </Link>
             <Outlet />
         </div>

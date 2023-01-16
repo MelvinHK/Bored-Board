@@ -5,16 +5,20 @@ import * as firestore from '../firestore'
 function ForumList() {
     const [forums, setForums] = useState([])
 
+    const handleGetForums = async () => {
+        const data = await firestore.getForums()
+        setForums(data)
+    }
+
     useEffect(() => {
-        const handleGetForums = async () => {
-            const data = await firestore.getForums()
-            setForums(data)
-        }
         handleGetForums()
     }, [])
 
     return (
-        <ul>
+        <ul style={{
+            padding: '0',
+            listStyleType: 'none'
+        }}>
             {forums.map((forum) =>
                 <li key={forum.id}>
                     <h2>

@@ -9,16 +9,17 @@ function Thread() {
     const [thread, setThread] = useState()
     const [loading, setLoading] = useState(true)
 
+    const handleGetThread = async () => {
+        const threadData = await firestore.getThread(threadID)
+        setThread(threadData)
+        setLoading(false)
+    }
+
     useEffect(() => {
-        const handleGetThread = async () => {
-            const threadData = await firestore.getThread(threadID)
-            setThread(threadData)
-            setLoading(false)
-        }
         handleGetThread()
     }, [])
 
-    if (loading) 
+    if (loading)
         return
 
     if (!thread)

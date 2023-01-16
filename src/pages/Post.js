@@ -13,7 +13,7 @@ function Post({ deepLink }) {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
 
-    const post = async () => {
+    const handlePost = async () => {
         const res = await firestore.postThread({
             title: title,
             description: description,
@@ -21,6 +21,7 @@ function Post({ deepLink }) {
             createdAt: Timestamp.fromDate(new Date())
         })
         navigate(`/${forumURL}/thread/${res.id}`)
+        window.location.reload();
     }
 
     const postInvalid = () => { // Description validation detailed in '../components/RichTextBox'
@@ -43,7 +44,7 @@ function Post({ deepLink }) {
                     <RichTextBox getContent={(value) => setDescription(value)} />
                     <div style={{ textAlign: 'right' }}>
                         <button
-                            onClick={post}
+                            onClick={handlePost}
                             style={{ marginRight: '10px' }}
                             disabled={postInvalid()}
                         >
