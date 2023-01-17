@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'
 import { RichTextBox } from '../components/RichTextBox'
 import * as firestore from '../firestore'
@@ -12,6 +12,11 @@ function Post({ deepLink }) {
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
+
+    useEffect(() => {
+        document.body.style.overflow = 'hidden'
+        return () => document.body.style.overflow = 'unset';
+    }, [])
 
     const handlePost = async () => {
         const res = await firestore.postThread({
@@ -33,7 +38,7 @@ function Post({ deepLink }) {
     return (
         <div className='modalDiv'>
             <div className='modal'>
-                <div className='container'>
+                <div className='modal-container'>
                     <h3>Post Thread</h3>
                     <input
                         placeholder='Title'

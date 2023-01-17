@@ -34,7 +34,7 @@ function ThreadList({ postThreadModal }) {
         )
 
     return (
-        <ul style={{ padding: '0', listStyleType: 'none', }}>
+        <ul style={{ padding: '0', listStyleType: 'none' }}>
             {threads.map((thread) =>
                 <li key={thread.id}>
                     <h3>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom'
 import NotFound from '../components/NotFound'
 import * as firestore from '../firestore'
+import '../App.css'
 
 function Forum() {
     const [forum, setForum] = useState()
@@ -26,19 +27,23 @@ function Forum() {
         return <NotFound error={"Board does not exist"} />
 
     return (
-        <div>
-            <h2>
-                <Link to={`/${forum.id}`}>
-                    {forum.title}
+        <div className='grid-container'>
+            <div className='grid-child left-column'>
+                <h2>
+                    <Link to={`/${forum.id}`}>
+                        {forum.title}
+                    </Link>
+                </h2>
+                <p>{forum.description}</p>
+                <Link to={`/${forumURL}/post`} state={{ postModalBackground: location }}>
+                    <button style={{width: '100%'}}>
+                        Post Thread
+                    </button>
                 </Link>
-            </h2>
-            <p>{forum.description}</p>
-            <Link to={`/${forumURL}/post`} state={{ postModalBackground: location }}>
-                <button>
-                    Post Thread
-                </button>
-            </Link>
-            <Outlet />
+            </div>
+            <div className='grid-child right-column'>
+                <Outlet />
+            </div>
         </div>
     )
 }

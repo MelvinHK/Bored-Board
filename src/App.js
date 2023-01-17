@@ -15,17 +15,13 @@ function App() {
     return (
         <div className='container'>
             <Navbar />
-            <div className='container'>
+            <div style={{marginTop: '70px'}}>
                 <Routes location={postModalBackground || location}>
                     <Route path='/' element={<Home />} />
                     <Route path=':forumURL' element={<Forum />}>
                         <Route index element={<ThreadList />} />
                         <Route path='thread/:threadID' element={<Thread />} />
-                        <Route path='post' element={ // Post component has to be a child of ThreadList, otherwise, when you 
-                            <ThreadList postThreadModal={ // deep link to :forumURL/post, the thread list doesn't load in the background
-                                <Post deepLink={true} />
-                            } />
-                        } />
+                        <Route path='post' element={<Post deepLink={true} />} />
                     </Route>
                     <Route path='about' element={<About />} />
                     <Route path='*' element={<NotFound />} />

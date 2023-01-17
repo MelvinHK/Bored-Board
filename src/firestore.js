@@ -20,7 +20,7 @@ export const getForum = async (forumURL) => {
 }
 
 export const getThreads = async (forumID, lastThreadID = undefined) => {
-    const amount = 7
+    const amount = 10
 
     if (lastThreadID !== undefined) {
         const threadRef = doc(db, "threads", lastThreadID)
