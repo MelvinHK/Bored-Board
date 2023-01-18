@@ -1,5 +1,4 @@
-import { useCallback } from 'react'
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { useCallback, useState } from 'react'
 
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -19,7 +18,7 @@ import ImageIcon from '@mui/icons-material/Image'
 import '../App.css'
 import { isValidHttpUrl } from '../utils'
 
-const MenuBar = ({ editor }) => {
+const MenuBar = ({ editor, imageActive }) => {
     const toggleLink = useCallback(() => {
         const previousUrl = editor.getAttributes('link').href
         var url = window.prompt('Enter URL:', previousUrl)
@@ -41,31 +40,14 @@ const MenuBar = ({ editor }) => {
         window.alert('Invalid URL')
     }, [editor])
 
-    const uploadImage = () => {
+    const chooseImage = () => {
         let input = document.createElement('input')
         input.type = 'file'
         input.onchange = async _ => {
             const selectedFile = Array.from(input.files)[0]
-            const filePath = `/images/${selectedFile.name}`
-
-            const storage = getStorage()
-            const storageRef = ref(storage, filePath)
-
-            await uploadBytes(storageRef, selectedFile)
-            downloadImage(filePath)
+            editor.chain().focus().setImage({ src: URL.createObjectURL(selectedFile) }).run()
         }
         input.click()
-    }
-
-    const downloadImage = (filePath) => {
-        const storage = getStorage()
-        getDownloadURL(ref(storage, filePath))
-            .then((url) => {
-                editor.chain().focus().setImage({ src: url }).run()
-            })
-            .catch((error) => {
-                // Handle any errors
-            })
     }
 
     if (!editor)
@@ -123,7 +105,11 @@ const MenuBar = ({ editor }) => {
             >
                 <FormatListNumberedIcon />
             </button>
-            <button onClick={uploadImage} className={`rtb-menu-btns`}>
+            <button
+                onClick={chooseImage}
+                className={`rtb-menu-btns`}
+                disabled={imageActive}
+            >
                 <ImageIcon />
             </button>
         </>
@@ -131,6 +117,7 @@ const MenuBar = ({ editor }) => {
 }
 
 export function RichTextBox({ getContent }) {
+    const [imageActive, setImageActive] = useState(false)
     const editor = useEditor({
         extensions: [
             StarterKit, Image,
@@ -143,14 +130,20 @@ export function RichTextBox({ getContent }) {
             })
         ],
         onUpdate: ({ editor }) => {
-            const validatedContentToSend = (editor.isEmpty || editor.getText().trim().length === 0) ? null : editor.getHTML()
-            getContent(validatedContentToSend)
+            if (document.getElementsByTagName("img")[0] !== undefined)
+                setImageActive(true)
+            else
+                setImageActive(false)
+
+            if (editor.isEmpty || (!document.getElementsByTagName("img") && editor.getText().trim().length) === 0)
+                return getContent(null)
+            getContent(editor.getHTML())
         }
     })
     return (
         <div className='rtb'>
             <div className='rtb-menu'>
-                <MenuBar editor={editor} />
+                <MenuBar editor={editor} imageActive={imageActive} />
             </div>
             <EditorContent editor={editor} />
         </div>

@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'
 import { RichTextBox } from '../components/RichTextBox'
 import { postThread } from '../firestore'
+import { getBlobURLFromHTML, replaceBlobURLWithFirebaseURL, getFileBlob } from '../utils';
 import '../App.css'
 import { Timestamp } from 'firebase/firestore';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 
 function Post({ deepLink }) {
     const navigate = useNavigate();
@@ -11,22 +13,44 @@ function Post({ deepLink }) {
     const previousURL = deepLink ? `/${forumURL}` : -1
 
     const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
+    const [description, setDescription] = useState(null)
 
+    // Hide background page's scrollbar
     useEffect(() => {
         document.body.style.overflow = 'hidden'
         return () => document.body.style.overflow = 'unset';
     }, [])
 
-    const handlePost = async () => {
-        const res = await postThread({
-            title: title,
-            description: description,
-            forumID: forumURL,
-            createdAt: Timestamp.fromDate(new Date())
-        })
-        navigate(`/${forumURL}/thread/${res.id}`)
-        window.location.reload();
+    const handleSubmit = async () => {
+        const blobURL = getBlobURLFromHTML(description)
+        var updatedDescription = null
+        async function handleUpload() {
+            if (blobURL) {
+                const storage = getStorage()
+                const filepath = `/images/${blobURL.substring(blobURL.lastIndexOf('/') + 1)}`
+                const storageRef = ref(storage, filepath)
+                getFileBlob(blobURL, blob => {
+                    console.log("1")
+                    uploadBytes(storageRef, blob).then(() => {
+                        console.log("2")
+                        getDownloadURL(ref(storage, filepath)).then((url) => {
+                            console.log("3")
+                            updatedDescription = replaceBlobURLWithFirebaseURL(description, url)
+                        })
+                    })
+                })
+            }
+        }
+        await handleUpload()
+        console.log("4")
+        // const res = await postThread({
+        //     title: title,
+        //     description: updatedDescription ? updatedDescription : description,
+        //     forumID: forumURL,
+        //     createdAt: Timestamp.fromDate(new Date())
+        // })
+        // navigate(`/${forumURL}/thread/${res.id}`)
+        // window.location.reload();
     }
 
     const postInvalid = () => { // Description validation detailed in '../components/RichTextBox'
@@ -48,7 +72,7 @@ function Post({ deepLink }) {
                 <RichTextBox getContent={(value) => setDescription(value)} />
                 <div style={{ textAlign: 'right' }}>
                     <button
-                        onClick={handlePost}
+                        onClick={handleSubmit}
                         style={{ marginRight: '10px' }}
                         disabled={postInvalid()}
                     >

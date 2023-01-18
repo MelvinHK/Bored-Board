@@ -1,4 +1,4 @@
-export function isValidHttpUrl(str) {
+export function isValidHttpUrl(string) {
     const pattern = new RegExp(
         '^(https?:\\/\\/)?' + // protocol
         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
@@ -8,5 +8,30 @@ export function isValidHttpUrl(str) {
         '(\\#[-a-z\\d_]*)?$', // fragment locator
         'i'
     )
-    return pattern.test(str);
+    return pattern.test(string);
+}
+
+export function getBlobURLFromHTML(htmlString) {
+    var doc = new DOMParser().parseFromString(htmlString, "text/html")
+    var imageElement = doc.getElementsByTagName("img")[0]
+    if (imageElement !== undefined)
+        return imageElement.src
+    return null
+}
+
+export function replaceBlobURLWithFirebaseURL(htmlString, firebaseURL) {
+    var doc = new DOMParser().parseFromString(htmlString, "text/html")
+    doc.getElementsByTagName("img")[0].src = firebaseURL
+    return doc.body.innerHTML
+}
+
+export const getFileBlob = (url, cb) => {
+    var xhr = new XMLHttpRequest()
+    xhr.open("GET", url)
+    xhr.responseType = "blob"
+    xhr.addEventListener('load', function () {
+        cb(xhr.response)
+    })
+    xhr.send()
+    return true;
 }
