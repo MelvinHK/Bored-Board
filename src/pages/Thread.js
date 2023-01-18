@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import NotFound from '../components/NotFound'
 import parse from 'html-react-parser'
-import * as firestore from '../firestore'
+import { getThread } from '../firestore'
 
 function Thread() {
     const { threadID } = useParams()
@@ -10,7 +10,7 @@ function Thread() {
     const [loading, setLoading] = useState(true)
 
     const handleGetThread = async () => {
-        const threadData = await firestore.getThread(threadID)
+        const threadData = await getThread(threadID)
         setThread(threadData)
         setLoading(false)
     }

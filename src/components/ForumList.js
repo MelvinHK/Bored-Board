@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
 import { Link } from 'react-router-dom'
-import * as firestore from '../firestore'
+import { getForums } from '../firestore'
 
 function ForumList() {
     const [forums, setForums] = useState([])
 
     const handleGetForums = async () => {
-        const data = await firestore.getForums()
+        const data = await getForums()
         setForums(data)
     }
 

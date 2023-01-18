@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from 'react-router-dom'
-import * as firestore from '../firestore'
+import { getThreads } from '../firestore'
 
 function ThreadList() {
     const [threads, setThreads] = useState([])
     const { forumURL } = useParams()
 
     const handleGetThreads = async () => {
-        const data = await firestore.getThreads(forumURL)
+        const data = await getThreads(forumURL)
         setThreads(data)
     }
 
@@ -18,7 +18,7 @@ function ThreadList() {
     // Bottomless scrolling
     window.onscroll = async (ev) => {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            const nextThreads = await firestore.getThreads(forumURL, threads[threads.length - 1].id)
+            const nextThreads = await getThreads(forumURL, threads[threads.length - 1].id)
             if (!nextThreads)
                 return
             setThreads(threads.concat(nextThreads))
@@ -27,8 +27,11 @@ function ThreadList() {
 
     if (!threads)
         return (
-            <ul>
-                <li>No threads posted yet...</li>
+            <ul style={{ padding: '0', listStyleType: 'none' }}>
+                <li>
+                    <h3>It's empty...</h3>
+                    No threads posted yet
+                </li>
             </ul>
         )
 

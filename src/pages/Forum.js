@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom'
 import NotFound from '../components/NotFound'
-import * as firestore from '../firestore'
+import { getForum } from '../firestore'
 import '../App.css'
 
 function Forum() {
@@ -11,7 +11,7 @@ function Forum() {
     const location = useLocation()
 
     const handleGetForum = async () => {
-        const data = await firestore.getForum(forumURL)
+        const data = await getForum(forumURL)
         setForum(data)
         setLoading(false)
     }
@@ -36,7 +36,7 @@ function Forum() {
                 </h2>
                 <p>{forum.description}</p>
                 <Link to={`/${forumURL}/post`} state={{ postModalBackground: location }}>
-                    <button style={{width: '100%'}}>
+                    <button style={{ width: '100%' }}>
                         Post Thread
                     </button>
                 </Link>

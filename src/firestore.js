@@ -19,20 +19,22 @@ export const getForum = async (forumURL) => {
     return false
 }
 
+// Get threads from a forum, can specify a starting point for the search which is used for pagination
 export const getThreads = async (forumID, lastThreadID = undefined) => {
     const amount = 10
+    var q
 
     if (lastThreadID !== undefined) {
         const threadRef = doc(db, "threads", lastThreadID)
         const lastThread = await getDoc(threadRef)
-        var q = query(threadsRef,
+            q = query(threadsRef,
             where('forumID', '==', forumID),
             orderBy('createdAt', "desc"),
             startAfter(lastThread),
             limit(amount)
         )
     } else {
-        var q = query(threadsRef,
+            q = query(threadsRef,
             where('forumID', '==', forumID),
             orderBy('createdAt', "desc"),
             limit(amount)

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'
 import { RichTextBox } from '../components/RichTextBox'
-import * as firestore from '../firestore'
+import { postThread } from '../firestore'
 import '../App.css'
 import { Timestamp } from 'firebase/firestore';
 
@@ -19,7 +19,7 @@ function Post({ deepLink }) {
     }, [])
 
     const handlePost = async () => {
-        const res = await firestore.postThread({
+        const res = await postThread({
             title: title,
             description: description,
             forumID: forumURL,
@@ -30,7 +30,7 @@ function Post({ deepLink }) {
     }
 
     const postInvalid = () => { // Description validation detailed in '../components/RichTextBox'
-        if (title === '' || title.trim().length === 0 || description === '')
+        if (title === '' || title.trim().length === 0 || description === null)
             return true
         return false
     }
@@ -38,27 +38,25 @@ function Post({ deepLink }) {
     return (
         <div className='modalDiv'>
             <div className='modal'>
-                <div className='modal-container'>
-                    <h3>Post Thread</h3>
-                    <input
-                        placeholder='Title'
-                        style={{ marginBottom: '10px', width: '100%' }}
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-                    <RichTextBox getContent={(value) => setDescription(value)} />
-                    <div style={{ textAlign: 'right' }}>
-                        <button
-                            onClick={handlePost}
-                            style={{ marginRight: '10px' }}
-                            disabled={postInvalid()}
-                        >
-                            Submit
-                        </button>
-                        <button onClick={() => navigate(previousURL)}>
-                            Cancel
-                        </button>
-                    </div>
+                <h3>Post Thread</h3>
+                <input
+                    placeholder='Title'
+                    style={{ marginBottom: '10px', width: '100%' }}
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                />
+                <RichTextBox getContent={(value) => setDescription(value)} />
+                <div style={{ textAlign: 'right' }}>
+                    <button
+                        onClick={handlePost}
+                        style={{ marginRight: '10px' }}
+                        disabled={postInvalid()}
+                    >
+                        Submit
+                    </button>
+                    <button onClick={() => navigate(previousURL)}>
+                        Cancel
+                    </button>
                 </div>
             </div>
         </div>

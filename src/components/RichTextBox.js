@@ -1,32 +1,25 @@
 import { useCallback } from 'react'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import Link from '@tiptap/extension-link'
+import Image from '@tiptap/extension-image'
+
 import FormatBoldIcon from '@mui/icons-material/FormatBold'
-import FormatItalicIcon from '@mui/icons-material/FormatItalic';
-import StrikethroughSIcon from '@mui/icons-material/StrikethroughS';
-import LinkIcon from '@mui/icons-material/Link';
-import TitleIcon from '@mui/icons-material/Title';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+import FormatItalicIcon from '@mui/icons-material/FormatItalic'
+import StrikethroughSIcon from '@mui/icons-material/StrikethroughS'
+import LinkIcon from '@mui/icons-material/Link'
+import TitleIcon from '@mui/icons-material/Title'
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered'
+import ImageIcon from '@mui/icons-material/Image'
+
 import '../App.css'
+import { isValidHttpUrl } from '../utils'
 
 const MenuBar = ({ editor }) => {
-
-    function isValidHttpUrl(str) {
-        const pattern = new RegExp(
-            '^(https?:\\/\\/)?' + // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-            '(\\#[-a-z\\d_]*)?$', // fragment locator
-            'i'
-        );
-        return pattern.test(str);
-    }
-
     const toggleLink = useCallback(() => {
         const previousUrl = editor.getAttributes('link').href
         var url = window.prompt('Enter URL:', previousUrl)
@@ -47,6 +40,33 @@ const MenuBar = ({ editor }) => {
         }
         window.alert('Invalid URL')
     }, [editor])
+
+    const uploadImage = () => {
+        let input = document.createElement('input')
+        input.type = 'file'
+        input.onchange = async _ => {
+            const selectedFile = Array.from(input.files)[0]
+            const filePath = `/images/${selectedFile.name}`
+
+            const storage = getStorage()
+            const storageRef = ref(storage, filePath)
+
+            await uploadBytes(storageRef, selectedFile)
+            downloadImage(filePath)
+        }
+        input.click()
+    }
+
+    const downloadImage = (filePath) => {
+        const storage = getStorage()
+        getDownloadURL(ref(storage, filePath))
+            .then((url) => {
+                editor.chain().focus().setImage({ src: url }).run()
+            })
+            .catch((error) => {
+                // Handle any errors
+            })
+    }
 
     if (!editor)
         return null
@@ -103,6 +123,9 @@ const MenuBar = ({ editor }) => {
             >
                 <FormatListNumberedIcon />
             </button>
+            <button onClick={uploadImage} className={`rtb-menu-btns`}>
+                <ImageIcon />
+            </button>
         </>
     )
 }
@@ -110,7 +133,7 @@ const MenuBar = ({ editor }) => {
 export function RichTextBox({ getContent }) {
     const editor = useEditor({
         extensions: [
-            StarterKit,
+            StarterKit, Image,
             Link.configure({
                 autolink: false,
                 openOnClick: false
@@ -120,12 +143,8 @@ export function RichTextBox({ getContent }) {
             })
         ],
         onUpdate: ({ editor }) => {
-            // Validation
-            const html =
-                editor.isEmpty || editor.getText().trim().length === 0 ?
-                    '' :
-                    editor.getHTML()
-            getContent(html)
+            const validatedContentToSend = (editor.isEmpty || editor.getText().trim().length === 0) ? null : editor.getHTML()
+            getContent(validatedContentToSend)
         }
     })
     return (
