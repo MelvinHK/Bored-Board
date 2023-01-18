@@ -33,7 +33,7 @@ function Post({ deepLink }) {
                     console.log("1")
                     uploadBytes(storageRef, blob).then(() => {
                         console.log("2")
-                        getDownloadURL(ref(storage, filepath)).then((url) => {
+                        getDownloadURL(storageRef).then((url) => {
                             console.log("3")
                             updatedDescription = replaceBlobURLWithFirebaseURL(description, url)
                         })
