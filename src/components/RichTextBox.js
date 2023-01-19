@@ -118,7 +118,6 @@ const MenuBar = ({ editor, imageActive }) => {
 
 export function RichTextBox({ getContent }) {
     const [imageActive, setImageActive] = useState(false)
-    const modal = document.getElementsByClassName("modal")
     const editor = useEditor({
         extensions: [
             StarterKit, Image,
@@ -131,12 +130,12 @@ export function RichTextBox({ getContent }) {
             })
         ],
         onUpdate: ({ editor }) => {
-            if (modal[0].getElementsByTagName("img")[0] !== undefined)
-                setImageActive(true)
-            else
-                setImageActive(false)
-
-            if (editor.isEmpty || (!document.getElementsByTagName("img") && editor.getText().trim().length) === 0)
+            const imageExists = Boolean(document
+                .getElementsByClassName("modal")[0]
+                .getElementsByTagName("img")[0]
+            )
+            setImageActive(imageExists)
+            if (editor.isEmpty || (!imageExists && editor.getText().trim().length) === 0)
                 return getContent(null)
             getContent(editor.getHTML())
         }
