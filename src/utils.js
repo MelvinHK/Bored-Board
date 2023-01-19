@@ -25,13 +25,7 @@ export function replaceBlobURLWithFirebaseURL(htmlString, firebaseURL) {
     return doc.body.innerHTML
 }
 
-export const getFileBlob = (url, cb) => {
-    var xhr = new XMLHttpRequest()
-    xhr.open("GET", url)
-    xhr.responseType = "blob"
-    xhr.addEventListener('load', function () {
-        cb(xhr.response)
-    })
-    xhr.send()
-    return true;
+export async function getFileBlob(url) {
+    const blob = await fetch(url).then(res => res.blob())
+    return blob
 }

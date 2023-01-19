@@ -6,6 +6,7 @@ import { getBlobURLFromHTML, replaceBlobURLWithFirebaseURL, getFileBlob } from '
 import '../App.css'
 import { Timestamp } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Post({ deepLink }) {
     const navigate = useNavigate();
@@ -13,7 +14,8 @@ function Post({ deepLink }) {
     const previousURL = deepLink ? `/${forumURL}` : -1
 
     const [title, setTitle] = useState('')
-    const [description, setDescription] = useState(null)
+    var [description, setDescription] = useState(null)
+    const [submitLoading, setSubmitLoading] = useState(false)
 
     // Hide background page's scrollbar
     useEffect(() => {
@@ -23,34 +25,29 @@ function Post({ deepLink }) {
 
     const handleSubmit = async () => {
         const blobURL = getBlobURLFromHTML(description)
-        var updatedDescription = null
-        async function handleUpload() {
-            if (blobURL) {
-                const storage = getStorage()
-                const filepath = `/images/${blobURL.substring(blobURL.lastIndexOf('/') + 1)}`
-                const storageRef = ref(storage, filepath)
-                getFileBlob(blobURL, blob => {
-                    console.log("1")
-                    uploadBytes(storageRef, blob).then(() => {
-                        console.log("2")
-                        getDownloadURL(storageRef).then((url) => {
-                            console.log("3")
-                            updatedDescription = replaceBlobURLWithFirebaseURL(description, url)
-                        })
-                    })
-                })
+        if (blobURL) {
+            const storage = getStorage()
+            const filepath = `/images/${blobURL.substring(blobURL.lastIndexOf('/') + 1)}`
+            const storageRef = ref(storage, filepath)
+            const blob = await getFileBlob(blobURL)
+            try {
+                await uploadBytes(storageRef, blob)
+                const url = await getDownloadURL(storageRef)
+                description = replaceBlobURLWithFirebaseURL(description, url)
+            } catch (e) {
+                setSubmitLoading(false)
+                window.alert("Invalid file. Must be a JPEG/PNG and less than 8MB.")
+                return
             }
         }
-        await handleUpload()
-        console.log("4")
-        // const res = await postThread({
-        //     title: title,
-        //     description: updatedDescription ? updatedDescription : description,
-        //     forumID: forumURL,
-        //     createdAt: Timestamp.fromDate(new Date())
-        // })
-        // navigate(`/${forumURL}/thread/${res.id}`)
-        // window.location.reload();
+        const res = await postThread({
+            title: title,
+            description: description,
+            forumID: forumURL,
+            createdAt: Timestamp.fromDate(new Date())
+        })
+        navigate(`/${forumURL}/thread/${res.id}`)
+        window.location.reload();
     }
 
     const postInvalid = () => { // Description validation detailed in '../components/RichTextBox'
@@ -60,8 +57,8 @@ function Post({ deepLink }) {
     }
 
     return (
-        <div className='modalDiv'>
-            <div className='modal'>
+        <div className='modal-div'>
+            <div className={`modal ${submitLoading ? 'disabled-input' : ''}`}>
                 <h3>Post Thread</h3>
                 <input
                     placeholder='Title'
@@ -69,10 +66,12 @@ function Post({ deepLink }) {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
-                <RichTextBox getContent={(value) => setDescription(value)} />
-                <div style={{ textAlign: 'right' }}>
+                <RichTextBox
+                    getContent={(value) => setDescription(value)}
+                />
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <button
-                        onClick={handleSubmit}
+                        onClick={() => { handleSubmit(); setSubmitLoading(true) }}
                         style={{ marginRight: '10px' }}
                         disabled={postInvalid()}
                     >
@@ -83,6 +82,11 @@ function Post({ deepLink }) {
                     </button>
                 </div>
             </div>
+            <CircularProgress style={{
+                position: 'absolute',
+                color: 'gray',
+                visibility: submitLoading ? 'visible' : 'hidden'
+            }} />
         </div>
     )
 }

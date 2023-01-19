@@ -38,7 +38,7 @@ html * {
   margin-left: 300px;
 }
 
-.modalDiv {
+.modal-div {
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -112,7 +112,8 @@ input {
 }
 
 img {
-  width: 500px;
+  max-width: 500px;
+  max-height: 500px;
   padding: 30px;
 }
 
@@ -137,6 +138,11 @@ img {
   color: black;
 }
 
+.disabled-input {
+  pointer-events: none;
+  filter: brightness(90%);
+}
+
 .ProseMirror {
   border-radius: 2px;
   min-height: 200px;
@@ -156,4 +162,8 @@ img {
 
 .ProseMirror-selectednode {
   outline: 3px solid lightgray;
+}
+
+.error-alert {
+  position: absolute;
 }
