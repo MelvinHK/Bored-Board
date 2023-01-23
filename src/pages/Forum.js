@@ -28,7 +28,7 @@ function Forum() {
 
     return (
         <div className='grid-container'>
-            <div className='grid-child left-column'>
+            <div className='left-column'>
                 <h2>
                     <Link to={`/${forum.id}`}>
                         {forum.title}
@@ -41,7 +41,7 @@ function Forum() {
                     </button>
                 </Link>
             </div>
-            <div className='grid-child right-column'>
+            <div className='main-column'>
                 <Outlet />
             </div>
         </div>

@@ -18,7 +18,7 @@ import ImageIcon from '@mui/icons-material/Image'
 import '../App.css'
 import { isValidHttpUrl } from '../utils'
 
-const MenuBar = ({ editor, imageActive }) => {
+const MenuBar = ({ editor, imageActive, heading, image }) => {
     const toggleLink = useCallback(() => {
         const previousUrl = editor.getAttributes('link').href
         var url = window.prompt('Enter URL:', previousUrl)
@@ -84,13 +84,13 @@ const MenuBar = ({ editor, imageActive }) => {
             >
                 <LinkIcon />
             </button>
-            <button
+            {heading && <button
                 onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
                 className={`rtb-menu-btns ${editor.isActive('heading', { level: 3 }) ? 'is-active' : ''}`}
                 title="Heading"
             >
                 <TitleIcon />
-            </button>
+            </button>}
             <button
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
                 className={`rtb-menu-btns ${editor.isActive('bulletList') ? 'is-active' : ''}`}
@@ -105,18 +105,18 @@ const MenuBar = ({ editor, imageActive }) => {
             >
                 <FormatListNumberedIcon />
             </button>
-            <button
+            {image && <button
                 onClick={chooseImage}
                 className={`rtb-menu-btns`}
                 disabled={imageActive}
             >
                 <ImageIcon />
-            </button>
+            </button>}
         </>
     )
 }
 
-export function RichTextBox({ getContent }) {
+export function RichTextBox({ getContent, enableHeading, enableImage, placeholderText, heightPx }) {
     const [imageActive, setImageActive] = useState(false)
     const editor = useEditor({
         extensions: [
@@ -126,15 +126,17 @@ export function RichTextBox({ getContent }) {
                 openOnClick: false
             }),
             Placeholder.configure({
-                placeholder: 'Text',
+                placeholder: placeholderText,
             })
         ],
         onUpdate: ({ editor }) => {
-            const imageExists = Boolean(document
-                .getElementsByClassName("modal")[0]
-                .getElementsByTagName("img")[0]
-            )
-            setImageActive(imageExists)
+            if (enableImage) {
+                var imageExists = Boolean(document
+                    .getElementsByClassName("modal")[0]
+                    .getElementsByTagName("img")[0]
+                )
+                setImageActive(imageExists)
+            }
             if (editor.isEmpty || (!imageExists && editor.getText().trim().length) === 0)
                 return getContent(null)
             getContent(editor.getHTML())
@@ -143,7 +145,7 @@ export function RichTextBox({ getContent }) {
     return (
         <div className='rtb'>
             <div className='rtb-menu'>
-                <MenuBar editor={editor} imageActive={imageActive} />
+                <MenuBar editor={editor} imageActive={imageActive} heading={enableHeading} image={enableImage} />
             </div>
             <EditorContent editor={editor} />
         </div>

@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { RichTextBox } from '../components/RichTextBox'
 import { postThread } from '../firestore'
-import { getBlobURLFromHTML, replaceBlobURLWithFirebaseURL, getFileBlob } from '../utils';
+import { getBlobURLFromHTML, replaceBlobURLWithFirebaseURL, getFileBlob } from '../utils'
 import '../App.css'
-import { Timestamp } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress'
 
 function Post({ deepLink }) {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     const { forumURL } = useParams()
     const previousURL = deepLink ? `/${forumURL}` : -1
 
@@ -17,13 +17,12 @@ function Post({ deepLink }) {
     var [description, setDescription] = useState(null)
     const [submitLoading, setSubmitLoading] = useState(false)
 
-    // Hide background page's scrollbar
     useEffect(() => {
         document.body.style.overflow = 'hidden'
-        return () => document.body.style.overflow = 'unset';
+        return () => { document.body.style.overflow = 'unset' }
     }, [])
 
-    const handleSubmit = async () => {
+    const handleSubmit = async () => { // Does not abort if user leaves page
         const blobURL = getBlobURLFromHTML(description)
         if (blobURL) {
             const storage = getStorage()
@@ -68,6 +67,9 @@ function Post({ deepLink }) {
                 />
                 <RichTextBox
                     getContent={(value) => setDescription(value)}
+                    enableHeading={true}
+                    enableImage={true}
+                    placeholderText={'Text'}
                 />
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <button
