@@ -22,6 +22,15 @@ html * {
   padding-right: 20px;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: gray;
+}
+
 .grid-container {
   margin-top: -20px;
 }
@@ -120,6 +129,7 @@ img {
   display: block;
   margin-right: auto;
   margin-left: auto;
+  margin-bottom: 20px;
 }
 
 .rtb-menu {
@@ -155,6 +165,16 @@ img {
   max-height: 490px;
   overflow: auto;
   scrollbar-gutter: stable;
+}
+
+.comment-box .ProseMirror {
+  min-height: 70px;
+  max-height: none;
+  padding-bottom: 40px;
+}
+
+.comment-submit-btn {
+  float: right;
 }
 
 .ProseMirror p.is-editor-empty:first-child::before {

@@ -69,7 +69,7 @@ function Post({ deepLink }) {
                     getContent={(value) => setDescription(value)}
                     enableHeading={true}
                     enableImage={true}
-                    placeholderText={'Text'}
+                    placeholderText={'Description'}
                 />
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <button
