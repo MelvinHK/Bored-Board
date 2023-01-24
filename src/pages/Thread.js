@@ -38,7 +38,7 @@ function Thread() {
             <h3>{thread.title}</h3>
             <p>{thread.date}</p>
             {parse(thread.description)}
-            <h3>8 Comments</h3>
+            <h3 style={{ marginTop: '30px' }}>8 Comments</h3>
             {!expandCommentBox && <div className='comment-box-unexpanded' onClick={toggleCommentBox}>
                 Leave a comment
             </div>}
