@@ -27,6 +27,16 @@ function Thread() {
         setExpandCommentBox(!expandCommentBox)
     }
 
+    const handleSubmitComment = () => {
+        console.log(comment)
+    }
+
+    const commentInvalid = () => { // Description validation detailed in '../components/RichTextBox'
+        if (comment === null)
+            return true
+        return false
+    }
+
     if (loading)
         return
 
@@ -38,25 +48,35 @@ function Thread() {
             <h3>{thread.title}</h3>
             <p>{thread.date}</p>
             {parse(thread.description)}
-            <h3 style={{ marginTop: '30px' }}>8 Comments</h3>
-            {!expandCommentBox && <div className='comment-box-unexpanded' onClick={toggleCommentBox}>
-                Leave a comment
-            </div>}
-            {expandCommentBox && <div className='comment-box'>
-                <RichTextBox
-                    getContent={(value) => setComment(value)}
-                    placeholderText={'Leave a comment'}
-                    autofocus={true}
-                />
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <button style={{ marginRight: '10px' }}>
-                        Submit
-                    </button>
-                    <button onClick={toggleCommentBox}>
-                        Cancel
-                    </button>
+            <h3 style={{ marginTop: '30px' }}>0 Comments</h3>
+            {
+                !expandCommentBox &&
+                <div className='comment-box-unexpanded' onClick={toggleCommentBox}>
+                    Leave a comment
                 </div>
-            </div>}
+            }
+            {
+                expandCommentBox &&
+                <div className='comment-box'>
+                    <RichTextBox
+                        getContent={(value) => setComment(value)}
+                        placeholderText={'Leave a comment'}
+                        autofocus={true}
+                    />
+                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <button
+                            style={{ marginRight: '10px' }}
+                            onClick={handleSubmitComment}
+                            disabled={commentInvalid()}
+                        >
+                            Submit
+                        </button>
+                        <button onClick={() => { toggleCommentBox(); setComment(null) }}>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            }
         </div >
     )
 }

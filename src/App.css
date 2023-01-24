@@ -2,6 +2,14 @@ html * {
   font-family: Arial !important;
 }
 
+.home-page-logo {
+  background-image: url(https://firebasestorage.googleapis.com/v0/b/reactmessageboardapp.appspot.com/o/images%2FbbLogo.png?alt=media&token=0da240fd-2914-4421-b53a-681a8e9b571b);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: 300px;
+}
+
 .container {
   margin-left: 70px;
   margin-right: 70px;
@@ -20,15 +28,6 @@ html * {
 .nav li {
   display: inline-block;
   padding-right: 20px;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:hover {
-  color: gray;
 }
 
 .grid-container {
