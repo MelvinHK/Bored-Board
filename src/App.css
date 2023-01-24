@@ -3,8 +3,8 @@ html * {
 }
 
 .container {
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 70px;
+  margin-right: 70px;
   margin-bottom: 20px;
 }
 
@@ -23,7 +23,6 @@ html * {
 }
 
 .grid-container {
-  display: flex;
   margin-top: -20px;
 }
 
@@ -33,9 +32,8 @@ html * {
 }
 
 .main-column {
-  margin-left: auto;
-  margin-right: auto;
-  width: 810px;
+  margin-left: 310px;
+  width: 700px;
   border: solid 1px lightgrey;
   border-radius: 5px;
   padding: 30px;
@@ -56,7 +54,7 @@ html * {
 }
 
 .modal {
-  width: 810px;
+  width: 700px;
   height: auto;
   background-color: white;
   border-radius: 5px;
@@ -169,8 +167,4 @@ img {
 
 .ProseMirror-selectednode {
   outline: 3px solid lightgray;
-}
-
-.error-alert {
-  position: absolute;
 }

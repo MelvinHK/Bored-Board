@@ -42,7 +42,7 @@ function Forum() {
                 </Link>
             </div>
             <div className='main-column'>
-                <Outlet />
+                <span style={{scrollbarGutter: 'stable'}}><Outlet /></span>
             </div>
         </div>
     )
