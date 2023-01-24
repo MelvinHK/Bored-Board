@@ -64,6 +64,7 @@ function Post({ deepLink }) {
                     style={{ marginBottom: '10px', width: '100%' }}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    autoFocus
                 />
                 <RichTextBox
                     getContent={(value) => setDescription(value)}
