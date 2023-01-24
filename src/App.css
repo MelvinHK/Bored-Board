@@ -168,9 +168,16 @@ img {
 }
 
 .comment-box .ProseMirror {
-  min-height: 70px;
+  min-height: auto;
   max-height: none;
-  padding-bottom: 40px;
+}
+
+.comment-box-unexpanded {
+  color: gray;
+  padding-bottom: 5px;
+  border-bottom: solid 1px lightgray;
+  margin-bottom: 10px;
+  cursor: text;
 }
 
 .comment-submit-btn {

@@ -116,9 +116,10 @@ const MenuBar = ({ editor, imageActive, heading, image }) => {
     )
 }
 
-export function RichTextBox({ getContent, enableHeading, enableImage, placeholderText, heightPx }) {
+export function RichTextBox({ getContent, enableHeading, enableImage, placeholderText, autofocus = false }) {
     const [imageActive, setImageActive] = useState(false)
     const editor = useEditor({
+        autofocus: autofocus,
         extensions: [
             StarterKit, Image,
             Link.configure({

@@ -23,6 +23,10 @@ function Thread() {
         handleGetThread()
     }, [])
 
+    const toggleCommentBox = () => {
+        setExpandCommentBox(!expandCommentBox)
+    }
+
     if (loading)
         return
 
@@ -34,21 +38,25 @@ function Thread() {
             <h3>{thread.title}</h3>
             <p>{thread.date}</p>
             {parse(thread.description)}
-            <div className='comment-box'> 
+            <h3>8 Comments</h3>
+            {!expandCommentBox && <div className='comment-box-unexpanded' onClick={toggleCommentBox}>
+                Leave a comment
+            </div>}
+            {expandCommentBox && <div className='comment-box'>
                 <RichTextBox
                     getContent={(value) => setComment(value)}
                     placeholderText={'Leave a comment'}
-                    heightPx={'200px'}
+                    autofocus={true}
                 />
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <button style={{ marginRight: '10px' }}>
                         Submit
                     </button>
-                    <button>
+                    <button onClick={toggleCommentBox}>
                         Cancel
                     </button>
                 </div>
-            </div>
+            </div>}
         </div >
     )
 }
