@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from 'react-router-dom'
 import { getThreads } from '../firestore'
+import { timeSince } from "../utils"
 
 function ThreadList() {
     const [threads, setThreads] = useState([])
@@ -27,7 +28,7 @@ function ThreadList() {
 
     if (!threads)
         return (
-            <ul style={{ padding: '0', listStyleType: 'none' }}>
+            <ul className='list'>
                 <li>
                     <h3>It's empty...</h3>
                     No threads posted yet
@@ -36,7 +37,7 @@ function ThreadList() {
         )
 
     return (
-        <ul style={{ padding: '0', listStyleType: 'none' }}>
+        <ul className='list'>
             {threads.map((thread) =>
                 <li key={thread.id}>
                     <h3>
@@ -44,7 +45,7 @@ function ThreadList() {
                             {thread.title}
                         </Link>
                     </h3>
-                    {thread.date}
+                    <span title={thread.date}>{timeSince(thread.createdAt.toDate())}</span>
                 </li>
             )}
         </ul>

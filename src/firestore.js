@@ -3,6 +3,7 @@ import { collection, getDocs, query, where, doc, getDoc, addDoc, limit, startAft
 
 const forumsRef = collection(db, "forums")
 const threadsRef = collection(db, "threads")
+const commentsRef = collection(db, "comments")
 
 export const getForums = async () => {
     const forums = await getDocs(forumsRef)
@@ -16,7 +17,7 @@ export const getForum = async (forumURL) => {
     if (forum.exists())
         return { ...forum.data(), id: forum.id }
 
-    return false
+    return null
 }
 
 // Get threads from a forum, can specify a starting point for the search which is used for pagination
@@ -27,14 +28,14 @@ export const getThreads = async (forumID, lastThreadID = undefined) => {
     if (lastThreadID !== undefined) {
         const threadRef = doc(db, "threads", lastThreadID)
         const lastThread = await getDoc(threadRef)
-            q = query(threadsRef,
+        q = query(threadsRef,
             where('forumID', '==', forumID),
             orderBy('createdAt', "desc"),
             startAfter(lastThread),
             limit(amount)
         )
     } else {
-            q = query(threadsRef,
+        q = query(threadsRef,
             where('forumID', '==', forumID),
             orderBy('createdAt', "desc"),
             limit(amount)
@@ -47,13 +48,10 @@ export const getThreads = async (forumID, lastThreadID = undefined) => {
         return threads.docs.map((thread) => ({
             ...thread.data(),
             id: thread.id,
-            date: `
-                ${thread.data().createdAt.toDate().toLocaleDateString(undefined, { dateStyle: 'medium' })}
-                ${thread.data().createdAt.toDate().toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' })}
-                `
+            date: thread.data().createdAt.toDate().toLocaleDateString(undefined, { dateStyle: 'medium' })
         }))
 
-    return false
+    return []
 }
 
 export const getThread = async (threadID) => {
@@ -64,15 +62,42 @@ export const getThread = async (threadID) => {
         return {
             ...thread.data(),
             id: thread.id,
-            date: `
-                ${thread.data().createdAt.toDate().toLocaleDateString(undefined, { dateStyle: 'medium' })} 
-                ${thread.data().createdAt.toDate().toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' })}
-                `
+            date: thread.data().createdAt.toDate().toLocaleDateString(undefined, { dateStyle: 'medium' })
         }
 
-    return false
+    return null
 }
 
 export const postThread = async (data) => {
     return await addDoc(threadsRef, data)
+}
+
+export const getComments = async (threadID) => {
+    const amount = 10
+    var q
+
+    q = query(commentsRef,
+        where('threadID', '==', threadID),
+        limit(amount))
+
+    const comments = await getDocs(q)
+
+    if (!comments.empty)
+        return comments.docs.map((comment) => ({
+            ...comment.data(),
+            id: comment.id,
+            date: comment.data().createdAt.toDate().toLocaleDateString(undefined, { dateStyle: 'medium' })
+        }))
+
+    return []
+}
+
+export const postComment = async (data) => {
+    const commentRef = await addDoc(commentsRef, data)
+    const comment = await getDoc(commentRef)
+    return {
+        ...comment.data(),
+        id: comment.id,
+        date: comment.data().createdAt.toDate().toLocaleDateString(undefined, { dateStyle: 'medium' })
+    }
 }

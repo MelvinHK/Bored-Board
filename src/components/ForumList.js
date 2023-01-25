@@ -15,7 +15,7 @@ function ForumList() {
     }, [])
 
     return (
-        <ul style={{ padding: '0', listStyleType: 'none' }}>
+        <ul className='list'>
             {forums.map((forum) =>
                 <li key={forum.id}>
                     <h2>

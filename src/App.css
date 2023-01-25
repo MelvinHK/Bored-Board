@@ -30,6 +30,11 @@ html * {
   padding-right: 20px;
 }
 
+.list {
+  padding: 0;
+  list-style-type: none;
+}
+
 .grid-container {
   margin-top: -20px;
 }

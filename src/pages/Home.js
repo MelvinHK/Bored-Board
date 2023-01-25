@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import ForumList from "../components/ForumList";
 
 function Home() {

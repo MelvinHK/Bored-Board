@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import NotFound from './components/NotFound'
@@ -11,6 +12,10 @@ import Post from './pages/Post'
 function App() {
     const location = useLocation()
     const postModalBackground = location.state && location.state.postModalBackground
+
+    useEffect(() => {
+        document.title = "Bored Bored"
+    }, [])
 
     return (
         <div className='container'>
