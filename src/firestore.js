@@ -78,6 +78,7 @@ export const getComments = async (threadID) => {
 
     q = query(commentsRef,
         where('threadID', '==', threadID),
+        orderBy('createdAt', 'desc'),
         limit(amount))
 
     const comments = await getDocs(q)
