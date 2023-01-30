@@ -159,7 +159,7 @@ function Thread() {
                                     }}>
                                         {'\u23F7 ' + replyButtonText}
                                     </button>
-                                    <div style={{ marginLeft: '30px', marginTop: '10px' }}>
+                                    <div style={{ marginLeft: '20px', marginTop: '10px' }}>
                                         <ul id={`${comment.id}-replies`}
                                             className='list' style={{ display: 'inherit' }} />
                                     </div>
