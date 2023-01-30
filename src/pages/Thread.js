@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server"
 import NotFound from '../components/NotFound'
 import parse from 'html-react-parser'
 import { Timestamp } from 'firebase/firestore'
-import { getThread, getComments, postComment, getReplies } from '../firestore'
+import { getThread, getComments, postComment, getReplies, getTotalComments } from '../firestore'
 import RichTextBox from '../components/RichTextBox'
 import '../App.css'
 import { timeSince } from '../utils'
@@ -20,6 +20,7 @@ function Thread() {
     const [submitLoading, setSubmitLoading] = useState(false)
 
     const [comments, setComments] = useState([])
+    var [totalComments, setTotal] = useState(0)
 
     const handleGetThread = async () => {
         const threadData = await getThread(threadID)
@@ -31,9 +32,15 @@ function Thread() {
         setComments(commentsData)
     }
 
+    const handleGetTotalComments = async() => {
+        const total = await getTotalComments(threadID)
+        setTotal(total)
+    }
+
     const loadData = async () => {
         await handleGetThread()
         await handleGetComments()
+        await handleGetTotalComments()
         setLoading(false)
     }
 
@@ -54,6 +61,7 @@ function Thread() {
             createdAt: Timestamp.fromDate(new Date())
         })
         setComments([res, ...comments])
+        setTotal(totalComments += 1)
     }
 
     const commentInvalid = () => { // Description validation detailed in '../components/RichTextBox'
@@ -67,7 +75,7 @@ function Thread() {
         document.getElementById(commentID + '-replies').innerHTML = renderToStaticMarkup(replies.map((reply) => {
             return (
                 <li key={reply.id}>
-                    <span style={{ fontSize: '12px' }} title={reply.date}>
+                    <span className='comment-date' title={reply.date}>
                         {timeSince(reply.createdAt.toDate())}
                     </span>
                     {parse(reply.description)}
@@ -97,7 +105,7 @@ function Thread() {
             <p>{thread.date}</p>
             {parse(thread.description)}
             <h3 style={{ marginTop: '30px' }}>
-                {comments.length || '0'} Comment{comments.length !== 1 ? 's' : ''}
+                {totalComments} Comment{comments.length !== 1 ? 's' : ''}
             </h3>
             {!expandCommentBox &&
                 <div className='comment-box-unexpanded' onClick={toggleCommentBox}>
@@ -142,7 +150,7 @@ function Thread() {
                     var replyButtonText = `${replyLength} repl${replyLength === 1 ? 'y' : 'ies'}`
                     return (
                         <li key={comment.id} style={{ marginTop: '30px' }}>
-                            <span style={{ fontSize: '12px' }} title={comment.date}>
+                            <span className='comment-date' title={comment.date}>
                                 {timeSince(comment.createdAt.toDate())}
                             </span>
                             {parse(comment.description)}

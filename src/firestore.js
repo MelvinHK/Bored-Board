@@ -111,6 +111,14 @@ export const getReplies = async (commentID) => {
     return []
 }
 
+export const getTotalComments = async (threadID) => {
+    var q = query(commentsRef,
+        where('threadID', '==', threadID))
+
+    const total = await getDocs(q)
+    return total.docs.length
+}
+
 export const postComment = async (data) => {
     const commentRef = await addDoc(commentsRef, data)
     const comment = await getDoc(commentRef)
