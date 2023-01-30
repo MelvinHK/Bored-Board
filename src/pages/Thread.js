@@ -1,9 +1,10 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState, useRef } from "react"
+import { renderToStaticMarkup } from "react-dom/server"
 import NotFound from '../components/NotFound'
 import parse from 'html-react-parser'
 import { Timestamp } from 'firebase/firestore'
-import { getThread, getComments, postComment } from '../firestore'
+import { getThread, getComments, postComment, getReplies } from '../firestore'
 import RichTextBox from '../components/RichTextBox'
 import '../App.css'
 import { timeSince } from '../utils'
@@ -53,15 +54,35 @@ function Thread() {
             createdAt: Timestamp.fromDate(new Date())
         })
         setComments([res, ...comments])
-        setExpandCommentBox(false)
-        setComment(null)
-        setSubmitLoading(false)
     }
 
     const commentInvalid = () => { // Description validation detailed in '../components/RichTextBox'
         if (comment === null)
             return true
         return false
+    }
+
+    const handleGetReplies = async (commentID) => {
+        const replies = await getReplies(commentID)
+        document.getElementById(commentID + '-replies').innerHTML = renderToStaticMarkup(replies.map((reply) => {
+            return (
+                <li key={reply.id}>
+                    <span style={{ fontSize: '12px' }} title={reply.date}>
+                        {timeSince(reply.createdAt.toDate())}
+                    </span>
+                    {parse(reply.description)}
+                </li>
+            )
+        }))
+    }
+
+    const toggleReplies = (commentID) => {
+        if (document.getElementById(commentID).style.display === 'inherit') {
+            document.getElementById(commentID).style.display = 'none'
+            return false
+        }
+        document.getElementById(commentID).style.display = 'inherit'
+        return true
     }
 
     if (loading)
@@ -78,14 +99,11 @@ function Thread() {
             <h3 style={{ marginTop: '30px' }}>
                 {comments.length || '0'} Comment{comments.length !== 1 ? 's' : ''}
             </h3>
-            {
-                !expandCommentBox &&
+            {!expandCommentBox &&
                 <div className='comment-box-unexpanded' onClick={toggleCommentBox}>
                     Leave a comment
-                </div>
-            }
-            {
-                expandCommentBox &&
+                </div>}
+            {expandCommentBox &&
                 <div className={`comment-box ${submitLoading ? 'disabled-input' : ''}`}>
                     <RichTextBox
                         getContent={(value) => setComment(value)}
@@ -102,7 +120,13 @@ function Thread() {
                         />
                         <button
                             style={{ marginRight: '10px' }}
-                            onClick={() => { handleSubmitComment(); setSubmitLoading(true) }}
+                            onClick={async () => {
+                                setSubmitLoading(true)
+                                await handleSubmitComment()
+                                setSubmitLoading(false)
+                                setExpandCommentBox(false)
+                                setComment(null)
+                            }}
                             disabled={commentInvalid()}
                         >
                             Submit
@@ -111,19 +135,43 @@ function Thread() {
                             Cancel
                         </button>
                     </div>
-                </div>
-            }
-            {
-                comments &&
-                <ul className='list'>
-                    {comments.map((comment) =>
+                </div>}
+            <ul className='list'>
+                {comments.map((comment) => {
+                    const replyLength = comment.childrenIDs.length
+                    var replyButtonText = `${replyLength} repl${replyLength === 1 ? 'y' : 'ies'}`
+                    return (
                         <li key={comment.id} style={{ marginTop: '30px' }}>
+                            <span style={{ fontSize: '12px' }} title={comment.date}>
+                                {timeSince(comment.createdAt.toDate())}
+                            </span>
                             {parse(comment.description)}
-                            <span style={{ fontSize: '12px' }} title={comment.date}>{timeSince(comment.createdAt.toDate())}</span>
+                            {replyLength > 0 ?
+                                <div>
+                                    <button className='comment-replies-btn' onClick={(e) => {
+                                        if (document.getElementById(`${comment.id}-replies`).getElementsByTagName('li').length === 0) {
+                                            handleGetReplies(comment.id)
+                                            e.target.innerHTML = '\u23F6 ' + replyButtonText
+                                        } else {
+                                            if (toggleReplies(`${comment.id}-replies`))
+                                                e.target.innerHTML = '\u23F6 ' + replyButtonText
+                                            else
+                                                e.target.innerHTML = '\u23F7 ' + replyButtonText
+                                        }
+                                    }}>
+                                        {'\u23F7 ' + replyButtonText}
+                                    </button>
+                                    <div style={{ marginLeft: '30px', marginTop: '10px' }}>
+                                        <ul id={`${comment.id}-replies`}
+                                            className='list' style={{ display: 'inherit' }} />
+                                    </div>
+                                </div>
+                                : ''
+                            }
                         </li>
-                    )}
-                </ul>
-            }
+                    )
+                })}
+            </ul>
         </div >
     )
 }

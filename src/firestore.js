@@ -74,11 +74,29 @@ export const postThread = async (data) => {
 
 export const getComments = async (threadID) => {
     const amount = 10
-    var q
-
-    q = query(commentsRef,
+    var q = query(commentsRef,
         where('threadID', '==', threadID),
+        where('parentID', '==', null),
         orderBy('createdAt', 'desc'),
+        limit(amount))
+
+    const comments = await getDocs(q)
+
+    if (!comments.empty)
+        return comments.docs.map((comment) => ({
+            ...comment.data(),
+            id: comment.id,
+            date: comment.data().createdAt.toDate().toLocaleDateString(undefined, { dateStyle: 'medium' })
+        }))
+
+    return []
+}
+
+export const getReplies = async (commentID) => {
+    const amount = 11
+    var q = query(commentsRef,
+        where('parentID', '==', commentID),
+        orderBy('createdAt', 'asc'),
         limit(amount))
 
     const comments = await getDocs(q)

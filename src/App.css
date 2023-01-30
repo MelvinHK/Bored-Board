@@ -176,18 +176,6 @@ img {
   max-height: none;
 }
 
-.comment-box-unexpanded {
-  color: gray;
-  padding-bottom: 5px;
-  border-bottom: solid 1px lightgray;
-  margin-bottom: 10px;
-  cursor: text;
-}
-
-.comment-submit-btn {
-  float: right;
-}
-
 .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
@@ -198,4 +186,19 @@ img {
 
 .ProseMirror-selectednode {
   outline: 3px solid lightgray;
+}
+
+.comment-box-unexpanded {
+  color: gray;
+  padding-bottom: 5px;
+  border-bottom: solid 1px lightgray;
+  margin-bottom: 10px;
+  cursor: text;
+}
+
+.comment-replies-btn {
+  margin: 0;
+  cursor: pointer;
+  padding: 0;
+  border: none;
 }

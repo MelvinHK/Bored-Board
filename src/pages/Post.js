@@ -33,10 +33,15 @@ function Post({ deepLink }) {
                 await uploadBytes(storageRef, blob)
                 const url = await getDownloadURL(storageRef)
                 description = replaceBlobURLWithFirebaseURL(description, url)
-            } catch (e) {
-                setSubmitLoading(false)
-                window.alert("Invalid file. Must be a JPEG/PNG and less than 8MB.")
-                return
+            } catch (error) {
+                switch (error.code) {
+                    case 'storage/unauthorized':
+                        window.alert("Invalid file. Must be JPEG/PNG and less than 8MB.")
+                        return
+                    default:
+                        window.alert("An unknown error occured, please try again.")
+                        return
+                }
             }
         }
         const res = await postThread({
@@ -46,7 +51,7 @@ function Post({ deepLink }) {
             createdAt: Timestamp.fromDate(new Date())
         })
         navigate(`/${forumURL}/thread/${res.id}`)
-        window.location.reload();
+        window.location.reload()
     }
 
     const postInvalid = () => { // Description validation detailed in '../components/RichTextBox'
@@ -74,7 +79,11 @@ function Post({ deepLink }) {
                 />
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <button
-                        onClick={() => { handleSubmit(); setSubmitLoading(true) }}
+                        onClick={async () => {
+                            setSubmitLoading(true)
+                            await handleSubmit()
+                            setSubmitLoading(false)
+                        }}
                         style={{ marginRight: '10px' }}
                         disabled={postInvalid()}
                     >
