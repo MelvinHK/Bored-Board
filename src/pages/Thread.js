@@ -151,13 +151,11 @@ function Thread() {
                                     <button className='comment-replies-btn' onClick={(e) => {
                                         if (document.getElementById(`${comment.id}-replies`).getElementsByTagName('li').length === 0) {
                                             handleGetReplies(comment.id)
-                                            e.target.innerHTML = '\u23F6 ' + replyButtonText
                                         } else {
-                                            if (toggleReplies(`${comment.id}-replies`))
-                                                e.target.innerHTML = '\u23F6 ' + replyButtonText
-                                            else
-                                                e.target.innerHTML = '\u23F7 ' + replyButtonText
+                                            if (!toggleReplies(`${comment.id}-replies`))
+                                               return e.target.innerHTML = '\u23F7 ' + replyButtonText
                                         }
+                                        e.target.innerHTML = '\u23F6 ' + replyButtonText
                                     }}>
                                         {'\u23F7 ' + replyButtonText}
                                     </button>
