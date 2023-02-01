@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { timeSince } from "../utils"
 import parse from 'html-react-parser'
 
-function Replies({ children, rootComment }) {
+function Replies({ label, rootComment }) {
     const [arrow, setArrow] = useState('\u23F7')
     const [fetched, setFetched] = useState(false)
     const [expanded, setExpanded] = useState(false)
@@ -24,13 +24,6 @@ function Replies({ children, rootComment }) {
         }))
     }
 
-    const toggleReplies = (rootCommentID) => {
-        if (expanded)
-            document.getElementById(rootCommentID).style.display = 'none'
-        else
-            document.getElementById(rootCommentID).style.display = 'inherit'
-    }
-
     return (
         <div>
             <button className='comment-replies-btn' onClick={() => {
@@ -39,9 +32,9 @@ function Replies({ children, rootComment }) {
                 if (!fetched)
                     handleGetReplies(rootComment.id)
                 else
-                    toggleReplies(rootComment.id)
+                    document.getElementById(rootComment.id).style.display = expanded ? 'none' : 'inherit'
             }}>
-                {arrow} {children}
+                {arrow} {label}
             </button>
             <div style={{ marginLeft: '20px', marginTop: '10px' }}>
                 <ul id={rootComment.id}

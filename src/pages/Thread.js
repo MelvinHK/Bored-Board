@@ -125,9 +125,8 @@ function Thread() {
                             </span>
                             {parse(comment.description)}
                             {replyLength > 0 ?
-                                <Replies rootComment={comment}>
-                                    {`${replyLength} repl${replyLength === 1 ? 'y' : 'ies'}`}
-                                </Replies>
+                                <Replies rootComment={comment}
+                                    label={`${replyLength} repl${replyLength === 1 ? 'y' : 'ies'}`} />
                                 : ''
                             }
                         </li>
