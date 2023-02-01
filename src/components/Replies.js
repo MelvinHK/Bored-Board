@@ -24,16 +24,19 @@ function Replies({ label, rootComment }) {
         }))
     }
 
+    const toggleReplies = () => {
+        setExpanded(!expanded)
+        setArrow(!expanded ? '\u23F6' : '\u23F7')
+        if (!fetched) {
+            handleGetReplies(rootComment.id)
+        }
+        else
+            document.getElementById(rootComment.id).style.display = expanded ? 'none' : 'inherit'
+    }
+
     return (
         <div>
-            <button className='comment-replies-btn' onClick={() => {
-                setExpanded(!expanded)
-                setArrow(!expanded ? '\u23F6' : '\u23F7')
-                if (!fetched)
-                    handleGetReplies(rootComment.id)
-                else
-                    document.getElementById(rootComment.id).style.display = expanded ? 'none' : 'inherit'
-            }}>
+            <button className='comment-replies-btn' onClick={toggleReplies}>
                 {arrow} {label}
             </button>
             <div style={{ marginLeft: '20px', marginTop: '10px' }}>
