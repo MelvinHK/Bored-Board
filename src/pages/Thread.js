@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom'
-import { useEffect, useState, useRef } from "react"
-import { renderToStaticMarkup } from "react-dom/server"
+import { useEffect, useState } from "react"
 import NotFound from '../components/NotFound'
 import parse from 'html-react-parser'
 import { Timestamp } from 'firebase/firestore'
-import { getThread, getComments, postComment, getReplies, getTotalComments } from '../firestore'
+import { getThread, getComments, postComment, getTotalComments } from '../firestore'
 import RichTextBox from '../components/RichTextBox'
+import Replies from '../components/Replies'
 import '../App.css'
 import { timeSince } from '../utils'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -32,7 +32,7 @@ function Thread() {
         setComments(commentsData)
     }
 
-    const handleGetTotalComments = async() => {
+    const handleGetTotalComments = async () => {
         const total = await getTotalComments(threadID)
         setTotal(total)
     }
@@ -68,29 +68,6 @@ function Thread() {
         if (comment === null)
             return true
         return false
-    }
-
-    const handleGetReplies = async (commentID) => {
-        const replies = await getReplies(commentID)
-        document.getElementById(commentID + '-replies').innerHTML = renderToStaticMarkup(replies.map((reply) => {
-            return (
-                <li key={reply.id}>
-                    <span className='comment-date' title={reply.date}>
-                        {timeSince(reply.createdAt.toDate())}
-                    </span>
-                    {parse(reply.description)}
-                </li>
-            )
-        }))
-    }
-
-    const toggleReplies = (commentID) => {
-        if (document.getElementById(commentID).style.display === 'inherit') {
-            document.getElementById(commentID).style.display = 'none'
-            return false
-        }
-        document.getElementById(commentID).style.display = 'inherit'
-        return true
     }
 
     if (loading)
@@ -147,7 +124,6 @@ function Thread() {
             <ul className='list'>
                 {comments.map((comment) => {
                     const replyLength = comment.childrenIDs.length
-                    var replyButtonText = `${replyLength} repl${replyLength === 1 ? 'y' : 'ies'}`
                     return (
                         <li key={comment.id} style={{ marginTop: '30px' }}>
                             <span className='comment-date' title={comment.date}>
@@ -155,23 +131,9 @@ function Thread() {
                             </span>
                             {parse(comment.description)}
                             {replyLength > 0 ?
-                                <div>
-                                    <button className='comment-replies-btn' onClick={(e) => {
-                                        if (document.getElementById(`${comment.id}-replies`).getElementsByTagName('li').length === 0) {
-                                            handleGetReplies(comment.id)
-                                        } else {
-                                            if (!toggleReplies(`${comment.id}-replies`))
-                                               return e.target.innerHTML = '\u23F7 ' + replyButtonText
-                                        }
-                                        e.target.innerHTML = '\u23F6 ' + replyButtonText
-                                    }}>
-                                        {'\u23F7 ' + replyButtonText}
-                                    </button>
-                                    <div style={{ marginLeft: '20px', marginTop: '10px' }}>
-                                        <ul id={`${comment.id}-replies`}
-                                            className='list' style={{ display: 'inherit' }} />
-                                    </div>
-                                </div>
+                                <Replies rootComment={comment}>
+                                    {`${replyLength} repl${replyLength === 1 ? 'y' : 'ies'}`}
+                                </Replies>
                                 : ''
                             }
                         </li>
