@@ -48,10 +48,6 @@ function Thread() {
         loadData()
     }, [])
 
-    const toggleCommentBox = () => {
-        setExpandCommentBox(!expandCommentBox)
-    }
-
     const handleSubmitComment = async () => {
         const res = await postComment({
             description: comment,
@@ -65,9 +61,7 @@ function Thread() {
     }
 
     const commentInvalid = () => { // Description validation detailed in '../components/RichTextBox'
-        if (comment === null)
-            return true
-        return false
+        return comment === null ? true : false
     }
 
     if (loading)
@@ -85,7 +79,7 @@ function Thread() {
                 {totalComments} Comment{comments.length !== 1 ? 's' : ''}
             </h3>
             {!expandCommentBox &&
-                <div className='comment-box-unexpanded' onClick={toggleCommentBox}>
+                <div className='comment-box-unexpanded' onClick={() => setExpandCommentBox(true)}>
                     Leave a comment
                 </div>}
             {expandCommentBox &&
@@ -116,7 +110,7 @@ function Thread() {
                         >
                             Submit
                         </button>
-                        <button onClick={() => { toggleCommentBox(); setComment(null) }}>
+                        <button onClick={() => { setExpandCommentBox(false); setComment(null) }}>
                             Cancel
                         </button>
                     </div>
