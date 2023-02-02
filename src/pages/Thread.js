@@ -5,10 +5,9 @@ import parse from 'html-react-parser'
 import { Timestamp } from 'firebase/firestore'
 import { getThread, getComments, postComment, getTotalComments } from '../firestore'
 import RichTextBox from '../components/RichTextBox'
-import Replies from '../components/Replies'
 import '../App.css'
-import { timeSince } from '../utils'
 import CircularProgress from '@mui/material/CircularProgress'
+import Comment from '../components/Comment'
 
 function Thread() {
     const { threadID } = useParams()
@@ -71,7 +70,7 @@ function Thread() {
         return <NotFound error={"Thread does not exist"} />
 
     return (
-        <div>
+        <>
             <h3>{thread.title}</h3>
             <p>{thread.date}</p>
             {parse(thread.description)}
@@ -117,23 +116,14 @@ function Thread() {
                 </div>}
             <ul className='list'>
                 {comments.map((comment) => {
-                    const replyLength = comment.childrenIDs.length
                     return (
-                        <li key={comment.id} style={{ marginTop: '30px' }}>
-                            <span className='comment-date' title={comment.date}>
-                                {timeSince(comment.createdAt.toDate())}
-                            </span>
-                            {parse(comment.description)}
-                            {replyLength > 0 ?
-                                <Replies rootComment={comment}
-                                    label={`${replyLength} repl${replyLength === 1 ? 'y' : 'ies'}`} />
-                                : ''
-                            }
-                        </li>
+                        <div key={comment.id} style={{ marginTop: '30px' }}>
+                            <Comment comment={comment} />
+                        </div>
                     )
                 })}
             </ul>
-        </div >
+        </>
     )
 }
 
