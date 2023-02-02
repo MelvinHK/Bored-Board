@@ -6,11 +6,12 @@ import Comment from "./Comment"
 function Replies({ label, parentComment }) {
     const [fetched, setFetched] = useState(false)
     const [expanded, setExpanded] = useState(false)
+    const [repliesSlot, setRepliesSlot] = useState(null)
 
     const handleGetReplies = async (parentCommentID) => {
         const replies = await getReplies(parentCommentID)
         setFetched(true)
-        document.getElementById(parentCommentID).innerHTML = renderToStaticMarkup(replies.map((reply) => {
+        setRepliesSlot(replies.map((reply) => {
             return (
                 <Comment comment={reply} key={reply.id} />
             )
@@ -30,8 +31,9 @@ function Replies({ label, parentComment }) {
                 {!expanded ? '\u23F7' : '\u23F6'} {label}
             </button>
             <div style={{ marginLeft: '20px', marginTop: '10px' }}>
-                <ul id={parentComment.id}
-                    className='list' style={{ display: 'inherit' }} />
+                <ul id={parentComment.id} className='list' style={{ display: 'inherit' }} >
+                    {repliesSlot}
+                </ul>
             </div>
         </>
     )
