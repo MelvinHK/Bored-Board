@@ -208,7 +208,13 @@ img {
   background-color: rgba(255, 255, 255, 0);
 }
 
-.comment-date {
+.comment-header {
   font-size: 12px;
   color: gray;
+}
+
+.reply-btn {
+  transform: translateY(6px);
+  margin-left: 10px;
+  margin-right: 3px;
 }
