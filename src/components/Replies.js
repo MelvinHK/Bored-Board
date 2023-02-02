@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { getReplies } from "../firestore"
-import { renderToStaticMarkup } from "react-dom/server"
 import Comment from "./Comment"
 
 function Replies({ label, parentComment }) {

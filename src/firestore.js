@@ -1,5 +1,5 @@
 import { db } from "./firestoreConfig"
-import { collection, getDocs, query, where, doc, getDoc, addDoc, limit, startAfter, orderBy } from "firebase/firestore"
+import { collection, getDocs, query, where, doc, getDoc, addDoc, limit, startAfter, orderBy, arrayUnion, setDoc } from "firebase/firestore"
 
 const forumsRef = collection(db, "forums")
 const threadsRef = collection(db, "threads")
@@ -127,4 +127,11 @@ export const postComment = async (data) => {
         id: comment.id,
         date: comment.data().createdAt.toDate().toLocaleDateString(undefined, { dateStyle: 'medium' })
     }
+}
+
+export const addCommentChild = async (parentID, childID) => {
+    const commentRef = doc(db, "comments", parentID)
+    await setDoc({ commentRef }, {
+        comments: arrayUnion(childID)
+    }, { merge: true })
 }

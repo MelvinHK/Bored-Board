@@ -2,12 +2,10 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import NotFound from '../components/NotFound'
 import parse from 'html-react-parser'
-import { Timestamp } from 'firebase/firestore'
 import { getThread, getComments, postComment, getTotalComments } from '../firestore'
-import RichTextBox from '../components/RichTextBox'
 import '../App.css'
-import CircularProgress from '@mui/material/CircularProgress'
 import Comment from '../components/Comment'
+import CommentRichTextBox from '../components/CommentRichTextBox'
 
 function Thread() {
     const { threadID } = useParams()
@@ -15,8 +13,6 @@ function Thread() {
     const [loading, setLoading] = useState(true)
 
     const [expandCommentBox, setExpandCommentBox] = useState(false)
-    const [comment, setComment] = useState(null)
-    const [submitLoading, setSubmitLoading] = useState(false)
 
     const [comments, setComments] = useState([])
     var [totalComments, setTotal] = useState(0)
@@ -47,22 +43,6 @@ function Thread() {
         loadData()
     }, [])
 
-    const handleSubmitComment = async () => {
-        const res = await postComment({
-            description: comment,
-            threadID: threadID,
-            childrenIDs: [],
-            parentID: null,
-            createdAt: Timestamp.fromDate(new Date())
-        })
-        setComments([res, ...comments])
-        setTotal(totalComments += 1)
-    }
-
-    const commentInvalid = () => { // Description validation detailed in '../components/RichTextBox'
-        return comment === null ? true : false
-    }
-
     if (loading)
         return
 
@@ -82,38 +62,12 @@ function Thread() {
                     Leave a comment
                 </div>}
             {expandCommentBox &&
-                <div className={`comment-box ${submitLoading ? 'disabled-input' : ''}`}>
-                    <RichTextBox
-                        getContent={(value) => setComment(value)}
-                        placeholderText={'Leave a comment'}
-                        autofocus={true}
-                    />
-                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <CircularProgress
-                            size={30}
-                            style={{
-                                color: 'lightgray', marginTop: '15px', marginRight: '10px',
-                                visibility: submitLoading ? 'visible' : 'hidden',
-                            }}
-                        />
-                        <button
-                            style={{ marginRight: '10px' }}
-                            onClick={async () => {
-                                setSubmitLoading(true)
-                                await handleSubmitComment()
-                                setSubmitLoading(false)
-                                setExpandCommentBox(false)
-                                setComment(null)
-                            }}
-                            disabled={commentInvalid()}
-                        >
-                            Submit
-                        </button>
-                        <button onClick={() => { setExpandCommentBox(false); setComment(null) }}>
-                            Cancel
-                        </button>
-                    </div>
-                </div>}
+                <CommentRichTextBox expand={(value) => setExpandCommentBox(value)}
+                    submittedComment={(value) => {
+                        setComments([value, ...comments])
+                        setTotal(totalComments += 1)
+                    }}
+                />}
             <ul className='list'>
                 {comments.map((comment) => {
                     return (
