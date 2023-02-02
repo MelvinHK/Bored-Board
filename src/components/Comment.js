@@ -7,7 +7,7 @@ import '../App.css'
 import CommentRichTextBox from "./CommentRichTextBox";
 
 function Comment({ comment }) {
-    const replyLength = comment.childrenIDs.length
+    var [numReplies, setNumReplies] = useState(comment.childrenIDs.length)
 
     const [showTooltip, setShowTooltip] = useState(false)
     const [expandCommentBox, setExpandCommentBox] = useState(false)
@@ -32,12 +32,12 @@ function Comment({ comment }) {
                     expand={(value) => setExpandCommentBox(value)}
                     parentCommentID={comment.id}
                     submittedComment={(value) => {
-
+                        setNumReplies(numReplies += 1)
                     }}
                 />}
-            {replyLength > 0 ?
+            {numReplies > 0 ?
                 <Replies parentComment={comment}
-                    label={`${replyLength} repl${replyLength === 1 ? 'y' : 'ies'}`} />
+                    label={`${numReplies} repl${numReplies === 1 ? 'y' : 'ies'}`} />
                 : ''
             }
         </>
