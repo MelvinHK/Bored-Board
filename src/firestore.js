@@ -1,5 +1,5 @@
 import { db } from "./firestoreConfig"
-import { collection, getDocs, query, where, doc, getDoc, addDoc, limit, startAfter, orderBy, updateDoc, increment } from "firebase/firestore"
+import { collection, getDocs, query, where, doc, getDoc, addDoc, limit, startAfter, orderBy, updateDoc, increment, startAt } from "firebase/firestore"
 
 const forumsRef = collection(db, "forums")
 const threadsRef = collection(db, "threads")
@@ -23,19 +23,18 @@ export const getForum = async (forumURL) => {
 // Get threads from a forum, can specify a starting point for the search which is used for pagination
 export const getThreads = async (forumID, lastThreadID = undefined) => {
     const amount = 10
-    var q
 
-    if (lastThreadID !== undefined) {
+    if (lastThreadID) {
         const threadRef = doc(db, "threads", lastThreadID)
         const lastThread = await getDoc(threadRef)
-        q = query(threadsRef,
+        var q = query(threadsRef,
             where('forumID', '==', forumID),
             orderBy('createdAt', "desc"),
             startAfter(lastThread),
             limit(amount)
         )
     } else {
-        q = query(threadsRef,
+        var q = query(threadsRef,
             where('forumID', '==', forumID),
             orderBy('createdAt', "desc"),
             limit(amount)
@@ -92,12 +91,23 @@ export const getComments = async (threadID) => {
     return []
 }
 
-export const getReplies = async (commentID) => {
-    const amount = 11
-    var q = query(commentsRef,
-        where('parentID', '==', commentID),
-        orderBy('createdAt', 'asc'),
-        limit(amount))
+export const replyAmount = 11
+export const getReplies = async (commentID, lastReplyID = undefined) => {
+    if (lastReplyID) {
+        const replyRef = doc(db, "comments", lastReplyID)
+        const lastReply = await getDoc(replyRef)
+        var q = query(commentsRef,
+            where('parentID', '==', commentID),
+            orderBy('createdAt', 'asc'),
+            startAfter(lastReply),
+            limit(replyAmount)
+        )
+    } else {
+        var q = query(commentsRef,
+            where('parentID', '==', commentID),
+            orderBy('createdAt', 'asc'),
+            limit(replyAmount))
+    }
 
     const comments = await getDocs(q)
 

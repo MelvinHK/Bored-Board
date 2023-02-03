@@ -1,30 +1,26 @@
-import { useEffect, useState } from "react"
-import { getReplies } from "../firestore"
+import { useState } from "react"
+import { getReplies, replyAmount } from "../firestore"
 import Comment from "./Comment"
 
-function Replies({ label, parentComment, mounted = false, newRepliesSlot }) {
+function Replies({ label, parentComment }) {
     const [fetched, setFetched] = useState(false)
     const [expanded, setExpanded] = useState(false)
-    const [repliesSlot, setRepliesSlot] = useState(null)
 
-    const handleGetReplies = async (parentCommentID) => {
-        const replies = await getReplies(parentCommentID)
+    const [replies, setReplies] = useState([])
+    const [previousReplies, setPreviousReplies] = useState([])
+
+    const handleGetReplies = async (parentCommentID, lastReplyID = undefined) => {
+        const data = await getReplies(parentCommentID, lastReplyID)
         setFetched(true)
-        setRepliesSlot(replies.map((reply) => {
-            return (
-                <Comment comment={reply} key={reply.id} />
-            )
-        }))
+        setReplies(data)
     }
 
     return (
         <>
             <button className='comment-replies-btn' onClick={async () => {
                 setExpanded(!expanded)
-                if (!fetched) {
+                if (!fetched)
                     await handleGetReplies(parentComment.id)
-                    mounted(true)
-                }
                 else
                     document.getElementById(parentComment.id).style.display = expanded ? 'none' : 'inherit'
             }}>
@@ -32,8 +28,23 @@ function Replies({ label, parentComment, mounted = false, newRepliesSlot }) {
             </button>
             <div style={{ marginLeft: '20px', marginTop: '10px' }}>
                 <ul id={parentComment.id} className='list' style={{ display: 'inherit' }} >
-                    {repliesSlot}
-                    {newRepliesSlot}
+                    {previousReplies.map((reply) => <Comment comment={reply} key={reply.id} />)}
+                    {replies.map((reply, index) => {
+                        if (index === replyAmount - 1)
+                            return (
+                                <span
+                                    onClick={async () => {
+                                        setReplies(replies.slice(0, -1))
+                                        await handleGetReplies(parentComment.id, reply.id)
+                                        setPreviousReplies(replies)
+                                    }}
+                                    className='comment-replies-btn'
+                                    key={reply.id}>
+                                    Show more replies
+                                </span>
+                            )
+                        return <Comment comment={reply} key={reply.id} />
+                    })}
                 </ul>
             </div>
         </>

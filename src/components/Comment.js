@@ -13,9 +13,6 @@ function Comment({ comment }) {
     const [date, setDate] = useState(null)
     const [totalReplies, setTotalReplies] = useState(comment.totalReplies)
 
-    const [repliesMounted, setRepliesMounted] = useState(false)
-    const [newReplies, setNewReplies] = useState([])
-
     useEffect(() => {
         setDate(timeSince(comment.createdAt.toDate()))
     }, [])
@@ -40,18 +37,13 @@ function Comment({ comment }) {
                     expand={(value) => setExpandCommentBox(value)}
                     parentCommentID={comment.id}
                     onSubmitted={(value) => {
-                        setTotalReplies(totalReplies + 1)
-                        // If replies have already been loaded, render the new reply from newReplies state
-                        if (repliesMounted)
-                            setNewReplies([...newReplies, value])
+                        
                     }}
                 />}
             {totalReplies > 0 ?
                 <Replies
                     parentComment={comment}
-                    mounted={(value) => setRepliesMounted(value)}
                     label={`${totalReplies} repl${totalReplies === 1 ? 'y' : 'ies'}`}
-                    newRepliesSlot={newReplies.map((reply) => <Comment comment={reply} />)}
                 />
                 : ''
             }
