@@ -7,10 +7,12 @@ import '../App.css'
 import CommentRichTextBox from "./CommentRichTextBox";
 
 function Comment({ comment }) {
-    var [numReplies, setNumReplies] = useState(comment.childrenIDs.length)
-
     const [showTooltip, setShowTooltip] = useState(false)
     const [expandCommentBox, setExpandCommentBox] = useState(false)
+    const [totalReplies, setTotalReplies] = useState(comment.totalReplies)
+
+    const [repliesMounted, setRepliesMounted] = useState(false)
+    const [newReplies, setNewReplies] = useState([])
 
     return (
         <>
@@ -32,12 +34,18 @@ function Comment({ comment }) {
                     expand={(value) => setExpandCommentBox(value)}
                     parentCommentID={comment.id}
                     submittedComment={(value) => {
-                        setNumReplies(numReplies += 1)
+                        setTotalReplies(totalReplies + 1)
+                        if (repliesMounted)
+                            setNewReplies([value, ...newReplies])
                     }}
                 />}
-            {numReplies > 0 ?
-                <Replies parentComment={comment}
-                    label={`${numReplies} repl${numReplies === 1 ? 'y' : 'ies'}`} />
+            {totalReplies > 0 ?
+                <Replies
+                    parentComment={comment}
+                    mounted={(value) => setRepliesMounted(value)}
+                    label={`${totalReplies} repl${totalReplies === 1 ? 'y' : 'ies'}`}
+                    newReplies={newReplies.map((reply) => <Comment comment={reply} />)}
+                />
                 : ''
             }
         </>

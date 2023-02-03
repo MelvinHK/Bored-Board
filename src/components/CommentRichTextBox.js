@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { postComment, addCommentChild } from "../firestore"
+import { postComment, incrementReplies } from "../firestore"
 import { useParams } from "react-router-dom"
 import { Timestamp } from "firebase/firestore"
 import RichTextBox from "./RichTextBox"
@@ -15,12 +15,12 @@ function CommentRichTextBox({ expand, submittedComment, parentCommentID }) {
         const res = await postComment({
             description: comment,
             threadID: threadID,
-            childrenIDs: [],
+            totalReplies: 0,
             parentID: parentID === undefined ? null : parentID,
             createdAt: Timestamp.fromDate(new Date())
         })
         if (parentID)
-            await addCommentChild(parentID, res.id)
+            await incrementReplies(parentID, 1)
         submittedComment(res)
     }
 

@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import NotFound from '../components/NotFound'
 import parse from 'html-react-parser'
-import { getThread, getComments, postComment, getTotalComments } from '../firestore'
+import { getThread, getComments, getTotalComments } from '../firestore'
 import '../App.css'
 import Comment from '../components/Comment'
 import CommentRichTextBox from '../components/CommentRichTextBox'
@@ -65,7 +65,6 @@ function Thread() {
                 <CommentRichTextBox expand={(value) => setExpandCommentBox(value)}
                     submittedComment={(value) => {
                         setComments([value, ...comments])
-                        setTotal(totalComments += 1)
                     }}
                 />}
             <ul className='list'>

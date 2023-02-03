@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { getReplies } from "../firestore"
 import Comment from "./Comment"
 
-function Replies({ label, parentComment }) {
+function Replies({ label, parentComment, mounted = false, newReplies }) {
     const [fetched, setFetched] = useState(false)
     const [expanded, setExpanded] = useState(false)
     const [repliesSlot, setRepliesSlot] = useState(null)
@@ -19,10 +19,11 @@ function Replies({ label, parentComment }) {
 
     return (
         <>
-            <button className='comment-replies-btn' onClick={() => {
+            <button className='comment-replies-btn' onClick={async () => {
                 setExpanded(!expanded)
                 if (!fetched) {
-                    handleGetReplies(parentComment.id)
+                    await handleGetReplies(parentComment.id)
+                    mounted(true)
                 }
                 else
                     document.getElementById(parentComment.id).style.display = expanded ? 'none' : 'inherit'
@@ -31,6 +32,7 @@ function Replies({ label, parentComment }) {
             </button>
             <div style={{ marginLeft: '20px', marginTop: '10px' }}>
                 <ul id={parentComment.id} className='list' style={{ display: 'inherit' }} >
+                    {newReplies}
                     {repliesSlot}
                 </ul>
             </div>
