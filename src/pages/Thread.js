@@ -63,7 +63,7 @@ function Thread() {
                 </div>}
             {expandCommentBox &&
                 <CommentRichTextBox expand={(value) => setExpandCommentBox(value)}
-                    submittedComment={(value) => {
+                    onSubmitted={(value) => {
                         setComments([value, ...comments])
                     }}
                 />}

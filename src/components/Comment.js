@@ -1,7 +1,7 @@
 import { timeSince } from "../utils"
 import parse from 'html-react-parser'
 import Replies from "./Replies"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ReplyIcon from '@mui/icons-material/Reply';
 import '../App.css'
 import CommentRichTextBox from "./CommentRichTextBox";
@@ -9,17 +9,23 @@ import CommentRichTextBox from "./CommentRichTextBox";
 function Comment({ comment }) {
     const [showTooltip, setShowTooltip] = useState(false)
     const [expandCommentBox, setExpandCommentBox] = useState(false)
+
+    const [date, setDate] = useState(null)
     const [totalReplies, setTotalReplies] = useState(comment.totalReplies)
 
     const [repliesMounted, setRepliesMounted] = useState(false)
     const [newReplies, setNewReplies] = useState([])
+
+    useEffect(() => {
+        setDate(timeSince(comment.createdAt.toDate()))
+    }, [])
 
     return (
         <>
             <li onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)}>
                 <span className='comment-header'>
                     <span title={comment.date}>
-                        {timeSince(comment.createdAt.toDate())}
+                        {date}
                     </span>
                     <span style={{ visibility: showTooltip ? 'visible' : 'hidden', cursor: 'pointer' }}
                         onClick={() => setExpandCommentBox(true)}>
@@ -33,10 +39,11 @@ function Comment({ comment }) {
                 <CommentRichTextBox
                     expand={(value) => setExpandCommentBox(value)}
                     parentCommentID={comment.id}
-                    submittedComment={(value) => {
+                    onSubmitted={(value) => {
                         setTotalReplies(totalReplies + 1)
+                        // If replies have already been loaded, render the new reply from newReplies state
                         if (repliesMounted)
-                            setNewReplies([value, ...newReplies])
+                            setNewReplies([...newReplies, value])
                     }}
                 />}
             {totalReplies > 0 ?
@@ -44,7 +51,7 @@ function Comment({ comment }) {
                     parentComment={comment}
                     mounted={(value) => setRepliesMounted(value)}
                     label={`${totalReplies} repl${totalReplies === 1 ? 'y' : 'ies'}`}
-                    newReplies={newReplies.map((reply) => <Comment comment={reply} />)}
+                    newRepliesSlot={newReplies.map((reply) => <Comment comment={reply} />)}
                 />
                 : ''
             }

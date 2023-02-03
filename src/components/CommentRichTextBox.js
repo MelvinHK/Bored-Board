@@ -6,7 +6,7 @@ import RichTextBox from "./RichTextBox"
 import CircularProgress from '@mui/material/CircularProgress'
 
 
-function CommentRichTextBox({ expand, submittedComment, parentCommentID }) {
+function CommentRichTextBox({ expand, onSubmitted, parentCommentID }) {
     const { threadID } = useParams()
     const [comment, setComment] = useState(null)
     const [submitLoading, setSubmitLoading] = useState(false)
@@ -21,7 +21,7 @@ function CommentRichTextBox({ expand, submittedComment, parentCommentID }) {
         })
         if (parentID)
             await incrementReplies(parentID, 1)
-        submittedComment(res)
+        onSubmitted(res)
     }
 
     const commentInvalid = () => { // Description validation detailed in '../components/RichTextBox'

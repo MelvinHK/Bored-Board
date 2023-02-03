@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { getReplies } from "../firestore"
 import Comment from "./Comment"
 
-function Replies({ label, parentComment, mounted = false, newReplies }) {
+function Replies({ label, parentComment, mounted = false, newRepliesSlot }) {
     const [fetched, setFetched] = useState(false)
     const [expanded, setExpanded] = useState(false)
     const [repliesSlot, setRepliesSlot] = useState(null)
@@ -32,8 +32,8 @@ function Replies({ label, parentComment, mounted = false, newReplies }) {
             </button>
             <div style={{ marginLeft: '20px', marginTop: '10px' }}>
                 <ul id={parentComment.id} className='list' style={{ display: 'inherit' }} >
-                    {newReplies}
                     {repliesSlot}
+                    {newRepliesSlot}
                 </ul>
             </div>
         </>
