@@ -36,7 +36,7 @@ function Replies({ label, parentComment }) {
                                     onClick={async () => {
                                         setReplies(replies.slice(0, -1))
                                         await handleGetReplies(parentComment.id, reply.id)
-                                        setPreviousReplies(replies)
+                                        setPreviousReplies(previousReplies.concat(replies))
                                     }}
                                     className='comment-replies-btn'
                                     key={reply.id}>
