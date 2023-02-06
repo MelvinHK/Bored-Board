@@ -91,6 +91,20 @@ export const getComments = async (threadID) => {
     return []
 }
 
+export const getComment = async (commentID) => {
+    const commentRef = doc(db, "comments", commentID)
+    const comment = await getDoc(commentRef)
+
+    if (comment.exists())
+        return [{
+            ...comment.data(),
+            id: comment.id,
+            date: comment.data().createdAt.toDate().toLocaleDateString(undefined, { dateStyle: 'medium' })
+        }]
+
+    return null
+}
+
 export const replyAmount = 11
 export const getReplies = async (commentID, lastReplyID = undefined) => {
     if (lastReplyID) {

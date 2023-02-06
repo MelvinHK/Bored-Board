@@ -2,13 +2,14 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import NotFound from '../components/NotFound'
 import parse from 'html-react-parser'
-import { getThread, getComments, getTotalComments } from '../firestore'
+import { getThread, getComments, getTotalComments, getComment } from '../firestore'
 import '../App.css'
 import Comment from '../components/Comment'
 import CommentRichTextBox from '../components/CommentRichTextBox'
 
 function Thread() {
     const { threadID } = useParams()
+    const { commentID } = useParams()
     const [thread, setThread] = useState()
     const [loading, setLoading] = useState(true)
 
@@ -23,7 +24,14 @@ function Thread() {
     }
 
     const handleGetComments = async () => {
-        const commentsData = await getComments(threadID)
+        if (commentID) {
+            var commentsData = await getComment(commentID)
+            if (!commentsData || commentsData[0].threadID !== threadID) {
+                return setComments(null)
+            }
+        } else {
+            var commentsData = await getComments(threadID)
+        }
         setComments(commentsData)
     }
 
@@ -36,6 +44,7 @@ function Thread() {
         await handleGetThread()
         await handleGetComments()
         await handleGetTotalComments()
+        console.log(comments)
         setLoading(false)
     }
 
@@ -55,7 +64,7 @@ function Thread() {
             <p>{thread.date}</p>
             {parse(thread.description)}
             <h3 style={{ marginTop: '30px' }}>
-                {totalComments} Comment{comments.length !== 1 && 's'}
+                {totalComments} Comment{totalComments !== 1 && 's'}
             </h3>
             {!expandCommentBox &&
                 <div className='comment-box-unexpanded' onClick={() => setExpandCommentBox(true)}>
@@ -68,15 +77,19 @@ function Thread() {
                         setComments([value, ...comments])
                     }}
                 />}
-            <ul className='list'>
-                {comments.map((comment) => {
-                    return (
-                        <div key={comment.id} style={{ marginTop: '30px' }}>
-                            <Comment comment={comment} />
-                        </div>
-                    )
-                })}
-            </ul>
+            {comments ?
+                <ul className='list'>
+                    {comments.map((comment) => {
+                        return (
+                            <div key={comment.id} style={{ marginTop: '30px' }}>
+                                <Comment comment={comment} />
+                            </div>
+                        )
+                    })}
+                </ul>
+                :
+                <p style={{ marginTop: '30px' }}>Comment does not exist</p>
+            }
         </>
     )
 }

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import ReplyIcon from '@mui/icons-material/Reply';
 import '../App.css'
 import CommentRichTextBox from "./CommentRichTextBox";
+import LinkIcon from '@mui/icons-material/Link'
 
 function Comment({ comment }) {
     const [showTooltip, setShowTooltip] = useState(false)
@@ -27,10 +28,17 @@ function Comment({ comment }) {
                     <span title={comment.date}>
                         {date}
                     </span>
-                    <span style={{ visibility: showTooltip ? 'visible' : 'hidden', cursor: 'pointer' }}
-                        onClick={() => setExpandCommentBox(true)}>
-                        <ReplyIcon className='reply-btn' fontSize='small' />
-                        Reply
+                    <span style={{ visibility: showTooltip ? 'visible' : 'hidden' }}>
+                        <span style={{ cursor: 'pointer' }}
+                            onClick={() => setExpandCommentBox(true)}>
+                            <ReplyIcon className='reply-btn' fontSize='small' />
+                            Reply
+                        </span>
+                        <span style={{ cursor: 'pointer' }}
+                            onClick={() => navigator.clipboard.writeText(`${window.location.href}comment/${comment.id}`)}>
+                            <LinkIcon className='reply-btn' fontSize='small' />
+                            Share
+                        </span>
                     </span>
                 </span>
                 {parse(comment.description)}
