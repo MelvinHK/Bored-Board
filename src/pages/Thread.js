@@ -53,7 +53,7 @@ function Thread() {
     useEffect(() => {
         setComments([])
         loadData()
-    }, [commentID])
+    }, [commentID, threadID])
 
     if (loading)
         return
@@ -96,7 +96,6 @@ function Thread() {
             {comments[0] && commentID ?
                 <p onClick={() => {
                     navigate(`/${forumURL}/thread/${threadID}`)
-                    window.location.reload()
                 }}
                     className='comment-replies-btn' style={{ marginTop: '30px' }}>
                     View full thread
