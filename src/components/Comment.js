@@ -6,10 +6,15 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import '../App.css'
 import CommentRichTextBox from "./CommentRichTextBox";
 import LinkIcon from '@mui/icons-material/Link'
+import { useParams } from "react-router-dom";
 
 function Comment({ comment }) {
-    const [showTooltip, setShowTooltip] = useState(false)
+    const { forumURL } = useParams()
+    const { threadID } = useParams()
+
     const [expandCommentBox, setExpandCommentBox] = useState(false)
+    const [showTooltip, setShowTooltip] = useState(false)
+    const [shareText, setShareText] = useState('Share')
 
     const [date, setDate] = useState(null)
     const [totalReplies, setTotalReplies] = useState(0)
@@ -23,21 +28,24 @@ function Comment({ comment }) {
 
     return (
         <>
-            <li onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => setShowTooltip(false)}>
+            <li onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => { setShowTooltip(false); setShareText('Share') }}>
                 <span className='comment-header'>
                     <span title={comment.date}>
                         {date}
                     </span>
                     <span style={{ visibility: showTooltip ? 'visible' : 'hidden' }}>
-                        <span style={{ cursor: 'pointer' }}
+                        <span className='comment-tooltip'
                             onClick={() => setExpandCommentBox(true)}>
-                            <ReplyIcon className='reply-btn' fontSize='small' />
+                            <ReplyIcon className='align-icon' fontSize='small' />
                             Reply
                         </span>
-                        <span style={{ cursor: 'pointer' }}
-                            onClick={() => navigator.clipboard.writeText(`${window.location.href}comment/${comment.id}`)}>
-                            <LinkIcon className='reply-btn' fontSize='small' />
-                            Share
+                        <span className='comment-tooltip'
+                            onClick={() => {
+                                setShareText('Link copied!')
+                                navigator.clipboard.writeText(`${window.location.origin}/${forumURL}/thread/${threadID}/comment/${comment.id}`)
+                            }}>
+                            <LinkIcon className='align-icon' fontSize='small' />
+                            {shareText}
                         </span>
                     </span>
                 </span>

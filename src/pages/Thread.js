@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import NotFound from '../components/NotFound'
 import parse from 'html-react-parser'
@@ -8,8 +8,11 @@ import Comment from '../components/Comment'
 import CommentRichTextBox from '../components/CommentRichTextBox'
 
 function Thread() {
+    const { forumURL } = useParams()
     const { threadID } = useParams()
     const { commentID } = useParams()
+    const navigate = useNavigate()
+
     const [thread, setThread] = useState()
     const [loading, setLoading] = useState(true)
 
@@ -44,7 +47,6 @@ function Thread() {
         await handleGetThread()
         await handleGetComments()
         await handleGetTotalComments()
-        console.log(comments)
         setLoading(false)
     }
 
@@ -90,6 +92,15 @@ function Thread() {
                 :
                 <p style={{ marginTop: '30px' }}>Comment does not exist</p>
             }
+            {commentID ?
+                <p onClick={() => {
+                    navigate(`/${forumURL}/thread/${threadID}`)
+                    window.location.reload()
+                }}
+                    className='comment-replies-btn' style={{ marginTop: '30px' }}>
+                    View full thread
+                </p>
+                : ''}
         </>
     )
 }

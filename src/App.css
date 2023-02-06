@@ -206,6 +206,7 @@ img {
 
 .comment-replies-btn:hover {
   background-color: rgba(255, 255, 255, 0);
+  color:black;
 }
 
 .comment-header {
@@ -213,7 +214,15 @@ img {
   color: gray;
 }
 
-.reply-btn {
+.comment-tooltip {
+  cursor: pointer;
+}
+
+.comment-tooltip:hover {
+  color: black;
+}
+
+.align-icon {
   transform: translateY(6px);
   margin-left: 10px;
   margin-right: 3px;
