@@ -51,8 +51,9 @@ function Thread() {
     }
 
     useEffect(() => {
+        setComments([])
         loadData()
-    }, [])
+    }, [commentID])
 
     if (loading)
         return
@@ -92,7 +93,7 @@ function Thread() {
                 :
                 <p style={{ marginTop: '30px' }}>Comment does not exist</p>
             }
-            {commentID ?
+            {comments[0] && commentID ?
                 <p onClick={() => {
                     navigate(`/${forumURL}/thread/${threadID}`)
                     window.location.reload()
