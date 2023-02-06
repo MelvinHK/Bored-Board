@@ -11,9 +11,12 @@ function Comment({ comment }) {
     const [expandCommentBox, setExpandCommentBox] = useState(false)
 
     const [date, setDate] = useState(null)
-    const [totalReplies, setTotalReplies] = useState(comment.totalReplies)
+    const [totalReplies, setTotalReplies] = useState(0)
+
+    const [submittedReplies, setSubmittedReplies] = useState([])
 
     useEffect(() => {
+        setTotalReplies(comment.totalReplies)
         setDate(timeSince(comment.createdAt.toDate()))
     }, [])
 
@@ -36,17 +39,22 @@ function Comment({ comment }) {
                 <CommentRichTextBox
                     expand={(value) => setExpandCommentBox(value)}
                     parentCommentID={comment.id}
-                    onSubmitted={(value) => {
-                        
+                    onSubmitted={(res) => {
+                        setSubmittedReplies([...submittedReplies, res])
                     }}
                 />}
-            {totalReplies > 0 ?
+            {totalReplies > 0 &&
                 <Replies
                     parentComment={comment}
                     label={`${totalReplies} repl${totalReplies === 1 ? 'y' : 'ies'}`}
-                />
-                : ''
-            }
+                    ignoreSubmittedReplies={submittedReplies}
+                />}
+            {submittedReplies.length > 0 &&
+                <div style={{ marginLeft: '20px' }}>
+                    {submittedReplies.map((reply) =>
+                        <Comment comment={reply} key={reply.id} />
+                    )}
+                </div>}
         </>
     )
 }

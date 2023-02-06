@@ -2,7 +2,7 @@ import { useState } from "react"
 import { getReplies, replyAmount } from "../firestore"
 import Comment from "./Comment"
 
-function Replies({ label, parentComment }) {
+function Replies({ label, parentComment, ignoreSubmittedReplies }) {
     const [fetched, setFetched] = useState(false)
     const [expanded, setExpanded] = useState(false)
 
@@ -11,8 +11,9 @@ function Replies({ label, parentComment }) {
 
     const handleGetReplies = async (parentCommentID, lastReplyID = undefined) => {
         const data = await getReplies(parentCommentID, lastReplyID)
+        const filtered = data.filter((reply) => !ignoreSubmittedReplies.find(ignoredReply => ignoredReply.id === reply.id))
+        setReplies(filtered)
         setFetched(true)
-        setReplies(data)
     }
 
     return (
