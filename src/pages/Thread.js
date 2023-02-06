@@ -55,7 +55,7 @@ function Thread() {
             <p>{thread.date}</p>
             {parse(thread.description)}
             <h3 style={{ marginTop: '30px' }}>
-                {totalComments} Comment{comments.length !== 1 ? 's' : ''}
+                {totalComments} Comment{comments.length !== 1 && 's'}
             </h3>
             {!expandCommentBox &&
                 <div className='comment-box-unexpanded' onClick={() => setExpandCommentBox(true)}>

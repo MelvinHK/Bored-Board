@@ -11,7 +11,10 @@ function Replies({ label, parentComment, ignoreSubmittedReplies }) {
 
     const handleGetReplies = async (parentCommentID, lastReplyID = undefined) => {
         const data = await getReplies(parentCommentID, lastReplyID)
-        const filtered = data.filter((reply) => !ignoreSubmittedReplies.find(ignoredReply => ignoredReply.id === reply.id))
+        const filtered = data.filter((fetchedReply) =>
+            !ignoreSubmittedReplies.find((ignoredReply) =>
+                ignoredReply.id === fetchedReply.id
+            ))
         setReplies(filtered)
         setFetched(true)
     }
