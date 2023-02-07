@@ -25,8 +25,9 @@ function App() {
                 <Route path='/' element={<Home />} />
                 <Route path=':forumURL' element={<Forum />}>
                     <Route index element={<ThreadList />} />
-                    <Route exact path='thread/:threadID' element={<Thread />} />
-                    <Route exact path='thread/:threadID/comment/:commentID' element={<Thread />} />
+                    <Route exact path='thread/:threadID' element={<Thread />} >
+                        <Route exact path='comment/:commentID' element={null} />
+                    </Route>
                     <Route path='post' element={<Post deepLink={true} />} />
                 </Route>
                 <Route path='about' element={<About />} />

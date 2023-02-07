@@ -51,6 +51,7 @@ function Post({ deepLink }) {
             createdAt: Timestamp.fromDate(new Date())
         })
         navigate(`/${forumURL}/thread/${res.id}`)
+        window.location.reload()
     }
 
     const postInvalid = () => { // Description validation detailed in '../components/RichTextBox'

@@ -8,7 +8,6 @@ import Comment from '../components/Comment'
 import CommentRichTextBox from '../components/CommentRichTextBox'
 
 function Thread() {
-    const { forumURL } = useParams()
     const { threadID } = useParams()
     const { commentID } = useParams()
     const navigate = useNavigate()
@@ -19,7 +18,8 @@ function Thread() {
     const [expandCommentBox, setExpandCommentBox] = useState(false)
 
     const [comments, setComments] = useState([])
-    var [totalComments, setTotal] = useState(0)
+    const [queried, setQueried] = useState(false)
+    const [totalComments, setTotal] = useState(0)
 
     const handleGetThread = async () => {
         const threadData = await getThread(threadID)
@@ -29,12 +29,12 @@ function Thread() {
     const handleGetComments = async () => {
         if (commentID) {
             var commentsData = await getComment(commentID)
-            if (!commentsData || commentsData[0].threadID !== threadID) {
+            if (!commentsData || commentsData[0].threadID !== threadID)
                 return setComments(null)
-            }
-        } else {
+            else
+                setQueried(true)
+        } else
             var commentsData = await getComments(threadID)
-        }
         setComments(commentsData)
     }
 
@@ -52,8 +52,9 @@ function Thread() {
 
     useEffect(() => {
         setComments([])
+        setQueried(false)
         loadData()
-    }, [commentID, threadID])
+    }, [commentID])
 
     if (loading)
         return
@@ -93,11 +94,8 @@ function Thread() {
                 :
                 <p style={{ marginTop: '30px' }}>Comment does not exist</p>
             }
-            {comments[0] && commentID ?
-                <p onClick={() => {
-                    navigate(`/${forumURL}/thread/${threadID}`)
-                }}
-                    className='comment-replies-btn' style={{ marginTop: '30px' }}>
+            {queried ?
+                <p onClick={() => { navigate(`./`) }} className='comment-replies-btn' style={{ marginTop: '30px' }}>
                     View full thread
                 </p>
                 : ''}
