@@ -18,8 +18,8 @@ function Thread() {
     const [expandCommentBox, setExpandCommentBox] = useState(false)
 
     const [comments, setComments] = useState([])
-    const [queried, setQueried] = useState(false)
     const [totalComments, setTotal] = useState(0)
+    const [queried, setQueried] = useState(false)
 
     const handleGetThread = async () => {
         const threadData = await getThread(threadID)
