@@ -39,6 +39,7 @@ function Forum() {
                 <h2>
                     <Link to={`/${forum.id}`}>
                         {forum.title}
+                        <img src={forum.logo} className='forum-logo'></img>
                     </Link>
                 </h2>
                 <p>{forum.description}</p>
