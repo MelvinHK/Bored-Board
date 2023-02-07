@@ -1,3 +1,8 @@
+export function setPageTitle(title = undefined) {
+    const defaultTitle = 'Bored Bored'
+    document.title = title ? `${title} - ${defaultTitle}` : defaultTitle
+}
+
 export function isValidHttpUrl(string) {
     const pattern = new RegExp(
         '^(https?:\\/\\/)?' + // protocol

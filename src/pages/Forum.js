@@ -3,11 +3,13 @@ import { Link, Outlet, useLocation, useParams } from 'react-router-dom'
 import NotFound from '../components/NotFound'
 import { getForum } from '../firestore'
 import '../App.css'
+import { setPageTitle } from "../utils"
 
 function Forum() {
     const [forum, setForum] = useState()
     const [loading, setLoading] = useState(true)
     const { forumURL } = useParams()
+    const { threadID } = useParams()
     const location = useLocation()
 
     const handleGetForum = async () => {
@@ -19,6 +21,11 @@ function Forum() {
     useEffect(() => {
         handleGetForum()
     }, [])
+
+    useEffect(() => {
+        if (forum)
+            setPageTitle(forum.title)
+    }, [forum, threadID])
 
     if (loading)
         return
@@ -42,7 +49,7 @@ function Forum() {
                 </Link>
             </div>
             <div className='main-column'>
-                <span style={{scrollbarGutter: 'stable'}}><Outlet /></span>
+                <span style={{ scrollbarGutter: 'stable' }}><Outlet /></span>
             </div>
         </div>
     )

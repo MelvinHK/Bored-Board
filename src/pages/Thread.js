@@ -6,6 +6,7 @@ import { getThread, getComments, getTotalComments, getComment } from '../firesto
 import '../App.css'
 import Comment from '../components/Comment'
 import CommentRichTextBox from '../components/CommentRichTextBox'
+import { setPageTitle } from '../utils'
 
 function Thread() {
     const { threadID } = useParams()
@@ -54,6 +55,10 @@ function Thread() {
         setQueried(false)
         loadData()
     }, [commentID])
+
+    useEffect(() => {
+        if (thread) setPageTitle(thread.title)
+    }, [thread])
 
     if (loading)
         return
