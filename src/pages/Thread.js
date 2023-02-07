@@ -51,7 +51,6 @@ function Thread() {
     }
 
     useEffect(() => {
-        setComments([])
         setQueried(false)
         loadData()
     }, [commentID])
