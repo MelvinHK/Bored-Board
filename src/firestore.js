@@ -1,5 +1,5 @@
 import { db } from "./firestoreConfig"
-import { collection, getDocs, query, where, doc, getDoc, addDoc, limit, startAfter, orderBy, updateDoc, increment, startAt } from "firebase/firestore"
+import { collection, getDocs, query, where, doc, getDoc, addDoc, limit, startAfter, orderBy, updateDoc, increment } from "firebase/firestore"
 
 const forumsRef = collection(db, "forums")
 const threadsRef = collection(db, "threads")
@@ -146,16 +146,10 @@ export const getReplies = async (commentID, lastReplyID = undefined) => {
     return []
 }
 
-export const getTotalComments = async (threadID) => {
-    var q = query(commentsRef,
-        where('threadID', '==', threadID))
-
-    const total = await getDocs(q)
-    return total.docs.length
-}
-
 export const postComment = async (data) => {
     const commentRef = await addDoc(commentsRef, data)
+    const threadRef = doc(db, "threads", data.threadID)
+    await updateDoc(threadRef, { totalComments: increment(1) })
     const comment = await getDoc(commentRef)
     return {
         ...comment.data(),

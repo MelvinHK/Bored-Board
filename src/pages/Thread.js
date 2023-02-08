@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import NotFound from '../components/NotFound'
 import parse from 'html-react-parser'
-import { getThread, getComments, getTotalComments, getComment } from '../firestore'
+import { getThread, getComments, getComment } from '../firestore'
 import '../App.css'
 import Comment from '../components/Comment'
 import CommentRichTextBox from '../components/CommentRichTextBox'
@@ -19,7 +19,6 @@ function Thread() {
     const [expandCommentBox, setExpandCommentBox] = useState(false)
 
     const [comments, setComments] = useState([])
-    const [totalComments, setTotal] = useState(0)
     const [queried, setQueried] = useState(false)
 
     const handleGetThread = async () => {
@@ -39,15 +38,9 @@ function Thread() {
         setComments(commentsData)
     }
 
-    const handleGetTotalComments = async () => {
-        const total = await getTotalComments(threadID)
-        setTotal(total)
-    }
-
     const loadData = async () => {
         await handleGetThread()
         await handleGetComments()
-        await handleGetTotalComments()
         setLoading(false)
     }
 
@@ -82,7 +75,7 @@ function Thread() {
             <p>{thread.date}</p>
             {parse(thread.description)}
             <h3 style={{ marginTop: '30px' }}>
-                {totalComments} Comment{totalComments !== 1 && 's'}
+                {thread.totalComments} Comment{thread.totalComments !== 1 && 's'}
             </h3>
             {!expandCommentBox &&
                 <div className='comment-box-unexpanded' onClick={() => setExpandCommentBox(true)}>

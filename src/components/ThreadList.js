@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useParams } from 'react-router-dom'
 import { getThreads } from '../firestore'
 import { timeSince } from "../utils"
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 function ThreadList() {
     const [threads, setThreads] = useState([])
@@ -46,6 +47,7 @@ function ThreadList() {
                         </Link>
                     </h3>
                     <span title={thread.date}>{timeSince(thread.createdAt.toDate())}</span>
+                    <ChatBubbleOutlineIcon className="align-icon" fontSize="small"/>{thread.totalComments}
                 </li>
             )}
         </ul>
