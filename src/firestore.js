@@ -71,13 +71,24 @@ export const postThread = async (data) => {
     return await addDoc(threadsRef, data)
 }
 
-export const getComments = async (threadID) => {
+export const getComments = async (threadID, lastCommentID = undefined) => {
     const amount = 10
-    var q = query(commentsRef,
-        where('threadID', '==', threadID),
-        where('parentID', '==', null),
-        orderBy('createdAt', 'desc'),
-        limit(amount))
+    if (lastCommentID) {
+        const commentRef = doc(db, "comments", lastCommentID)
+        const lastComment = await getDoc(commentRef)
+        var q = query(commentsRef,
+            where('threadID', '==', threadID),
+            where('parentID', '==', null),
+            orderBy('createdAt', 'desc'),
+            startAfter(lastComment),
+            limit(amount))
+    } else {
+        var q = query(commentsRef,
+            where('threadID', '==', threadID),
+            where('parentID', '==', null),
+            orderBy('createdAt', 'desc'),
+            limit(amount))
+    }
 
     const comments = await getDocs(q)
 

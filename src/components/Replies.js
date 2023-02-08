@@ -21,7 +21,7 @@ function Replies({ label, parentComment, ignoreSubmittedReplies }) {
 
     return (
         <>
-            <button className='comment-replies-btn' onClick={async () => {
+            <button className='gray-link' onClick={async () => {
                 setExpanded(!expanded)
                 if (!fetched)
                     await handleGetReplies(parentComment.id)
@@ -42,7 +42,7 @@ function Replies({ label, parentComment, ignoreSubmittedReplies }) {
                                         await handleGetReplies(parentComment.id, reply.id)
                                         setPreviousReplies(previousReplies.concat(replies))
                                     }}
-                                    className='comment-replies-btn'
+                                    className='gray-link'
                                     key={reply.id}>
                                     Show more replies
                                 </span>

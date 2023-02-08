@@ -60,6 +60,16 @@ function Thread() {
         if (thread) setPageTitle(thread.title)
     }, [thread])
 
+    // Root comments bottomless scrolling
+    window.onscroll = async (ev) => {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            const nextComments = await getComments(threadID, comments[comments.length - 1].id)
+            if (!nextComments)
+                return
+            setComments(comments.concat(nextComments))
+        }
+    }
+
     if (loading)
         return
 
@@ -99,7 +109,7 @@ function Thread() {
                 <p style={{ marginTop: '30px' }}>Comment does not exist</p>
             }
             {queried ?
-                <p onClick={() => { navigate(`./`) }} className='comment-replies-btn' style={{ marginTop: '30px' }}>
+                <p onClick={() => { navigate(`./`) }} className='gray-link' style={{ marginTop: '30px' }}>
                     View full thread
                 </p>
                 : ''}
