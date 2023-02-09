@@ -58,6 +58,7 @@ function Comment({ comment }) {
                     onSubmitted={(res) => {
                         setSubmittedReplies([...submittedReplies, res])
                     }}
+                    placeholderText='Leave a reply'
                 />}
             {totalReplies > 0 &&
                 <Replies

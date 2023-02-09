@@ -6,7 +6,7 @@ import RichTextBox from "./RichTextBox"
 import CircularProgress from '@mui/material/CircularProgress'
 
 
-function CommentRichTextBox({ expand, onSubmitted, parentCommentID }) {
+function CommentRichTextBox({ expand, onSubmitted, parentCommentID, placeholderText = 'Leave a comment' }) {
     const { threadID } = useParams()
     const [comment, setComment] = useState(null)
     const [submitLoading, setSubmitLoading] = useState(false)
@@ -32,7 +32,7 @@ function CommentRichTextBox({ expand, onSubmitted, parentCommentID }) {
         <div className={`comment-box ${submitLoading ? 'disabled-input' : ''}`}>
             <RichTextBox
                 getContent={(value) => setComment(value)}
-                placeholderText={'Leave a comment'}
+                placeholderText={placeholderText}
                 autofocus={true}
             />
             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

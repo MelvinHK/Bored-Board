@@ -79,14 +79,14 @@ export const getComments = async (threadID, lastCommentID = undefined) => {
         var q = query(commentsRef,
             where('threadID', '==', threadID),
             where('parentID', '==', null),
-            orderBy('createdAt', 'desc'),
+            orderBy('createdAt', 'asc'),
             startAfter(lastComment),
             limit(amount))
     } else {
         var q = query(commentsRef,
             where('threadID', '==', threadID),
             where('parentID', '==', null),
-            orderBy('createdAt', 'desc'),
+            orderBy('createdAt', 'asc'),
             limit(amount))
     }
 
