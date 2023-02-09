@@ -37,7 +37,7 @@ function Forum() {
         <div className='grid-container'>
             <div className='left-column'>
                 <h2>
-                    <Link to={`/${forum.id}`}>
+                    <Link style={{ color: 'black', textDecoration: 'none' }} to={`/${forum.id}`}>
                         {forum.title}
                         <img src={forum.logo} className='forum-logo'></img>
                     </Link>
@@ -50,7 +50,7 @@ function Forum() {
                 </Link>
             </div>
             <div className='main-column'>
-                <span style={{ scrollbarGutter: 'stable' }}><Outlet /></span>
+                <Outlet />
             </div>
         </div>
     )

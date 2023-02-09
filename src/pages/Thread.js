@@ -71,8 +71,8 @@ function Thread() {
 
     return (
         <>
-            <h3>{thread.title}</h3>
-            <p>{thread.date}</p>
+            <h3 style={{ marginBottom: '10px' }}>{thread.title}</h3>
+            <p style={{ marginBottom: '30px', color: 'gray' }}>{thread.date}</p>
             {parse(thread.description)}
             <h3 style={{ marginTop: '30px' }}>
                 {thread.totalComments} Comment{thread.totalComments !== 1 && 's'}

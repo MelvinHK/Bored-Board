@@ -30,7 +30,7 @@ function Comment({ comment }) {
         <>
             <li onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => { setShowTooltip(false); setShareText('Share') }}>
                 <span className='comment-header'>
-                    <span title={comment.date}>
+                    <span title={comment.date} >
                         {date}
                     </span>
                     <span style={{ visibility: showTooltip ? 'visible' : 'hidden' }}>

@@ -19,7 +19,7 @@ function ForumList() {
             {forums.map((forum) =>
                 <li key={forum.id}>
                     <h2>
-                        <Link to={`/${forum.id}`}>
+                        <Link className='black-link' to={`/${forum.id}`}>
                             {forum.title}
                         </Link>
                     </h2>

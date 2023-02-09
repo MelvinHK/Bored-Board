@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { getThreads } from '../firestore'
 import { timeSince } from "../utils"
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import SearchIcon from '@mui/icons-material/Search';
 
 function ThreadList() {
     const [threads, setThreads] = useState([])
@@ -38,19 +39,28 @@ function ThreadList() {
         )
 
     return (
-        <ul className='list'>
-            {threads.map((thread) =>
-                <li key={thread.id}>
-                    <h3>
-                        <Link to={`/${forumURL}/thread/${thread.id}`}>
-                            {thread.title}
-                        </Link>
-                    </h3>
-                    <span title={thread.date}>{timeSince(thread.createdAt.toDate())}</span>
-                    <ChatBubbleOutlineIcon className="align-icon" fontSize="small"/>{thread.totalComments}
-                </li>
-            )}
-        </ul>
+        <>
+            <div>
+                <SearchIcon className='align-icon' style={{ position: 'absolute', transform: 'translateY(28px)' }} color='action'/>
+                <input placeholder={'Search'} style={{ marginTop: '20px', width: '100%', paddingLeft: '40px' }}></input>
+            </div>
+            <ul className='list' style={{marginLeft:'10px'}}>
+                {threads.map((thread) =>
+                    <li key={thread.id}>
+                        <h3 style={{marginTop: '30px', marginBottom:'10px'}}>
+                            <Link className='black-link' to={`/${forumURL}/thread/${thread.id}`}>
+                                {thread.title}
+                            </Link>
+                        </h3>
+                        <span title={thread.date} style={{color:'gray'}}>
+                            {timeSince(thread.createdAt.toDate())}
+                            <ChatBubbleOutlineIcon className="align-icon" fontSize="small" color='action'/>
+                            {thread.totalComments}
+                        </span>
+                    </li>
+                )}
+            </ul>
+        </>
     )
 }
 
