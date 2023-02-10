@@ -54,8 +54,7 @@ function Comment({ comment }) {
                 </span>
                 {parse(comment.description)}
             </li>
-            {
-                expandCommentBox &&
+            {expandCommentBox &&
                 <CommentRichTextBox
                     expand={(value) => setExpandCommentBox(value)}
                     parentCommentID={comment.id}
@@ -63,24 +62,19 @@ function Comment({ comment }) {
                         setSubmittedReplies([...submittedReplies, res])
                     }}
                     placeholderText='Leave a reply'
-                />
-            }
-            {
-                totalReplies > 0 &&
+                />}
+            {totalReplies > 0 &&
                 <Replies
                     parentComment={comment}
                     label={`${totalReplies} repl${totalReplies === 1 ? 'y' : 'ies'}`}
                     ignoreSubmittedReplies={submittedReplies}
-                />
-            }
-            {
-                submittedReplies.length > 0 &&
+                />}
+            {submittedReplies.length > 0 &&
                 <div style={{ marginLeft: '20px' }}>
                     {submittedReplies.map((reply) =>
                         <Comment comment={reply} key={reply.id} />
                     )}
-                </div>
-            }
+                </div>}
         </>
     )
 }

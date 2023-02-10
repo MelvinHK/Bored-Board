@@ -41,7 +41,8 @@ function ThreadList() {
     return (
         <>
             <div>
-                <SearchIcon className='align-icon' style={{ position: 'absolute', transform: 'translateY(28px)' }} color='action' />
+                <SearchIcon className='align-icon'
+                    style={{ position: 'absolute', transform: 'translateY(28px)', marginLeft: '10px' }} color='action' />
                 <input placeholder={'Search'} style={{ marginTop: '20px', width: '100%', paddingLeft: '40px' }}></input>
             </div>
             <ul className='list' style={{ marginLeft: '10px' }}>
@@ -54,7 +55,8 @@ function ThreadList() {
                         </h3>
                         <span title={thread.date} style={{ color: 'gray' }}>
                             {timeSince(thread.createdAt.toDate())}
-                            <ChatBubbleOutlineIcon className="align-icon" fontSize="small" color='action' style={{ marginLeft: '10px' }} />
+                            <ChatBubbleOutlineIcon className="align-icon"
+                                fontSize="small" color='action' style={{ marginLeft: '10px' }} />
                             {thread.totalComments}
                         </span>
                     </li>
