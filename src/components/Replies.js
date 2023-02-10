@@ -21,7 +21,7 @@ function Replies({ label, parentComment, ignoreSubmittedReplies }) {
 
     return (
         <>
-            <button className='gray-link' onClick={async () => {
+            <button className='button-link' style={{padding:'5px', marginLeft:'-5px'}}onClick={async () => {
                 setExpanded(!expanded)
                 if (!fetched)
                     await handleGetReplies(parentComment.id)

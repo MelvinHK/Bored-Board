@@ -28,30 +28,34 @@ function Comment({ comment }) {
 
     return (
         <>
-            <li onMouseEnter={() => setShowTooltip(true)} onMouseLeave={() => { setShowTooltip(false); setShareText('Share') }}>
+            <li onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => { setShowTooltip(false); setShareText('Share') }}>
                 <span className='comment-header'>
                     <span title={comment.date} >
                         {date}
                     </span>
-                    <span style={{ visibility: showTooltip ? 'visible' : 'hidden' }}>
-                        <span className='comment-tooltip'
+                    <span style={{ opacity: showTooltip ? '100' : '0' }}>
+                        <button className='button-link comment-tooltip'
+                            onFocus={() => setShowTooltip(true)} onBlur={() => setShowTooltip(false)}
                             onClick={() => setExpandCommentBox(true)}>
                             <ReplyIcon className='align-icon' fontSize='small' />
                             Reply
-                        </span>
-                        <span className='comment-tooltip'
+                        </button>
+                        <button className='button-link comment-tooltip'
+                            onFocus={() => setShowTooltip(true)} onBlur={() => { setShowTooltip(false); setShareText('Share') }}
                             onClick={() => {
                                 setShareText('Link copied!')
                                 navigator.clipboard.writeText(`${window.location.origin}/${forumURL}/thread/${threadID}/comment/${comment.id}`)
                             }}>
                             <LinkIcon className='align-icon' fontSize='small' />
                             {shareText}
-                        </span>
+                        </button>
                     </span>
                 </span>
                 {parse(comment.description)}
             </li>
-            {expandCommentBox &&
+            {
+                expandCommentBox &&
                 <CommentRichTextBox
                     expand={(value) => setExpandCommentBox(value)}
                     parentCommentID={comment.id}
@@ -59,19 +63,24 @@ function Comment({ comment }) {
                         setSubmittedReplies([...submittedReplies, res])
                     }}
                     placeholderText='Leave a reply'
-                />}
-            {totalReplies > 0 &&
+                />
+            }
+            {
+                totalReplies > 0 &&
                 <Replies
                     parentComment={comment}
                     label={`${totalReplies} repl${totalReplies === 1 ? 'y' : 'ies'}`}
                     ignoreSubmittedReplies={submittedReplies}
-                />}
-            {submittedReplies.length > 0 &&
+                />
+            }
+            {
+                submittedReplies.length > 0 &&
                 <div style={{ marginLeft: '20px' }}>
                     {submittedReplies.map((reply) =>
                         <Comment comment={reply} key={reply.id} />
                     )}
-                </div>}
+                </div>
+            }
         </>
     )
 }

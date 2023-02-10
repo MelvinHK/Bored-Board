@@ -41,20 +41,20 @@ function ThreadList() {
     return (
         <>
             <div>
-                <SearchIcon className='align-icon' style={{ position: 'absolute', transform: 'translateY(28px)' }} color='action'/>
+                <SearchIcon className='align-icon' style={{ position: 'absolute', transform: 'translateY(28px)' }} color='action' />
                 <input placeholder={'Search'} style={{ marginTop: '20px', width: '100%', paddingLeft: '40px' }}></input>
             </div>
-            <ul className='list' style={{marginLeft:'10px'}}>
+            <ul className='list' style={{ marginLeft: '10px' }}>
                 {threads.map((thread) =>
                     <li key={thread.id}>
-                        <h3 style={{marginTop: '30px', marginBottom:'10px'}}>
+                        <h3 style={{ marginTop: '30px', marginBottom: '10px' }}>
                             <Link className='black-link' to={`/${forumURL}/thread/${thread.id}`}>
                                 {thread.title}
                             </Link>
                         </h3>
-                        <span title={thread.date} style={{color:'gray'}}>
+                        <span title={thread.date} style={{ color: 'gray' }}>
                             {timeSince(thread.createdAt.toDate())}
-                            <ChatBubbleOutlineIcon className="align-icon" fontSize="small" color='action'/>
+                            <ChatBubbleOutlineIcon className="align-icon" fontSize="small" color='action' style={{ marginLeft: '10px' }} />
                             {thread.totalComments}
                         </span>
                     </li>

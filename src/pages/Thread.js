@@ -78,7 +78,9 @@ function Thread() {
                 {thread.totalComments} Comment{thread.totalComments !== 1 && 's'}
             </h3>
             {!expandCommentBox &&
-                <div className='comment-box-unexpanded' onClick={() => setExpandCommentBox(true)}>
+                <div className='comment-box-unexpanded'
+                    onClick={() => setExpandCommentBox(true)}
+                    tabindex={0} onFocus={() => setExpandCommentBox(true)}>
                     Leave a comment
                 </div>}
             {expandCommentBox &&
@@ -102,9 +104,9 @@ function Thread() {
                 <p style={{ marginTop: '30px' }}>Comment does not exist</p>
             }
             {queried ?
-                <p onClick={() => { navigate(`./`) }} className='gray-link' style={{ marginTop: '30px' }}>
+                <button onClick={() => { navigate(`./`) }} className='button-link' style={{ marginTop: '10px' }}>
                     View full thread
-                </p>
+                </button>
                 : ''}
         </>
     )
