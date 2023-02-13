@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import { Link, useParams } from 'react-router-dom'
 import { getThreads } from '../firestore'
 import { timeSince } from "../utils"
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import SearchIcon from '@mui/icons-material/Search';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
+import SearchIcon from '@mui/icons-material/Search'
 
 function ThreadList() {
     const [threads, setThreads] = useState([])
@@ -48,17 +48,17 @@ function ThreadList() {
             <ul className='list' style={{ marginLeft: '10px' }}>
                 {threads.map((thread) =>
                     <li key={thread.id}>
-                        <h3 style={{ marginTop: '30px', marginBottom: '10px' }}>
+                        <h3 style={{ marginTop: '30px', marginBottom: '0px' }}>
                             <Link className='black-link' to={`/${forumURL}/thread/${thread.id}`}>
                                 {thread.title}
                             </Link>
                         </h3>
-                        <span title={thread.date} style={{ color: 'gray' }}>
+                        <p title={thread.date} style={{ color: 'gray' }}>
                             {timeSince(thread.createdAt.toDate())}
                             <ChatBubbleOutlineIcon className="align-icon"
                                 fontSize="small" color='action' style={{ marginLeft: '10px' }} />
                             {thread.totalComments}
-                        </span>
+                        </p>
                     </li>
                 )}
             </ul>

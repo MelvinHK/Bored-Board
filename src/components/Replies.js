@@ -21,17 +21,16 @@ function Replies({ label, parentComment, ignoreSubmittedReplies }) {
 
     return (
         <>
-            <button className='button-link' style={{padding:'5px', marginLeft:'-5px'}}onClick={async () => {
+            <button className='button-link' style={{ padding: '5px', marginLeft: '-5px' }} onClick={async () => {
                 setExpanded(!expanded)
                 if (!fetched)
                     await handleGetReplies(parentComment.id)
-                else
-                    document.getElementById(parentComment.id).style.display = expanded ? 'none' : 'inherit'
             }}>
                 {!expanded ? '\u23F7' : '\u23F6'} {label}
             </button>
-            <div style={{ marginLeft: '20px', marginTop: '10px' }}>
-                <ul id={parentComment.id} className='list' style={{ display: 'inherit' }} >
+            <div className='reply-line'>
+                <div style={{height: expanded ? 'inherit' : 'auto'}}></div>
+                <ul className='list' style={{ display: expanded ? 'inherit' : 'none' }} >
                     {previousReplies.map((reply) => <Comment comment={reply} key={reply.id} />)}
                     {replies.map((reply, index) => {
                         if (index === replyAmount - 1)
@@ -47,7 +46,9 @@ function Replies({ label, parentComment, ignoreSubmittedReplies }) {
                                     Show more replies
                                 </span>
                             )
-                        return <Comment comment={reply} key={reply.id} />
+                        return (
+                            <Comment comment={reply} key={reply.id} />
+                        )
                     })}
                 </ul>
             </div>

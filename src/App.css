@@ -25,6 +25,10 @@ html * {
   width: 100%;
 }
 
+p {
+  font-size: 15px;
+}
+
 a {
   text-decoration: none;
 }
@@ -108,7 +112,7 @@ button {
   cursor: pointer;
   margin-top: 10px;
   padding: 10px;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 button:hover {
@@ -254,4 +258,13 @@ img {
 .align-icon {
   transform: translateY(6px);
   margin-right: 3px;
+}
+
+.reply-line {
+  border-left: 1px solid lightgray;
+  height: auto;
+  display: 'inherit';
+  margin-top: 10px;
+  margin-left: 6.4px;
+  padding-left: 30px;
 }

@@ -43,7 +43,7 @@ function Forum() {
                     </Link>
                 </h2>
                 <p>{forum.description}</p>
-                <Link to={`/${forumURL}/post`} state={{ postModalBackground: location }} tabindex={-1}>
+                <Link to={`/${forumURL}/post`} state={{ postModalBackground: location }} tabIndex={-1}>
                     <button style={{ width: '100%' }}>
                         Post Thread
                     </button>

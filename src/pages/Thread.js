@@ -77,13 +77,13 @@ function Thread() {
             <h3 style={{ marginTop: '30px' }}>
                 {thread.totalComments} Comment{thread.totalComments !== 1 && 's'}
             </h3>
-            {!expandCommentBox &&
+            {!expandCommentBox ?
                 <div className='comment-box-unexpanded'
-                    onClick={() => setExpandCommentBox(true)}
-                    tabindex={0} onFocus={() => setExpandCommentBox(true)}>
+                    onClick={(e) => { if (e.type === 'click') setExpandCommentBox(true) }}>
+                    <span tabIndex={0} onFocus={() => setExpandCommentBox(true)} />
                     Leave a comment
-                </div>}
-            {expandCommentBox &&
+                </div>
+                :
                 <CommentRichTextBox
                     expand={(value) => setExpandCommentBox(value)}
                     onSubmitted={(value) => {
@@ -94,7 +94,7 @@ function Thread() {
                 <ul className='list'>
                     {comments.map((comment) => {
                         return (
-                            <div key={comment.id} style={{ marginTop: '30px' }}>
+                            <div key={comment.id} style={{ marginTop: '20px' }}>
                                 <Comment comment={comment} />
                             </div>
                         )
