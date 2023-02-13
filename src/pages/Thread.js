@@ -78,7 +78,7 @@ function Thread() {
                 {thread.totalComments} Comment{thread.totalComments !== 1 && 's'}
             </h3>
             {!expandCommentBox ?
-                <div className='comment-box-unexpanded'
+                <div className='comment-box-unexpanded' style={{ fontSize: '15px' }}
                     onClick={(e) => { if (e.type === 'click') setExpandCommentBox(true) }}>
                     <span tabIndex={0} onFocus={() => setExpandCommentBox(true)} />
                     Leave a comment
