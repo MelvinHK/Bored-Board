@@ -8,6 +8,7 @@ html * {
   background-position: center;
   background-attachment: fixed;
   background-size: 300px;
+  min-height: 80vh;
 }
 
 .container {
@@ -77,6 +78,7 @@ a:visited:not(.black-link, .nav li a) {
   padding: 30px;
   padding-top: 0;
   min-height: 630px;
+  box-shadow: 0 0 8px rgb(230, 230, 230);
 }
 
 .modal-div {
@@ -101,6 +103,8 @@ a:visited:not(.black-link, .nav li a) {
   padding: 30px;
   padding-bottom: 20px;
   padding-top: 5px;
+  box-shadow: 0 0 8px rgba(95, 95, 95, 0.4);
+;
 }
 
 button {
