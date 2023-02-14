@@ -29,7 +29,6 @@ function Replies({ label, parentComment, ignoreSubmittedReplies }) {
                 {!expanded ? '\u23F7' : '\u23F6'} {label}
             </button>
             <div className='reply-line'>
-                <div style={{height: expanded ? 'inherit' : 'auto'}}></div>
                 <ul className='list' style={{ display: expanded ? 'inherit' : 'none' }} >
                     {previousReplies.map((reply) => <Comment comment={reply} key={reply.id} />)}
                     {replies.map((reply, index) => {

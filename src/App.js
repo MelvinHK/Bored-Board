@@ -14,7 +14,6 @@ function App() {
 
     return (
         <div className='container'>
-            <Navbar />
             <div style={{ marginTop: '70px' }}></div>
             <Routes location={postModalBackground || location}>
                 <Route path='/' element={<Home />} />
@@ -33,6 +32,7 @@ function App() {
                     <Route path=":forumURL/post" element={<Post />} />
                 </Routes>
             )}
+            <Navbar />
         </div>
     )
 }

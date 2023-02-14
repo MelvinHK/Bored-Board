@@ -70,7 +70,7 @@ function Comment({ comment }) {
                     ignoreSubmittedReplies={submittedReplies}
                 />}
             {submittedReplies.length > 0 &&
-                <div style={{ marginLeft: '20px' }}>
+                <div className='reply-line'>
                     {submittedReplies.map((reply) =>
                         <Comment comment={reply} key={reply.id} />
                     )}

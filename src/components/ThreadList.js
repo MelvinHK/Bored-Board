@@ -6,11 +6,16 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 import SearchIcon from '@mui/icons-material/Search'
 
 function ThreadList() {
-    const [threads, setThreads] = useState([])
     const { forumURL } = useParams()
+    const [threads, setThreads] = useState([])
+    const [moreThreads, setMoreThreads] = useState(false)
 
     const handleGetThreads = async () => {
         const data = await getThreads(forumURL)
+        if (data[10]) {
+            data.pop()
+            setMoreThreads(true)
+        }
         setThreads(data)
     }
 
@@ -19,11 +24,11 @@ function ThreadList() {
     }, [])
 
     // Bottomless scrolling
-    window.onscroll = async (ev) => {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    window.onscroll = async () => {
+        if (moreThreads && (window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
             const nextThreads = await getThreads(forumURL, threads[threads.length - 1].id)
-            if (!nextThreads)
-                return
+            if (nextThreads.length < 11)
+                setMoreThreads(false)
             setThreads(threads.concat(nextThreads))
         }
     }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link, Outlet, useLocation, useParams } from 'react-router-dom'
+import { Link, Outlet, useLocation, useParams, useNavigate } from 'react-router-dom'
 import NotFound from '../components/NotFound'
 import { getForum } from '../firestore'
 import '../App.css'
@@ -11,6 +11,7 @@ function Forum() {
     const { forumURL } = useParams()
     const { threadID } = useParams()
     const location = useLocation()
+    const navigate = useNavigate()
 
     const handleGetForum = async () => {
         const data = await getForum(forumURL)
@@ -43,11 +44,10 @@ function Forum() {
                     </Link>
                 </h2>
                 <p>{forum.description}</p>
-                <Link to={`/${forumURL}/post`} state={{ postModalBackground: location }} tabIndex={-1}>
-                    <button style={{ width: '100%' }}>
-                        Post Thread
-                    </button>
-                </Link>
+                <button style={{ width: '100%' }}
+                    onClick={() => navigate(`/${forumURL}/post`, { state: { postModalBackground: location } })}>
+                    Post Thread
+                </button>
             </div>
             <div className='main-column'>
                 <Outlet />

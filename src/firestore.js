@@ -22,7 +22,7 @@ export const getForum = async (forumURL) => {
 
 // Get threads from a forum, can specify a starting point for the search which is used for pagination
 export const getThreads = async (forumID, lastThreadID = undefined) => {
-    const amount = 10
+    const amount = 11
 
     if (lastThreadID) {
         const threadRef = doc(db, "threads", lastThreadID)
@@ -72,7 +72,7 @@ export const postThread = async (data) => {
 }
 
 export const getComments = async (threadID, lastCommentID = undefined) => {
-    const amount = 10
+    const amount = 11
     if (lastCommentID) {
         const commentRef = doc(db, "comments", lastCommentID)
         const lastComment = await getDoc(commentRef)

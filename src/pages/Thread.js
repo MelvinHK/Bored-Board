@@ -20,6 +20,7 @@ function Thread() {
 
     const [comments, setComments] = useState([])
     const [queried, setQueried] = useState(false)
+    const [moreComments, setMoreComments] = useState(false)
 
     const handleGetThread = async () => {
         const threadData = await getThread(threadID)
@@ -35,6 +36,10 @@ function Thread() {
                 setQueried(true)
         } else
             var commentsData = await getComments(threadID)
+        if (commentsData[10]) {
+            commentsData.pop()
+            setMoreComments(true)
+        }
         setComments(commentsData)
     }
 
@@ -53,12 +58,12 @@ function Thread() {
         if (thread) setPageTitle(thread.title)
     }, [thread])
 
-    // Root comments bottomless scrolling
-    window.onscroll = async (ev) => {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    // Comments bottomless scrolling
+    window.onscroll = async () => {
+        if (moreComments && (window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
             const nextComments = await getComments(threadID, comments[comments.length - 1].id)
-            if (!nextComments)
-                return
+            if (nextComments.length < 11)
+                setMoreComments(false)
             setComments(comments.concat(nextComments))
         }
     }
