@@ -14,9 +14,10 @@ function App() {
 
     return (
         <div className='container'>
-            <div style={{ marginTop: '70px' }}></div>
+            <div style={{ marginTop: '70px' }} />
             <Routes location={postModalBackground || location}>
                 <Route path='/' element={<Home />} />
+                <Route path='about' element={<About />} />
                 <Route path=':forumURL' element={<Forum />}>
                     <Route index element={<ThreadList />} />
                     <Route exact path='thread/:threadID' element={<Thread />} >
@@ -24,7 +25,6 @@ function App() {
                     </Route>
                     <Route path='post' element={<Post deepLink={true} />} />
                 </Route>
-                <Route path='about' element={<About />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
             {postModalBackground && (
@@ -32,6 +32,7 @@ function App() {
                     <Route path=":forumURL/post" element={<Post />} />
                 </Routes>
             )}
+            <div className='nav-box' />
             <Navbar />
         </div>
     )
