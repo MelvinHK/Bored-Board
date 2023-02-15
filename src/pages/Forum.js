@@ -35,7 +35,7 @@ function Forum() {
         return <NotFound error={"Board does not exist"} />
 
     return (
-        <div className='grid-container'>
+        <>
             <div className='left-column'>
                 <h2>
                     <Link style={{ color: 'black', textDecoration: 'none' }} to={`/${forum.id}`}>
@@ -52,7 +52,7 @@ function Forum() {
             <div className='main-column'>
                 <Outlet />
             </div>
-        </div>
+        </>
     )
 }
 

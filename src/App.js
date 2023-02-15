@@ -14,26 +14,27 @@ function App() {
 
     return (
         <div className='container'>
-            <div style={{ marginTop: '70px' }} />
-            <Routes location={postModalBackground || location}>
-                <Route path='/' element={<Home />} />
-                <Route path='about' element={<About />} />
-                <Route path=':forumURL' element={<Forum />}>
-                    <Route index element={<ThreadList />} />
-                    <Route exact path='thread/:threadID' element={<Thread />} >
-                        <Route exact path='comment/:commentID' element={null} />
+            <div className='inner-container'>
+                <Routes location={postModalBackground || location}>
+                    <Route path='/' element={<Home />} />
+                    <Route path='about' element={<About />} />
+                    <Route path=':forumURL' element={<Forum />}>
+                        <Route index element={<ThreadList />} />
+                        <Route exact path='thread/:threadID' element={<Thread />} >
+                            <Route exact path='comment/:commentID' element={null} />
+                        </Route>
+                        <Route path='post' element={<Post deepLink={true} />} />
                     </Route>
-                    <Route path='post' element={<Post deepLink={true} />} />
-                </Route>
-                <Route path='*' element={<NotFound />} />
-            </Routes>
-            {postModalBackground && (
-                <Routes>
-                    <Route path=":forumURL/post" element={<Post />} />
+                    <Route path='*' element={<NotFound />} />
                 </Routes>
-            )}
-            <div className='nav-box' />
-            <Navbar />
+                {postModalBackground && (
+                    <Routes>
+                        <Route path=":forumURL/post" element={<Post />} />
+                    </Routes>
+                )}
+                <div className='nav-box' />
+                <Navbar />
+            </div>
         </div>
     )
 }

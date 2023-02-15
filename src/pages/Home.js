@@ -5,7 +5,7 @@ function Home() {
     setPageTitle()
 
     return (
-        <div className='home-page-logo grid-container'>
+        <div className='home-page-logo'>
             <h1>Boards:</h1>
             <ForumList />
         </div>
