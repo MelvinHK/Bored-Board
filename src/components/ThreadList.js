@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from 'react-router-dom'
 import { getThreads } from '../firestore'
-import { timeSince } from "../utils"
+import { isElementInView, timeSince } from "../utils"
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 import SearchIcon from '@mui/icons-material/Search'
 
@@ -23,15 +23,25 @@ function ThreadList() {
         handleGetThreads()
     }, [])
 
-    // Bottomless scrolling
-    window.onscroll = async () => {
-        if (moreThreads && (window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    // Bottomless Scrolling
+    const getMoreThreads = async () => {
+        if (moreThreads) {
             const nextThreads = await getThreads(forumURL, threads[threads.length - 1].id)
             if (nextThreads.length < 11)
                 setMoreThreads(false)
             setThreads(threads.concat(nextThreads))
         }
     }
+
+    useEffect(() => {
+        let observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting)
+                    getMoreThreads()
+            })
+        })
+        observer.observe(document.getElementById('bottom'))
+    })
 
     if (!threads)
         return (
@@ -50,7 +60,7 @@ function ThreadList() {
                     style={{ position: 'absolute', transform: 'translateY(28px)', marginLeft: '10px' }} color='action' />
                 <input placeholder={'Search'} style={{ marginTop: '20px', width: '100%', paddingLeft: '40px' }}></input>
             </div>
-            <ul className='list' style={{ marginLeft: '10px' }}>
+            <ul id='threadList' className='list' style={{ marginLeft: '10px' }}>
                 {threads.map((thread) =>
                     <li key={thread.id}>
                         <h3 style={{ marginTop: '30px', marginBottom: '0px' }}>

@@ -51,6 +51,7 @@ function Forum() {
             </div>
             <div className='main-column'>
                 <Outlet />
+                <div id='bottom' className='column-bottom' />
             </div>
         </>
     )

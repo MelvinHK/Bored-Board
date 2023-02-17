@@ -58,15 +58,24 @@ function Thread() {
         if (thread) setPageTitle(thread.title)
     }, [thread])
 
-    // Comments bottomless scrolling
-    window.onscroll = async () => {
-        if (moreComments && (window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    const getMoreComments = async () => {
+        if (moreComments) {
             const nextComments = await getComments(threadID, comments[comments.length - 1].id)
             if (nextComments.length < 11)
                 setMoreComments(false)
             setComments(comments.concat(nextComments))
         }
     }
+
+    useEffect(() => {
+        let observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting)
+                    getMoreComments()
+            })
+        })
+        observer.observe(document.getElementById('bottom'))
+    })
 
     if (loading)
         return
