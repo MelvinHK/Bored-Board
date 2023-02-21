@@ -84,9 +84,9 @@ a:visited:not(.black-link, .nav li a) {
 
 .main-column {
   position: relative;
-  margin-left: 310px;
+  margin: auto;
   max-width: 700px;
-  border: solid 1px lightgrey;
+  border: solid 1px #e7e7e7;
   border-radius: 5px;
   padding: 30px;
   padding-top: 0;
@@ -96,6 +96,12 @@ a:visited:not(.black-link, .nav li a) {
 .column-bottom {
   position: 'absolute';
   bottom: '0';
+}
+
+@media only screen and (max-width:1540px) {
+  .main-column {
+    margin-left: 310px
+  }
 }
 
 @media only screen and (max-width: 870px) {
