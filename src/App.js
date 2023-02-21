@@ -13,7 +13,7 @@ function App() {
     const postModalBackground = location.state && location.state.postModalBackground
 
     return (
-        <div className='container'>
+        <>
             <Routes location={postModalBackground || location}>
                 <Route path='/' element={<Home />} />
                 <Route path='about' element={<About />} />
@@ -33,7 +33,7 @@ function App() {
             )}
             <div className='nav-box' />
             <Navbar />
-        </div>
+        </>
     )
 }
 

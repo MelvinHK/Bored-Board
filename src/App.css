@@ -2,6 +2,25 @@ html * {
   font-family: Arial !important;
 }
 
+body {
+  margin-left: 4.5%;
+  margin-right: 4.5%;
+  margin-bottom: 20px;
+  margin-top: 80px;
+}
+
+p {
+  font-size: 15px;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:visited:not(.black-link, .nav li a) {
+  color: blue;
+}
+
 .home-page-logo {
   background-image: url(https://firebasestorage.googleapis.com/v0/b/reactmessageboardapp.appspot.com/o/logos%26icons%2FbbLogo.png?alt=media&token=1e8b2f64-e372-4c11-8b11-2ed0935b7657);
   background-repeat: no-repeat;
@@ -9,13 +28,6 @@ html * {
   background-attachment: fixed;
   background-size: 300px;
   min-height: 80vh;
-}
-
-.container {
-  margin-left: 4.5%;
-  margin-right: 4.5%;
-  margin-bottom: 20px;
-  margin-top: 80px;
 }
 
 .nav-box {
@@ -35,18 +47,6 @@ html * {
   margin: 0;
   padding: 0;
   top: 0;
-}
-
-p {
-  font-size: 15px;
-}
-
-a {
-  text-decoration: none;
-}
-
-a:visited:not(.black-link, .nav li a) {
-  color: blue;
 }
 
 .nav li {
@@ -83,7 +83,6 @@ a:visited:not(.black-link, .nav li a) {
 }
 
 .main-column {
-  position: relative;
   margin: auto;
   max-width: 700px;
   border: solid 1px #e7e7e7;
@@ -110,10 +109,6 @@ a:visited:not(.black-link, .nav li a) {
     margin-top: -50px;
     display: flex;
     width: 100%;
-  }
-
-  .left-column h2 {
-    margin-top: 0;
   }
 
   .left-column p {
