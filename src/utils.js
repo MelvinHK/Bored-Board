@@ -16,25 +16,6 @@ export function isValidHttpUrl(string) {
     return pattern.test(string);
 }
 
-export function getBlobURLFromHTML(htmlString) {
-    var doc = new DOMParser().parseFromString(htmlString, "text/html")
-    var imageElement = doc.getElementsByTagName("img")[0]
-    if (imageElement !== undefined)
-        return imageElement.src
-    return null
-}
-
-export function replaceBlobURLWithFirebaseURL(htmlString, firebaseURL) {
-    var doc = new DOMParser().parseFromString(htmlString, "text/html")
-    doc.getElementsByTagName("img")[0].src = firebaseURL
-    return doc.body.innerHTML
-}
-
-export async function getFileBlob(url) {
-    const blob = await fetch(url).then(res => res.blob())
-    return blob
-}
-
 export function timeSince(date) {
     var seconds = Math.floor((new Date() - date) / 1000);
     var interval = seconds / 31536000;
