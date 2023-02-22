@@ -87,7 +87,8 @@ function Thread() {
         <>
             <h3 style={{ marginBottom: '10px' }}>{thread.title}</h3>
             <p style={{ marginBottom: '30px', color: 'gray' }}>{thread.date}</p>
-            {parse(thread.description)}
+            {thread.description && parse(thread.description)}
+            {thread.imageURL && <img src={thread.imageURL} />}
             <h3 style={{ marginTop: '30px' }}>
                 {thread.totalComments} Comment{thread.totalComments !== 1 && 's'}
             </h3>
@@ -117,11 +118,10 @@ function Thread() {
                 :
                 <p style={{ marginTop: '30px' }}>Comment does not exist</p>
             }
-            {queried ?
+            {queried &&
                 <button onClick={() => { navigate(`./`) }} className='button-link' style={{ marginTop: '10px' }}>
                     View full thread
-                </button>
-                : ''}
+                </button>}
         </>
     )
 }

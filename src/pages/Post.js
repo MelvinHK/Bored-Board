@@ -15,6 +15,7 @@ function Post({ deepLink }) {
 
     const [title, setTitle] = useState('')
     var [description, setDescription] = useState(null)
+    const [image, setImage] = useState()
     const [submitLoading, setSubmitLoading] = useState(false)
 
     useEffect(() => {
@@ -23,16 +24,13 @@ function Post({ deepLink }) {
     }, [])
 
     const handleSubmit = async () => { // Does not abort if user leaves page
-        const blobURL = getBlobURLFromHTML(description)
-        if (blobURL) {
+        if (image) {
             const storage = getStorage()
-            const filepath = `/images/${blobURL.substring(blobURL.lastIndexOf('/') + 1)}`
+            const filepath = `/images/${image.name}`
             const storageRef = ref(storage, filepath)
-            const blob = await getFileBlob(blobURL)
             try {
-                await uploadBytes(storageRef, blob)
-                const url = await getDownloadURL(storageRef)
-                description = replaceBlobURLWithFirebaseURL(description, url)
+                await uploadBytes(storageRef, image)
+                var url = await getDownloadURL(storageRef)
             } catch (error) {
                 switch (error.code) {
                     case 'storage/unauthorized':
@@ -48,16 +46,11 @@ function Post({ deepLink }) {
             title: title,
             description: description,
             forumID: forumURL,
-            createdAt: Timestamp.fromDate(new Date())
+            createdAt: Timestamp.fromDate(new Date()),
+            imageURL: url ? url : null
         })
         navigate(`/${forumURL}/thread/${res.id}`)
         window.location.reload()
-    }
-
-    const postInvalid = () => { // Description validation detailed in '../components/RichTextBox'
-        if (title === '' || title.trim().length === 0 || description === null)
-            return true
-        return false
     }
 
     return (
@@ -72,27 +65,19 @@ function Post({ deepLink }) {
                     autoFocus
                 />
                 <RichTextBox
-                    getContent={(value) => setDescription(value)}
+                    getDescription={(value) => setDescription(value)}
+                    getImage={(file) => setImage(file)}
                     enableHeading={true}
                     enableImage={true}
                     placeholderText={'Description'}
+                    submitEvent={async () => {
+                        setSubmitLoading(true)
+                        await handleSubmit()
+                        setSubmitLoading(false)
+                    }}
+                    cancelEvent={() => navigate(previousURL)}
+                    submitDisabled={title === '' || title.trim().length === 0}
                 />
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <button
-                        onClick={async () => {
-                            setSubmitLoading(true)
-                            await handleSubmit()
-                            setSubmitLoading(false)
-                        }}
-                        style={{ marginRight: '10px' }}
-                        disabled={postInvalid()}
-                    >
-                        Submit
-                    </button>
-                    <button onClick={() => navigate(previousURL)}>
-                        Cancel
-                    </button>
-                </div>
             </div>
             <CircularProgress style={{
                 position: 'absolute',
