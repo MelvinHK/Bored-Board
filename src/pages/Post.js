@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { RichTextBox } from '../components/RichTextBox'
-import { postThread } from '../firestore'
+import { postImage, postThread } from '../firestore'
 import { Timestamp } from 'firebase/firestore'
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 
 import '../App.css'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -14,7 +13,7 @@ function Post({ deepLink }) {
     const previousURL = deepLink ? `/${forumURL}` : -1
 
     const [title, setTitle] = useState('')
-    var [description, setDescription] = useState(null)
+    const [description, setDescription] = useState(null)
     const [image, setImage] = useState()
     const [submitLoading, setSubmitLoading] = useState(false)
 
@@ -25,22 +24,8 @@ function Post({ deepLink }) {
 
     const handleSubmit = async () => { // Does not abort if user leaves page
         if (image) {
-            const storage = getStorage()
-            const filepath = `/images/${image.name}`
-            const storageRef = ref(storage, filepath)
-            try {
-                await uploadBytes(storageRef, image)
-                var url = await getDownloadURL(storageRef)
-            } catch (error) {
-                switch (error.code) {
-                    case 'storage/unauthorized':
-                        window.alert("Invalid file. Must be JPEG/PNG and less than 8MB.")
-                        return
-                    default:
-                        window.alert("An unknown error occured.")
-                        return
-                }
-            }
+            var url = await postImage(image)
+            if (!url) return
         }
         const res = await postThread({
             title: title,
@@ -67,8 +52,6 @@ function Post({ deepLink }) {
                 <RichTextBox
                     getDescription={(value) => setDescription(value)}
                     getImage={(file) => setImage(file)}
-                    enableHeading={true}
-                    enableImage={true}
                     placeholderText={'Description'}
                     submitEvent={async () => {
                         setSubmitLoading(true)

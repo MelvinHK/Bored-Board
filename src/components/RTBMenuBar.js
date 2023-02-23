@@ -4,7 +4,6 @@ import FormatBoldIcon from '@mui/icons-material/FormatBold'
 import FormatItalicIcon from '@mui/icons-material/FormatItalic'
 import StrikethroughSIcon from '@mui/icons-material/StrikethroughS'
 import LinkIcon from '@mui/icons-material/Link'
-import TitleIcon from '@mui/icons-material/Title'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered'
 import ImageIcon from '@mui/icons-material/Image'
@@ -12,7 +11,7 @@ import ImageIcon from '@mui/icons-material/Image'
 import '../App.css'
 import { isValidHttpUrl } from '../utils'
 
-export function MenuBar({ editor, headingEnabled, imageEnabled, passImage }) {
+export function MenuBar({ editor, passImage }) {
     const toggleLink = useCallback(() => {
         const previousUrl = editor.getAttributes('link').href
         var url = window.prompt('Enter URL:', previousUrl)
@@ -77,13 +76,6 @@ export function MenuBar({ editor, headingEnabled, imageEnabled, passImage }) {
         >
             <LinkIcon />
         </button>
-        {headingEnabled && <button
-            onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-            className={`rtb-menu-btns ${editor.isActive('heading', { level: 3 }) ? 'is-active' : ''}`}
-            title="Heading"
-        >
-            <TitleIcon />
-        </button>}
         <button
             onClick={() => editor.chain().focus().toggleBulletList().run()}
             className={`rtb-menu-btns ${editor.isActive('bulletList') ? 'is-active' : ''}`}
@@ -98,12 +90,9 @@ export function MenuBar({ editor, headingEnabled, imageEnabled, passImage }) {
         >
             <FormatListNumberedIcon />
         </button>
-        {imageEnabled && <button
-            onClick={chooseImage}
-            className={`rtb-menu-btns`}
-        >
+        <button onClick={chooseImage} className={`rtb-menu-btns`}>
             <ImageIcon />
-        </button>}
+        </button>
     </>)
 }
 

@@ -1,5 +1,6 @@
 import { db } from "./firestoreConfig"
 import { collection, getDocs, query, where, doc, getDoc, addDoc, limit, startAfter, orderBy, updateDoc, increment } from "firebase/firestore"
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 
 const forumsRef = collection(db, "forums")
 const threadsRef = collection(db, "threads")
@@ -69,6 +70,25 @@ export const getThread = async (threadID) => {
 
 export const postThread = async (data) => {
     return await addDoc(threadsRef, data)
+}
+
+export const postImage = async (image) => {
+    const storage = getStorage()
+    const filepath = `/images/${image.name}`
+    const storageRef = ref(storage, filepath)
+    try {
+        await uploadBytes(storageRef, image)
+        return getDownloadURL(storageRef)
+    } catch (error) {
+        switch (error.code) {
+            case 'storage/unauthorized':
+                window.alert("Invalid file. Must be JPEG/PNG and less than 8MB.")
+                return false
+            default:
+                window.alert("An unknown error occured.")
+                return false
+        }
+    }
 }
 
 export const getComments = async (threadID, lastCommentID = undefined) => {

@@ -39,7 +39,7 @@ function Forum() {
             <h2>
                 <Link style={{ color: 'black', textDecoration: 'none' }} to={`/${forum.id}`}>
                     {forum.title}
-                    <img src={forum.logo} className='forum-logo'></img>
+                    <img src={forum.logo} className='forum-logo center-img'></img>
                 </Link>
             </h2>
             <p>{forum.description}</p>
@@ -48,9 +48,12 @@ function Forum() {
                 Post Thread
             </button>
         </div>
-        <div className='main-column'>
-            <Outlet />
-            <div id='bottom' className='column-bottom' />
+        <div className='flex'>
+            <div className='spacer' />
+            <div className='main-column'>
+                <Outlet />
+                <div id='bottom' className='column-bottom' />
+            </div>
         </div>
     </>)
 }

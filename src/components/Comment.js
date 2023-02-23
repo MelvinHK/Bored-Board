@@ -49,7 +49,10 @@ function Comment({ comment }) {
                     </button>
                 </span>
             </span>
-            {parse(comment.description)}
+            <span className='flex'>
+                {comment.imageURL && <img className='comment-img' src={comment.imageURL} />}
+                {parse(comment.description)}
+            </span>
         </li>
         {expandCommentBox &&
             <CommentRichTextBox
