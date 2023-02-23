@@ -26,6 +26,10 @@ a:hover:not(.black-link, .nav li a) {
   text-decoration: underline;
 }
 
+img {
+  border-radius: 5px;
+}
+
 .home-page-logo {
   background-image: url(https://firebasestorage.googleapis.com/v0/b/reactmessageboardapp.appspot.com/o/logos%26icons%2FbbLogo.png?alt=media&token=1e8b2f64-e372-4c11-8b11-2ed0935b7657);
   background-repeat: no-repeat;
@@ -268,7 +272,6 @@ input {
 .comment-img {
   margin: 10px 10px 10px 0;
   max-width: 30%;
-  border-radius: 5px;
 }
 
 .forum-logo {
