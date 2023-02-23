@@ -409,12 +409,24 @@ input {
   display: flex;
 }
 
+.f-wrap {
+  flex-wrap: wrap;
+}
+
+.f-start {
+  justify-content: flex-start;
+}
+
 .f-center {
   align-items: center;
 }
 
 .f-end {
   justify-content: flex-end;
+}
+
+.f-break {
+  width: 100%;
 }
 
 .mt0 {

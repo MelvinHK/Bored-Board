@@ -86,8 +86,8 @@ function Thread() {
     return (<>
         <h3 className='mt0 mb10'>{thread.title}</h3>
         <p className='mb30 gray'>{thread.date}</p>
-        {thread.description && parse(thread.description)}
         {thread.imageURL && <img className='center-img' src={thread.imageURL} />}
+        {thread.description && parse(thread.description)}
         <h4 className='mt30'>
             {thread.totalComments} Comment{thread.totalComments !== 1 && 's'}
         </h4>

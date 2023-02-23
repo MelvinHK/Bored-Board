@@ -5,7 +5,7 @@ import { timeSince } from "../utils"
 
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 import SearchIcon from '@mui/icons-material/Search'
-import AttachFileIcon from '@mui/icons-material/AttachFile';
+import ImagePreview from "./ImagePreview"
 
 function ThreadList() {
     const { forumURL } = useParams()
@@ -68,15 +68,11 @@ function ThreadList() {
                             {thread.title}
                         </Link>
                     </h4>
-                    <p className='flex f-center mt15 gray'>
+                    <p className='flex f-start f-center f-wrap mt15 gray'>
                         <span title={thread.date}>{timeSince(thread.createdAt.toDate())}</span>
                         <ChatBubbleOutlineIcon className='chat-icon' fontSize='small' />
                         {thread.totalComments}
-                        {thread.imageURL &&
-                            <button className='button-link'>
-                                <AttachFileIcon className='paperclip-icon' fontSize='small' />
-                            </button>
-                        }
+                        {thread.imageURL && <ImagePreview imageURL={thread.imageURL} />}
                     </p>
                 </li>
             )}
