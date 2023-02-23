@@ -37,41 +37,37 @@ export function RichTextBox({ getDescription, getImage, submitEvent, cancelEvent
         return submitDisabled || !image && (editor.isEmpty || editor.getText().trim().length === 0)
     }
 
-    return (
-        <>
-            {editor && <>
-                <div className='rtb'>
-                    <div className='rtb-menu'>
-                        <MenuBar editor={editor}
-                            passImage={passImage}
-                            headingEnabled={enableHeading} imageEnabled={enableImage} />
-                    </div>
-                    <EditorContent editor={editor} />
+    return (<>
+        {editor && <>
+            <div className='rtb'>
+                <div className='rtb-menu'>
+                    <MenuBar editor={editor}
+                        passImage={passImage}
+                        headingEnabled={enableHeading} imageEnabled={enableImage} />
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: '10px' }}>
-                    {image &&
-                        <>
-                            <p style={{ margin: '0 5px 0 0' }}>{image.name}</p>
-                            <button className='button-link' style={{ margin: '5px auto 0 0' }}
-                                onClick={() => setImage()}>
-                                <CloseIcon fontSize='small' />
-                            </button>
-                        </>
-                    }
-                    <button
-                        onClick={submitEvent}
-                        style={{ marginRight: '10px' }}
-                        disabled={contentInvalid()}
-                    >
-                        Submit
+                <EditorContent editor={editor} />
+            </div>
+            <div className='flex f-end f-center mt10'>
+                {image && <>
+                    <p style={{ margin: '0 5px 0 0' }}>{image.name}</p>
+                    <button className='button-link' style={{ margin: '5px auto 0 0' }}
+                        onClick={() => setImage()}>
+                        <CloseIcon fontSize='small' />
                     </button>
-                    <button onClick={cancelEvent}>
-                        Cancel
-                    </button>
-                </div>
-            </>}
-        </>
-    )
+                </>}
+                <button
+                    onClick={submitEvent}
+                    className='mr10'
+                    disabled={contentInvalid()}
+                >
+                    Submit
+                </button>
+                <button onClick={cancelEvent}>
+                    Cancel
+                </button>
+            </div>
+        </>}
+    </>)
 }
 
 export default RichTextBox

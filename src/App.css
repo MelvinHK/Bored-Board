@@ -18,7 +18,11 @@ a {
 }
 
 a:visited:not(.black-link, .nav li a) {
-  color: blue;
+  color: rgb(64, 64, 225);
+}
+
+a:hover:not(.black-link, .nav li a) {
+  text-decoration: underline;
 }
 
 .home-page-logo {
@@ -88,7 +92,7 @@ a:visited:not(.black-link, .nav li a) {
   border: solid 1px #e7e7e7;
   border-radius: 5px;
   padding: 30px;
-  padding-top: 0;
+  padding-top: 20px;
   min-height: 620px;
 }
 
@@ -205,7 +209,7 @@ input {
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 10px;
-  font-size: 16px;
+  font-size: 15px;
   box-sizing: border-box;
 }
 
@@ -311,25 +315,8 @@ img {
   color: black;
 }
 
-.comment-header {
-  font-size: 12px;
-  color: gray;
-}
-
-.comment-tooltip {
-  font-size: 12px;
-  padding-bottom: 5px;
-  margin-bottom: -5px;
-  margin-left: 10px;
-}
-
 .comment-tooltip:hover {
   color: black;
-}
-
-.align-icon {
-  transform: translateY(6px);
-  margin-right: 3px;
 }
 
 .reply-line {
@@ -337,4 +324,125 @@ img {
   margin-top: 10px;
   margin-left: 6.4px;
   padding-left: 30px;
+}
+
+.paperclip-icon {
+  transform: rotate(45deg);
+  margin: 0px 5px 0px 5px
+}
+
+.chat-icon {
+  margin: 1px 5px 0px 10px
+}
+
+.f12 {
+  font-size: 12px;
+}
+
+.f15 {
+  font-size: 15px;
+}
+
+input {
+  width: 100%;
+}
+
+.searchbar {
+  padding-left: 40px;
+}
+
+.p-abs {
+  position: absolute;
+}
+
+.flex {
+  display: flex;
+}
+
+.f-center {
+  align-items: center;
+}
+
+.f-end {
+  justify-content: flex-end;
+}
+
+.mt0 {
+  margin-top: 0px;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.mt15 {
+  margin-top: 15px;
+}
+
+.mt20 {
+  margin-top: 20px;
+}
+
+.mt30 {
+  margin-top: 30px;
+}
+
+.mb10 {
+  margin-bottom: 10px;
+}
+
+.mb15 {
+  margin-bottom: 15px;
+}
+
+.mb20 {
+  margin-bottom: 20px;
+}
+
+.mb30 {
+  margin-bottom: 30px;
+}
+
+.ml5 {
+  margin-left: 5px;
+}
+
+.ml10 {
+  margin-left: 10px;
+}
+
+.ml15 {
+  margin-left: 15px;
+}
+
+.ml20 {
+  margin-left: 20px;
+}
+
+.ml30 {
+  margin-left: 30px;
+}
+
+.mr5 {
+  margin-right: 5px;
+}
+
+.mr10 {
+  margin-right: 10px
+}
+
+.mr15 {
+  margin-right: 15px;
+}
+
+.mr20 {
+  margin-right: 20px;
+}
+
+.mr30 {
+  margin-right: 30px;
+}
+
+.gray {
+  color: gray;
 }

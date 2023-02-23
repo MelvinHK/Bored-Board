@@ -83,47 +83,44 @@ function Thread() {
     if (!thread)
         return <NotFound error={"Thread does not exist"} />
 
-    return (
-        <>
-            <h3 style={{ marginBottom: '10px' }}>{thread.title}</h3>
-            <p style={{ marginBottom: '30px', color: 'gray' }}>{thread.date}</p>
-            {thread.description && parse(thread.description)}
-            {thread.imageURL && <img src={thread.imageURL} />}
-            <h3 style={{ marginTop: '30px' }}>
-                {thread.totalComments} Comment{thread.totalComments !== 1 && 's'}
-            </h3>
-            {!expandCommentBox ?
-                <div className='comment-box-unexpanded' style={{ fontSize: '15px' }}
-                    onClick={(e) => { if (e.type === 'click') setExpandCommentBox(true) }}>
-                    <span tabIndex={0} onFocus={() => setExpandCommentBox(true)} />
-                    Leave a comment
-                </div>
-                :
-                <CommentRichTextBox
-                    expand={(value) => setExpandCommentBox(value)}
-                    onSubmitted={(value) => {
-                        setComments([value, ...comments])
-                    }}
-                />}
-            {comments ?
-                <ul className='list'>
-                    {comments.map((comment) => {
-                        return (
-                            <div key={comment.id} style={{ marginTop: '20px' }}>
-                                <Comment comment={comment} />
-                            </div>
-                        )
-                    })}
-                </ul>
-                :
-                <p style={{ marginTop: '30px' }}>Comment does not exist</p>
-            }
-            {queried &&
-                <button onClick={() => { navigate(`./`) }} className='button-link' style={{ marginTop: '10px' }}>
-                    View full thread
-                </button>}
-        </>
-    )
+    return (<>
+        <h3 className='mt0 mb10'>{thread.title}</h3>
+        <p className='mb30 gray'>{thread.date}</p>
+        {thread.description && parse(thread.description)}
+        {thread.imageURL && <img src={thread.imageURL} />}
+        <h4 className='mt30'>
+            {thread.totalComments} Comment{thread.totalComments !== 1 && 's'}
+        </h4>
+        {!expandCommentBox ?
+            <div className='comment-box-unexpanded'
+                onClick={(e) => { if (e.type === 'click') setExpandCommentBox(true) }}>
+                <span tabIndex={0} onFocus={() => setExpandCommentBox(true)} />
+                Leave a comment
+            </div>
+            :
+            <CommentRichTextBox
+                expand={(value) => setExpandCommentBox(value)}
+                onSubmitted={(value) => {
+                    setComments([value, ...comments])
+                }}
+            />}
+        {comments ?
+            <ul className='list'>
+                {comments.map((comment) => {
+                    return (
+                        <div key={comment.id} className='mt20'>
+                            <Comment comment={comment} />
+                        </div>
+                    )
+                })}
+            </ul>
+            :
+            <p className='mt30'>Comment does not exist</p>}
+        {queried &&
+            <button onClick={() => { navigate('./') }} className='button-link mt10'>
+                View full thread
+            </button>}
+    </>)
 }
 
 export default Thread

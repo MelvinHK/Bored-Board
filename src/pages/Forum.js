@@ -34,27 +34,25 @@ function Forum() {
     if (!forum)
         return <NotFound error={"Board does not exist"} />
 
-    return (
-        <>
-            <div className='left-column'>
-                <h2>
-                    <Link style={{ color: 'black', textDecoration: 'none' }} to={`/${forum.id}`}>
-                        {forum.title}
-                        <img src={forum.logo} className='forum-logo'></img>
-                    </Link>
-                </h2>
-                <p>{forum.description}</p>
-                <button style={{ width: '100%' }}
-                    onClick={() => navigate(`/${forumURL}/post`, { state: { postModalBackground: location } })}>
-                    Post Thread
-                </button>
-            </div>
-            <div className='main-column'>
-                <Outlet />
-                <div id='bottom' className='column-bottom' />
-            </div>
-        </>
-    )
+    return (<>
+        <div className='left-column'>
+            <h2>
+                <Link style={{ color: 'black', textDecoration: 'none' }} to={`/${forum.id}`}>
+                    {forum.title}
+                    <img src={forum.logo} className='forum-logo'></img>
+                </Link>
+            </h2>
+            <p>{forum.description}</p>
+            <button style={{ width: '100%' }}
+                onClick={() => navigate(`/${forumURL}/post`, { state: { postModalBackground: location } })}>
+                Post Thread
+            </button>
+        </div>
+        <div className='main-column'>
+            <Outlet />
+            <div id='bottom' className='column-bottom' />
+        </div>
+    </>)
 }
 
 export default Forum

@@ -24,19 +24,19 @@ function CommentRichTextBox({ expand, onSubmitted, parentCommentID, placeholderT
 
     return (
         <div className={`comment-box ${submitLoading ? 'disabled-input' : ''}`}>
-                <RichTextBox
-                    getDescription={(value) => setComment(value)}
-                    placeholderText={placeholderText}
-                    autofocus={true}
-                    submitEvent={async () => {
-                        setSubmitLoading(true)
-                        await handleSubmitComment(parentCommentID)
-                        setSubmitLoading(false)
-                        expand(false)
-                        setComment(null)
-                    }}
-                    cancelEvent={() => { expand(false); setComment(null) }}
-                />
+            <RichTextBox
+                getDescription={(value) => setComment(value)}
+                placeholderText={placeholderText}
+                autofocus={true}
+                submitEvent={async () => {
+                    setSubmitLoading(true)
+                    await handleSubmitComment(parentCommentID)
+                    setSubmitLoading(false)
+                    expand(false)
+                    setComment(null)
+                }}
+                cancelEvent={() => { expand(false); setComment(null) }}
+            />
         </div>
     )
 }

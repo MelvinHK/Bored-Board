@@ -41,8 +41,3 @@ export function timeSince(date) {
 
     return Math.floor(seconds) + ` second${Math.floor(interval) === 1 ? '' : 's'} ago`;
 }
-
-export function isElementInView(el) {
-    var rect = el.getBoundingClientRect()
-    return (rect.top >= 0) && (rect.bottom <= window.innerHeight)
-}

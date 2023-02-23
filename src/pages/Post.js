@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { RichTextBox } from '../components/RichTextBox'
 import { postThread } from '../firestore'
-import '../App.css'
 import { Timestamp } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
+
+import '../App.css'
 import CircularProgress from '@mui/material/CircularProgress'
 
 function Post({ deepLink }) {
@@ -36,7 +37,7 @@ function Post({ deepLink }) {
                         window.alert("Invalid file. Must be JPEG/PNG and less than 8MB.")
                         return
                     default:
-                        window.alert("An unknown error occured, please try again.")
+                        window.alert("An unknown error occured.")
                         return
                 }
             }
@@ -58,7 +59,7 @@ function Post({ deepLink }) {
                 <h3>Post Thread</h3>
                 <input
                     placeholder='Title'
-                    style={{ marginBottom: '10px', width: '100%' }}
+                    className='mb10'
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     autoFocus
@@ -80,6 +81,7 @@ function Post({ deepLink }) {
             </div>
             <CircularProgress style={{
                 position: 'absolute',
+                marginTop: '30px',
                 color: 'gray',
                 visibility: submitLoading ? 'visible' : 'hidden'
             }} />

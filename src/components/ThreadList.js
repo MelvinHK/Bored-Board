@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from 'react-router-dom'
 import { getThreads } from '../firestore'
-import { isElementInView, timeSince } from "../utils"
+import { timeSince } from "../utils"
+
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 import SearchIcon from '@mui/icons-material/Search'
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 function ThreadList() {
     const { forumURL } = useParams()
@@ -53,32 +55,33 @@ function ThreadList() {
             </ul>
         )
 
-    return (
-        <>
-            <div>
-                <SearchIcon className='align-icon'
-                    style={{ position: 'absolute', transform: 'translateY(28px)', marginLeft: '10px' }} color='action' />
-                <input placeholder={'Search'} style={{ marginTop: '20px', width: '100%', paddingLeft: '40px' }}></input>
-            </div>
-            <ul id='threadList' className='list' style={{ marginLeft: '10px' }}>
-                {threads.map((thread) =>
-                    <li key={thread.id}>
-                        <h3 style={{ marginTop: '30px', marginBottom: '0px' }}>
-                            <Link className='black-link' to={`/${forumURL}/thread/${thread.id}`}>
-                                {thread.title}
-                            </Link>
-                        </h3>
-                        <p title={thread.date} style={{ color: 'gray' }}>
-                            {timeSince(thread.createdAt.toDate())}
-                            <ChatBubbleOutlineIcon className="align-icon"
-                                fontSize="small" color='action' style={{ marginLeft: '10px' }} />
-                            {thread.totalComments}
-                        </p>
-                    </li>
-                )}
-            </ul>
-        </>
-    )
+    return (<>
+        <div className='flex f-center'>
+            <SearchIcon className='p-abs ml10' color='action' />
+            <input placeholder={'Search'} className='searchbar' />
+        </div>
+        <ul id='threadList' className='list ml10'>
+            {threads.map((thread) =>
+                <li key={thread.id}>
+                    <h4 className='mt30 mb10'>
+                        <Link className='black-link' to={`/${forumURL}/thread/${thread.id}`}>
+                            {thread.title}
+                        </Link>
+                    </h4>
+                    <p className='flex f-center mt15 gray'>
+                        <span title={thread.date}>{timeSince(thread.createdAt.toDate())}</span>
+                        <ChatBubbleOutlineIcon className='chat-icon' fontSize='small' />
+                        {thread.totalComments}
+                        {thread.imageURL &&
+                            <button className='button-link'>
+                                <AttachFileIcon className='paperclip-icon' fontSize='small' />
+                            </button>
+                        }
+                    </p>
+                </li>
+            )}
+        </ul>
+    </>)
 }
 
 export default ThreadList

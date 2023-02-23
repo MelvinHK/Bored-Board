@@ -19,40 +19,38 @@ function Replies({ label, parentComment, ignoreSubmittedReplies }) {
         setFetched(true)
     }
 
-    return (
-        <>
-            <button className='button-link' style={{ padding: '5px', marginLeft: '-5px' }} onClick={async () => {
-                setExpanded(!expanded)
-                if (!fetched)
-                    await handleGetReplies(parentComment.id)
-            }}>
-                {!expanded ? '\u23F7' : '\u23F6'} {label}
-            </button>
-            <div className='reply-line'>
-                <ul className='list' style={{ display: expanded ? 'inherit' : 'none' }} >
-                    {previousReplies.map((reply) => <Comment comment={reply} key={reply.id} />)}
-                    {replies.map((reply, index) => {
-                        if (index === replyAmount - 1)
-                            return (
-                                <span
-                                    onClick={async () => {
-                                        setReplies(replies.slice(0, -1))
-                                        await handleGetReplies(parentComment.id, reply.id)
-                                        setPreviousReplies(previousReplies.concat(replies))
-                                    }}
-                                    className='gray-link'
-                                    key={reply.id}>
-                                    Show more replies
-                                </span>
-                            )
+    return (<>
+        <button className='button-link' onClick={async () => {
+            setExpanded(!expanded)
+            if (!fetched)
+                await handleGetReplies(parentComment.id)
+        }}>
+            {!expanded ? '\u23F7' : '\u23F6'} {label}
+        </button>
+        <div className='reply-line'>
+            <ul className='list' style={{ display: expanded ? 'inherit' : 'none' }} >
+                {previousReplies.map((reply) => <Comment comment={reply} key={reply.id} />)}
+                {replies.map((reply, index) => {
+                    if (index === replyAmount - 1)
                         return (
-                            <Comment comment={reply} key={reply.id} />
+                            <button
+                                onClick={async () => {
+                                    setReplies(replies.slice(0, -1))
+                                    await handleGetReplies(parentComment.id, reply.id)
+                                    setPreviousReplies(previousReplies.concat(replies))
+                                }}
+                                className='button-link'
+                                key={reply.id}>
+                                Show more replies
+                            </button>
                         )
-                    })}
-                </ul>
-            </div>
-        </>
-    )
+                    return (
+                        <Comment comment={reply} key={reply.id} />
+                    )
+                })}
+            </ul>
+        </div>
+    </>)
 }
 
 export default Replies
