@@ -359,6 +359,11 @@ input {
   margin-bottom: 20px;
 }
 
+.comments li p:not(.ProseMirror) {
+  margin-top: 10px;
+}
+
+
 .reply-line ul li:last-child p:not(.ProseMirror) {
   margin-bottom: 0;
 }

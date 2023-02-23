@@ -105,7 +105,7 @@ function Thread() {
                 }}
             />}
         {comments ?
-            <ul className='list mt30'>
+            <ul className='comments list mt30'>
                 {comments.map((comment) => {
                     return (
                         <div key={comment.id} className='mt10'>
@@ -117,7 +117,7 @@ function Thread() {
             :
             <p className='mt30'>Comment does not exist</p>}
         {queried &&
-            <button onClick={() => { navigate('./') }} className='button-link mt10'>
+            <button onClick={() => { navigate('./') }} className='button-link'>
                 View full thread
             </button>}
     </>)
