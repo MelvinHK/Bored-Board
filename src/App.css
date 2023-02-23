@@ -11,6 +11,7 @@ body {
 
 p {
   font-size: 15px;
+  word-break: break-word;
 }
 
 a {
@@ -77,7 +78,7 @@ a:hover:not(.black-link, .nav li a) {
 
 .left-column {
   position: fixed;
-  width: 300px;
+  width: 290px;
   background-color: white;
   height: 100%;
 }
@@ -87,7 +88,7 @@ a:hover:not(.black-link, .nav li a) {
 }
 
 .spacer {
-  width: 330px;
+  width: 318px;
 }
 
 .main-column {
@@ -105,6 +106,18 @@ a:hover:not(.black-link, .nav li a) {
   bottom: '0';
 }
 
+/* Zooming out */
+@media only screen and (min-width:1549px) {
+  .spacer {
+    display: none;
+  }
+
+  .main-column {
+    margin: auto;
+  }
+}
+
+/* Right side of main column reached */
 @media only screen and (max-width:1200px) {
   .left-column {
     width: 24vw;
@@ -114,15 +127,13 @@ a:hover:not(.black-link, .nav li a) {
   .spacer {
     min-width: 250px;
   }
-}
-
-@media only screen and (min-width:1549px) {
-  .spacer {
-    display: none;
-  }
 
   .main-column {
-    margin: auto;
+    padding: 20px;
+  }
+
+  .reply-line {
+    padding-left: 20px !important;
   }
 }
 
@@ -158,13 +169,7 @@ a:hover:not(.black-link, .nav li a) {
   .main-column {
     margin-left: auto;
     margin-right: auto;
-    padding: 20px;
-    padding-top: 20px;
     min-height: 555px;
-  }
-
-  .reply-line {
-    padding-left: 20px !important;
   }
 
   .modal {
@@ -349,9 +354,17 @@ input {
 
 .reply-line {
   border-left: 1px solid lightgray;
-  margin-top: 10px;
   margin-left: 6.4px;
   padding-left: 30px;
+  margin-bottom: 20px;
+}
+
+.reply-line ul li:last-child p:not(.ProseMirror) {
+  margin-bottom: 0;
+}
+
+.d-none {
+  display: none;
 }
 
 .paperclip-icon {

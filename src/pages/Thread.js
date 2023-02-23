@@ -105,10 +105,10 @@ function Thread() {
                 }}
             />}
         {comments ?
-            <ul className='list'>
+            <ul className='list mt30'>
                 {comments.map((comment) => {
                     return (
-                        <div key={comment.id} className='mt20'>
+                        <div key={comment.id} className='mt10'>
                             <Comment comment={comment} />
                         </div>
                     )
