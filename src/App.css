@@ -271,7 +271,13 @@ input {
 
 .comment-img {
   margin: 10px 10px 10px 0;
-  max-width: 30%;
+  max-width: 20%;
+}
+
+.preview-img {
+  margin: 10px auto 10px auto;
+  max-width: 50%;
+  align-self: flex-end;
 }
 
 .forum-logo {

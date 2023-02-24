@@ -7,6 +7,7 @@ import '../App.css'
 import CommentRichTextBox from "./CommentRichTextBox";
 import LinkIcon from '@mui/icons-material/Link'
 import { useParams } from "react-router-dom";
+import { margin } from "@mui/system";
 
 function Comment({ comment }) {
     const { forumURL } = useParams()
@@ -49,10 +50,8 @@ function Comment({ comment }) {
                     </button>
                 </span>
             </span>
-            <span className='flex'>
-                {comment.imageURL && <img className='comment-img' src={comment.imageURL} />}
-                {parse(comment.description)}
-            </span>
+            {comment.imageURL && <img className='comment-img' src={comment.imageURL} />}
+            {parse(comment.description)}
         </li>
         {expandCommentBox &&
             <CommentRichTextBox
