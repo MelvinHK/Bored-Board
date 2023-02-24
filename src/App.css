@@ -270,7 +270,7 @@ input {
 }
 
 .comment-img {
-  margin: 10px 10px 10px 0;
+  margin-top: 10px;
   max-width: 20%;
 }
 
@@ -366,13 +366,17 @@ input {
   border-left: 1px solid lightgray;
   margin-left: 6.4px;
   padding-left: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+.comments .button-link {
+  margin-bottom: 0;
 }
 
 .comments li p:not(.ProseMirror) {
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
-
 
 .reply-line ul li:last-child p:not(.ProseMirror) {
   margin-bottom: 0;

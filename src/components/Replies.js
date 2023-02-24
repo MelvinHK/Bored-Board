@@ -20,15 +20,15 @@ function Replies({ label, parentComment, ignoreSubmittedReplies }) {
     }
 
     return (<>
-        <button className='button-link mb10' onClick={async () => {
+        <button className='button-link' onClick={async () => {
             setExpanded(!expanded)
             if (!fetched)
                 await handleGetReplies(parentComment.id)
         }}>
             {!expanded ? '\u23F7' : '\u23F6'} {label}
         </button>
-        <div className={`reply-line ${expanded ? '' : 'd-none'}`}>
-            <ul className='list'>
+        <div className='reply-line mt10'>
+            <ul className={`list ${expanded ? '' : 'd-none'}`}>
                 {previousReplies.map((reply) => <Comment comment={reply} key={reply.id} />)}
                 {replies.map((reply, index) => {
                     if (index === replyAmount - 1)

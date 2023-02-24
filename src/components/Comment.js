@@ -50,7 +50,10 @@ function Comment({ comment }) {
                     </button>
                 </span>
             </span>
-            {comment.imageURL && <img className='comment-img' src={comment.imageURL} />}
+            {comment.imageURL &&
+                <a href={comment.imageURL} target='_blank'>
+                    <img className='comment-img' src={comment.imageURL} />
+                </a>}
             {parse(comment.description)}
         </li>
         {expandCommentBox &&
