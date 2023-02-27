@@ -43,10 +43,11 @@ function Forum() {
                 </Link>
             </h2>
             <p>{forum.description}</p>
-            <button style={{ width: '100%' }}
-                onClick={() => navigate(`/${forumURL}/post`, { state: { postModalBackground: location } })}>
-                Post Thread
-            </button>
+            <Link to={`/${forumURL}/post`} state={{ postModalBackground: location }} tabIndex={-1}>
+                <button style={{ width: '100%' }} >
+                    Post Thread
+                </button>
+            </Link>
         </div>
         <div className='flex'>
             <div className='spacer' />

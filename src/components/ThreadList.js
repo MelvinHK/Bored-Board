@@ -69,6 +69,7 @@ function ThreadList() {
                         </Link>
                     </h4>
                     <p className='flex f-start f-center f-wrap mt15 gray'>
+                        <span className='author'>{thread.author}&nbsp;</span>
                         <span title={thread.date}>{timeSince(thread.createdAt.toDate())}</span>
                         <ChatBubbleOutlineIcon className='chat-icon' fontSize='small' />
                         {thread.totalComments}

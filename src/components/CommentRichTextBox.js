@@ -7,6 +7,7 @@ import RichTextBox from "./RichTextBox"
 function CommentRichTextBox({ expand, onSubmitted, parentCommentID, placeholderText = 'Leave a comment' }) {
     const { threadID } = useParams()
 
+    const [author, setAuthor] = useState('')
     const [comment, setComment] = useState(null)
     const [image, setImage] = useState()
     const [submitLoading, setSubmitLoading] = useState(false)
@@ -17,6 +18,7 @@ function CommentRichTextBox({ expand, onSubmitted, parentCommentID, placeholderT
             if (!url) return
         }
         const res = await postComment({
+            author: author !== '' ? author : 'Anonymous',
             description: comment,
             threadID: threadID,
             totalReplies: 0,
@@ -31,6 +33,12 @@ function CommentRichTextBox({ expand, onSubmitted, parentCommentID, placeholderT
 
     return (
         <div className={`comment-box ${submitLoading ? 'disabled-input' : ''}`}>
+            <input
+                placeholder='Anonymous'
+                className='mb10 mr10'
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+            />
             <RichTextBox
                 getDescription={(value) => setComment(value)}
                 getImage={(file) => setImage(file)}

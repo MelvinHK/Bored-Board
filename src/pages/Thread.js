@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { useEffect, useState } from "react"
 import NotFound from '../components/NotFound'
 import parse from 'html-react-parser'
@@ -11,7 +11,6 @@ import { setPageTitle } from '../utils'
 function Thread() {
     const { threadID } = useParams()
     const { commentID } = useParams()
-    const navigate = useNavigate()
 
     const [thread, setThread] = useState()
     const [loading, setLoading] = useState(true)
@@ -35,7 +34,7 @@ function Thread() {
             else
                 setQueried(true)
         } else
-            var commentsData = await getComments(threadID)
+            commentsData = await getComments(threadID)
         if (commentsData[10]) {
             commentsData.pop()
             setMoreComments(true)
@@ -85,10 +84,10 @@ function Thread() {
 
     return (<>
         <h3 className='mt0 mb10'>{thread.title}</h3>
-        <p className='mb30 gray'>{thread.date}</p>
+        <p className='mb30 gray'><span className='author'>{thread.author}</span> {thread.date}</p>
         {thread.imageURL &&
-            <a href={thread.imageURL} target='_blank'>
-                <img className='center-img' src={thread.imageURL} />
+            <a href={thread.imageURL} target='_blank' rel='noopener noreferrer'>
+                <img className='center-img' src={thread.imageURL} alt='thread img' />
             </a>}
         {thread.description && parse(thread.description)}
         <h4 className='mt30'>
@@ -120,9 +119,11 @@ function Thread() {
             :
             <p className='mt30'>Comment does not exist</p>}
         {queried &&
-            <button onClick={() => { navigate('./') }} className='button-link'>
-                View full thread
-            </button>}
+            <Link to='./' tabIndex={-1}>
+                <button className='button-link'>
+                    View full thread
+                </button>
+            </Link>}
     </>)
 }
 

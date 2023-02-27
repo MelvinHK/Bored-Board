@@ -12,6 +12,7 @@ function Post({ deepLink }) {
     const { forumURL } = useParams()
     const previousURL = deepLink ? `/${forumURL}` : -1
 
+    const [author, setAuthor] = useState('')
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState(null)
     const [image, setImage] = useState()
@@ -28,11 +29,13 @@ function Post({ deepLink }) {
             if (!url) return
         }
         const res = await postThread({
+            author: author !== '' ? author : 'Anonymous',
             title: title,
             description: description,
             forumID: forumURL,
             createdAt: Timestamp.fromDate(new Date()),
-            imageURL: url ? url : null
+            imageURL: url ? url : null,
+            totalComments: 0
         })
         navigate(`/${forumURL}/thread/${res.id}`)
         window.location.reload()
@@ -42,13 +45,22 @@ function Post({ deepLink }) {
         <div className='modal-div'>
             <div className={`modal ${submitLoading ? 'disabled-input' : ''}`}>
                 <h3>Post Thread</h3>
-                <input
-                    placeholder='Title'
-                    className='mb10'
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    autoFocus
-                />
+                <span className='flex'>
+                    <input
+                        placeholder='Anonymous'
+                        className='mb10 mr10'
+                        style={{width: '50%'}}
+                        value={author}
+                        onChange={(e) => setAuthor(e.target.value)}
+                    />
+                    <input
+                        placeholder='Title'
+                        className='mb10'
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        autoFocus
+                    />
+                </span>
                 <RichTextBox
                     getDescription={(value) => setDescription(value)}
                     getImage={(file) => setImage(file)}

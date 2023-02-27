@@ -383,7 +383,11 @@ input {
 }
 
 .d-none {
-  display: none;
+  display: none !important;
+}
+
+.v-none {
+  visibility: hidden !important;
 }
 
 .paperclip-icon {
@@ -393,6 +397,10 @@ input {
 
 .chat-icon {
   margin: 1px 5px 0px 10px
+}
+
+.author {
+  font-weight: 600;
 }
 
 .f12 {
@@ -437,6 +445,22 @@ input {
 
 .f-break {
   width: 100%;
+}
+
+.mr5 {
+  margin-right: 5px;
+}
+
+.mr10 {
+  margin-right: 10px;
+}
+
+.ml10 {
+  margin-left: 10px;
+}
+
+.ml5 {
+  margin-left: 5px;
 }
 
 .mt0 {
