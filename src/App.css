@@ -22,6 +22,8 @@ a:visited:not(.black-link, .nav li a) {
   color: rgb(64, 64, 225);
 }
 
+
+
 a:hover:not(.black-link, .nav li a) {
   text-decoration: underline;
 }
@@ -163,7 +165,7 @@ img {
     transform: translate(10px, 38px);
   }
 
-  .left-column button {
+  .left-column a {
     height: 40px;
     width: 120px !important;
     margin-left: auto;
@@ -399,8 +401,19 @@ input {
   margin: 1px 5px 0px 10px
 }
 
+.p-relative {
+  position: relative;
+}
+
 .author {
   font-weight: 600;
+}
+
+.author-help-button {
+  color: gray;
+  right: 0;
+  margin-right: 8.5px;
+  padding-top: 4px;
 }
 
 .f12 {

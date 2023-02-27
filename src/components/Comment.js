@@ -68,7 +68,7 @@ function Comment({ comment }) {
             </span>
         </li>
         <span className={`${expandComment ? '' : 'd-none'}`}>
-            {expandCommentBox &&
+            {expandCommentBox && <div className='mb10'>
                 <CommentRichTextBox
                     expand={(value) => setExpandCommentBox(value)}
                     parentCommentID={comment.id}
@@ -76,7 +76,8 @@ function Comment({ comment }) {
                         setSubmittedReplies([...submittedReplies, res])
                     }}
                     placeholderText='Leave a reply'
-                />}
+                />
+            </div>}
             {totalReplies > 0 &&
                 <Replies
                     parentComment={comment}

@@ -3,6 +3,7 @@ import { postComment, incrementReplies, postImage } from "../firestore"
 import { useParams } from "react-router-dom"
 import { Timestamp } from "firebase/firestore"
 import RichTextBox from "./RichTextBox"
+import AuthorInput from "./AuthorInput"
 
 function CommentRichTextBox({ expand, onSubmitted, parentCommentID, placeholderText = 'Leave a comment' }) {
     const { threadID } = useParams()
@@ -33,12 +34,9 @@ function CommentRichTextBox({ expand, onSubmitted, parentCommentID, placeholderT
 
     return (
         <div className={`comment-box ${submitLoading ? 'disabled-input' : ''}`}>
-            <input
-                placeholder='Anonymous'
-                className='mb10 mr10'
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
-            />
+            <span>
+                <AuthorInput getAuthor={(value) => setAuthor(value)} />
+            </span>
             <RichTextBox
                 getDescription={(value) => setComment(value)}
                 getImage={(file) => setImage(file)}
@@ -51,6 +49,7 @@ function CommentRichTextBox({ expand, onSubmitted, parentCommentID, placeholderT
                     expand(false)
                     setComment(null)
                 }}
+                imageRequired={false}
                 cancelEvent={() => { expand(false); setComment(null) }}
             />
         </div>

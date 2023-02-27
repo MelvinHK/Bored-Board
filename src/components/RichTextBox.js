@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import '../App.css'
 import MenuBar from './RTBMenuBar'
 
-export function RichTextBox({ getDescription, getImage, submitEvent, cancelEvent, placeholderText, submitDisabled = false, autofocus = false }) {
+export function RichTextBox({ getDescription, getImage, submitEvent, cancelEvent, placeholderText, imageRequired = true, submitDisabled = false, autofocus = false }) {
     const [image, setImage] = useState()
     const editor = useEditor({
         autofocus: autofocus,
@@ -34,7 +34,10 @@ export function RichTextBox({ getDescription, getImage, submitEvent, cancelEvent
     }
 
     const contentInvalid = () => {
-        return submitDisabled || !image && (editor.isEmpty || editor.getText().trim().length === 0)
+        if (imageRequired)
+            return submitDisabled || !image
+        else
+            return submitDisabled || (!image && (editor.isEmpty || editor.getText().trim().length === 0))
     }
 
     return (<>
@@ -46,6 +49,9 @@ export function RichTextBox({ getDescription, getImage, submitEvent, cancelEvent
                 <EditorContent editor={editor} />
             </div>
             <div className='flex f-end f-center mt10'>
+                {imageRequired && !image &&
+                    <p className='gray' style={{ margin: '0 auto 0 0' }}>Image required*</p>
+                }
                 {image && <>
                     <p style={{ margin: '0 5px 0 0' }}>{image.name}</p>
                     <button className='button-link' style={{ margin: '5px auto 0 0' }}
