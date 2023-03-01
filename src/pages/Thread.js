@@ -51,7 +51,7 @@ function Thread() {
     useEffect(() => {
         setQueried(false)
         loadData()
-    }, [commentID])
+    }, [commentID, threadID])
 
     useEffect(() => {
         if (thread) setPageTitle(thread.title)

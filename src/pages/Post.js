@@ -40,7 +40,6 @@ function Post({ deepLink }) {
             totalComments: 0
         })
         navigate(`/${forumURL}/thread/${res.id}`)
-        window.location.reload()
     }
 
     return (
