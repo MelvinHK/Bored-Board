@@ -21,6 +21,7 @@ Gripes:
 <img src="https://user-images.githubusercontent.com/53848567/222337047-922b46e5-5cd3-45eb-b342-0f16806e4ee3.png" width="700">
 <p>A thread in the thread list with an attached image has a paperclip icon, click to preview the image:</p>
 <img src="https://user-images.githubusercontent.com/53848567/222339322-d7c7e20c-b75c-4ff2-b112-885203f499ef.png" width="700">
+<img src="https://user-images.githubusercontent.com/53848567/222345691-841bda0e-8519-4223-8d89-97417854f15d.png" width="700">
 <img src="https://user-images.githubusercontent.com/53848567/222337015-db65ee68-6657-4f59-84bd-135609bedd20.png" width="700">
 <img src="https://user-images.githubusercontent.com/53848567/222336977-9519da37-9bf5-4a76-aad5-9337986403ea.png" width="700">
 <p>Hover over a comment to reply to, share (copy comment link), hide it:</p>
