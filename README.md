@@ -10,6 +10,13 @@ Features:
   <li>Preview attached images on threads in thread lists</li>
 </ul>
 
+Limitations (AKA stuff that I should implement if I ever come back to this):
+<ul>
+  <li>Server-side validation for text</li>
+  <li>Recaptcha v2 for submissions</li>
+  <li>Abort functions for when user leaves page during requests</li>
+</ul>
+
 Gripes:
 <ul>
   <li>Wish I used mongodb instead because it has more features that are free, such as text field indexing, and server-side functions;
