@@ -17,10 +17,12 @@ Limitations (AKA stuff that I should implement if I ever come back to this):
   <li>Abort functions for when user leaves page during requests</li>
 </ul>
 
-Gripes:
+Gripes (things that I learned for the future):
 <ul>
   <li>Wish I used mongodb instead because it has more features that are free, such as text field indexing, and server-side functions;
     functionality such as tripcoding is done client-side, and the search bar is just for decoration...
+  </li>
+  <li>Did not use useEffects properly, i.e. misused/missing dependencies, likely unoptimised
   </li>
 </ul>
 
