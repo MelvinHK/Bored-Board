@@ -12,6 +12,7 @@ function Signup() {
             <input type='text' placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} className='mb10' />
             <input type='text' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} className='mb10' />
             <input type='text' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className='mb10' />
+            <input classname='button' type='submit' />
         </form>  
     );
 }

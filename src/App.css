@@ -215,7 +215,7 @@ img {
   box-shadow: 0 0 8px rgba(95, 95, 95, 0.4);
 }
 
-button {
+button, input[type='submit'] {
   background-color: white;
   color: black;
   border: 1px solid #e7e7e7;
@@ -225,15 +225,15 @@ button {
   font-size: 15px;
 }
 
-button:hover {
+button:hover, input[type='submit']:hover {
   background-color: #e7e7e7;
 }
 
-button:active {
+button:active, input[type='submit']:active {
   background-color: #efefef;
 }
 
-button:disabled {
+button:disabled, input[type='submit']:disabled {
   background-color: rgba(0, 0, 0, 0);
   color: rgb(175, 175, 175);
   cursor: default;
