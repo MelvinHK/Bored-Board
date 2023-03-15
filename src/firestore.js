@@ -1,7 +1,6 @@
 import { db } from "./firestoreConfig"
 import { collection, getDocs, query, where, doc, getDoc, addDoc, limit, startAfter, orderBy, updateDoc, increment } from "firebase/firestore"
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
-import { generateTripcode } from "./utils"
 
 const forumsRef = collection(db, "forums")
 const threadsRef = collection(db, "threads")
@@ -70,10 +69,6 @@ export const getThread = async (threadID) => {
 }
 
 export const postThread = async (data) => {
-    if (data.author.includes('#')) {
-        const split = data.author.split(/#(.*)/s)
-        data.author = `${split[0]} !${String(generateTripcode(split[1])).slice(-10)}`
-    }
     return await addDoc(threadsRef, data)
 }
 
@@ -172,10 +167,6 @@ export const getReplies = async (commentID, lastReplyID = undefined) => {
 }
 
 export const postComment = async (data) => {
-    if (data.author.includes('#')) {
-        const split = data.author.split(/#(.*)/s)
-        data.author = `${split[0]} !${String(generateTripcode(split[0], split[1])).slice(-10)}`
-    }
     const commentRef = await addDoc(commentsRef, data)
     const threadRef = doc(db, "threads", data.threadID)
     await updateDoc(threadRef, { totalComments: increment(1) })

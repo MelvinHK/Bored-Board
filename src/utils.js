@@ -1,5 +1,3 @@
-import sha256 from 'crypto-js/sha256'
-
 export function setPageTitle(title = undefined) {
     const defaultTitle = 'Bored Bored'
     document.title = title ? `${title} - ${defaultTitle}` : defaultTitle
@@ -42,9 +40,4 @@ export function timeSince(date) {
         return Math.floor(interval) + ` minute${Math.floor(interval) === 1 ? '' : 's'} ago`;
 
     return Math.floor(seconds) + ` second${Math.floor(interval) === 1 ? '' : 's'} ago`;
-}
-
-export function generateTripcode(username, password) {
-    const hashThis = password+username[0]+username[password.length-1]+'H'
-    return sha256(hashThis) 
 }

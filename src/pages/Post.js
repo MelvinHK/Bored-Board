@@ -4,8 +4,6 @@ import { RichTextBox } from '../components/RichTextBox'
 import { postImage, postThread } from '../firestore'
 import { Timestamp } from 'firebase/firestore'
 
-import AuthorInput from '../components/AuthorInput'
-
 import '../App.css'
 import CircularProgress from '@mui/material/CircularProgress'
 
@@ -14,7 +12,7 @@ function Post({ deepLink }) {
     const { forumURL } = useParams()
     const previousURL = deepLink ? `/${forumURL}` : -1
 
-    const [author, setAuthor] = useState('')
+    // const [author, setAuthor] = useState('')
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState(null)
     const [image, setImage] = useState()
@@ -31,7 +29,7 @@ function Post({ deepLink }) {
             if (!url) return
         }
         const res = await postThread({
-            author: author !== '' ? author : 'Anonymous',
+            author: 'Anonymous',
             title: title,
             description: description,
             forumID: forumURL,
@@ -47,9 +45,6 @@ function Post({ deepLink }) {
             <div className={`modal ${submitLoading ? 'disabled-input' : ''}`}>
                 <h3>Post Thread</h3>
                 <span className='flex'>
-                    <span className='mr10' style={{ width: '50%' }}>
-                        <AuthorInput getAuthor={(value) => setAuthor(value)} />
-                    </span>
                     <input
                         placeholder='Title*'
                         className='mb10'
