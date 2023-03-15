@@ -108,6 +108,10 @@ img {
   bottom: '0';
 }
 
+.form {
+  width: 300px;
+}
+
 /* Zooming out */
 @media only screen and (min-width:1549px) {
   .spacer {
@@ -431,6 +435,11 @@ input {
 
 .flex {
   display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
 }
 
 .f-wrap {

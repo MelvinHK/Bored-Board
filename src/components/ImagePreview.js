@@ -12,7 +12,7 @@ export function ImagePreview({ imageURL }) {
         </button>
         {toggleImage && <>
             <div className='f-break' />
-            <img src={imageURL} className='preview-img' />
+            <img alt='preview' src={imageURL} className='preview-img' />
         </>}
     </>);
 }
