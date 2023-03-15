@@ -3,10 +3,11 @@ import '../App.css'
 
 function NavBar() {
     return (
-        <ul className='nav'>
-            <li><h3><NavLink to={'/'}>Bored Board</NavLink></h3></li>
-            <li><NavLink to="/about">About</NavLink></li>
-        </ul>
+        <div className='nav'>
+            <h3><NavLink to={'/'} tabIndex={1}>Bored Board</NavLink></h3>
+            <NavLink to="/about" className='ml20' tabIndex={2}>About</NavLink>
+            <NavLink to="/login" className='mlauto' tabIndex={3}>Login</NavLink>
+        </div>
     )
 }
 

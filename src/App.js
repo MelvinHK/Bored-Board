@@ -31,7 +31,7 @@ function App() {
                     <Route path=":forumURL/post" element={<Post />} />
                 </Routes>
             )}
-            <div className='nav-box' />
+            <div className='nav-box'/>
             <Navbar />
         </>
     )
