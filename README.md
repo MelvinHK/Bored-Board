@@ -10,19 +10,17 @@ Features:
   <li>Preview attached images on threads in thread lists</li>
 </ul>
 
-Limitations (AKA stuff that I should implement if I ever come back to this):
+To Do:
 <ul>
   <li>Server-side validation for text</li>
   <li>Recaptcha v2 for submissions</li>
   <li>Abort functions for when user leaves page during requests</li>
 </ul>
 
-Gripes (things that I learned for the future):
+In the future:
 <ul>
   <li>Wish I used mongodb instead because it has more features that are free, such as text field indexing, and server-side functions;
     functionality such as tripcoding is done client-side, and the search bar is just for decoration...
-  </li>
-  <li>Did not use useEffects properly, i.e. misused/missing dependencies, likely unoptimised
   </li>
 </ul>
 
