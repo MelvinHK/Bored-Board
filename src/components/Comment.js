@@ -9,7 +9,6 @@ import '../App.css'
 import ReplyIcon from '@mui/icons-material/Reply';
 import CommentRichTextBox from "./CommentRichTextBox";
 import LinkIcon from '@mui/icons-material/Link'
-import AddIcon from '@mui/icons-material/Add';
 
 function Comment({ comment }) {
     const { forumURL } = useParams()
@@ -28,7 +27,7 @@ function Comment({ comment }) {
     useEffect(() => {
         setTotalReplies(comment.totalReplies)
         setDate(timeSince(comment.createdAt.toDate()))
-    }, [])
+    }, [comment])
 
     return (<>
         <li onMouseEnter={() => setShowTooltip(true)}
@@ -83,7 +82,6 @@ function Comment({ comment }) {
                     parentComment={comment}
                     label={`${totalReplies} repl${totalReplies === 1 ? 'y' : 'ies'}`}
                     ignoreSubmittedReplies={submittedReplies}
-                    expandDefault={totalReplies < 6}
                 />}
             {submittedReplies.length > 0 &&
                 <div className='reply-line'>

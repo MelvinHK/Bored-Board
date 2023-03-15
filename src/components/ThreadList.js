@@ -12,18 +12,18 @@ function ThreadList() {
     const [threads, setThreads] = useState([])
     const [moreThreads, setMoreThreads] = useState(false)
 
-    const handleGetThreads = async () => {
-        const data = await getThreads(forumURL)
-        if (data[10]) {
-            data.pop()
-            setMoreThreads(true)
-        }
-        setThreads(data)
-    }
-
     useEffect(() => {
+        const handleGetThreads = async () => {
+            const data = await getThreads(forumURL)
+            if (data[10]) {
+                data.pop()
+                setMoreThreads(true)
+            }
+            setThreads(data)
+        }
+
         handleGetThreads()
-    }, [])
+    }, [forumURL])
 
     // Bottomless Scrolling
     const getMoreThreads = async () => {

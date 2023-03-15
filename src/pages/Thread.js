@@ -21,34 +21,34 @@ function Thread() {
     const [queried, setQueried] = useState(false)
     const [moreComments, setMoreComments] = useState(false)
 
-    const handleGetThread = async () => {
-        const threadData = await getThread(threadID)
-        setThread(threadData)
-    }
-
-    const handleGetComments = async () => {
-        if (commentID) {
-            var commentsData = await getComment(commentID)
-            if (!commentsData || commentsData[0].threadID !== threadID)
-                return setComments(null)
-            else
-                setQueried(true)
-        } else
-            commentsData = await getComments(threadID)
-        if (commentsData[10]) {
-            commentsData.pop()
-            setMoreComments(true)
-        }
-        setComments(commentsData)
-    }
-
-    const loadData = async () => {
-        await handleGetThread()
-        await handleGetComments()
-        setLoading(false)
-    }
-
     useEffect(() => {
+        const handleGetThread = async () => {
+            const threadData = await getThread(threadID)
+            setThread(threadData)
+        }
+
+        const handleGetComments = async () => {
+            if (commentID) {
+                var commentsData = await getComment(commentID)
+                if (!commentsData || commentsData[0].threadID !== threadID)
+                    return setComments(null)
+                else
+                    setQueried(true)
+            } else
+                commentsData = await getComments(threadID)
+            if (commentsData[10]) {
+                commentsData.pop()
+                setMoreComments(true)
+            }
+            setComments(commentsData)
+        }
+
+        const loadData = async () => {
+            await handleGetThread()
+            await handleGetComments()
+            setLoading(false)
+        }
+        
         setQueried(false)
         loadData()
     }, [commentID, threadID])

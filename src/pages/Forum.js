@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link, Outlet, useLocation, useParams, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom'
 import NotFound from '../components/NotFound'
 import { getForum } from '../firestore'
 import '../App.css'
@@ -11,17 +11,15 @@ function Forum() {
     const { forumURL } = useParams()
     const { threadID } = useParams()
     const location = useLocation()
-    const navigate = useNavigate()
-
-    const handleGetForum = async () => {
-        const data = await getForum(forumURL)
-        setForum(data)
-        setLoading(false)
-    }
 
     useEffect(() => {
+        const handleGetForum = async () => {
+            const data = await getForum(forumURL)
+            setForum(data)
+            setLoading(false)
+        }
         handleGetForum()
-    }, [])
+    }, [forumURL])
 
     useEffect(() => {
         if (forum)
@@ -39,7 +37,7 @@ function Forum() {
             <h2>
                 <Link style={{ color: 'black', textDecoration: 'none' }} to={`/${forum.id}`}>
                     {forum.title}
-                    <img src={forum.logo} className='forum-logo center-img'></img>
+                    <img src={forum.logo} alt='logo' className='forum-logo center-img'></img>
                 </Link>
             </h2>
             <p>{forum.description}</p>

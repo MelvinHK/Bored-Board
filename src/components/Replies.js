@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { getReplies, replyAmount } from "../firestore"
 import Comment from "./Comment"
 
-function Replies({ label, parentComment, ignoreSubmittedReplies, expandDefault = false }) {
+function Replies({ label, parentComment, ignoreSubmittedReplies }) {
     const [fetched, setFetched] = useState(false)
     const [expanded, setExpanded] = useState(false)
 
@@ -18,16 +18,6 @@ function Replies({ label, parentComment, ignoreSubmittedReplies, expandDefault =
         setReplies(filtered)
         setFetched(true)
     }
-
-    const expandOnRender = async () => {
-        await handleGetReplies(parentComment.id)
-        setExpanded(true)
-    }
-
-    useEffect(() => {
-        if (expandDefault)
-            expandOnRender()
-    }, [])
 
     return (<>
         <button className='button-link' onClick={async () => {

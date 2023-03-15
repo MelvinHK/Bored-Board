@@ -5,12 +5,12 @@ import { getForums } from '../firestore'
 function ForumList() {
     const [forums, setForums] = useState([])
 
-    const handleGetForums = async () => {
-        const data = await getForums()
-        setForums(data)
-    }
-
     useEffect(() => {
+        const handleGetForums = async () => {
+            const data = await getForums()
+            setForums(data)
+        }
+        
         handleGetForums()
     }, [])
 
