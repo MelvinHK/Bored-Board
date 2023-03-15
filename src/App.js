@@ -1,22 +1,26 @@
-import { Routes, Route, useLocation } from 'react-router-dom'
-import Navbar from './components/Navbar'
-import NotFound from './components/NotFound'
-import Home from './pages/Home'
-import About from './pages/About'
-import Forum from './pages/Forum'
-import Thread from './pages/Thread'
-import ThreadList from './components/ThreadList'
-import Post from './pages/Post'
+import { Routes, Route, useLocation } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import NotFound from './components/NotFound';
+import Home from './pages/Home';
+import About from './pages/About';
+import Forum from './pages/Forum';
+import Thread from './pages/Thread';
+import ThreadList from './components/ThreadList';
+import Post from './pages/Post';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 function App() {
-    const location = useLocation()
-    const postModalBackground = location.state && location.state.postModalBackground
+    const location = useLocation();
+    const postModalBackground = location.state && location.state.postModalBackground;
 
     return (
         <>
             <Routes location={postModalBackground || location}>
                 <Route path='/' element={<Home />} />
                 <Route path='about' element={<About />} />
+                <Route path='login' element={<Login />} />
+                <Route path='signup' element={<Signup />} />
                 <Route path=':forumURL' element={<Forum />}>
                     <Route index element={<ThreadList />} />
                     <Route exact path='thread/:threadID' element={<Thread />} >
@@ -31,10 +35,10 @@ function App() {
                     <Route path=":forumURL/post" element={<Post />} />
                 </Routes>
             )}
-            <div className='nav-box'/>
+            <div className='nav-box' />
             <Navbar />
         </>
-    )
+    );
 }
 
 export default App;

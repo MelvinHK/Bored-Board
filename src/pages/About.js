@@ -1,7 +1,7 @@
-import { setPageTitle } from "../utils"
+import { setPageTitle } from "../utils";
 
 function About() {
-    setPageTitle('About')
+    setPageTitle('About');
 
     return (<div style={{ maxWidth: '700px' }}>
         <h2>About</h2>
@@ -10,7 +10,7 @@ function About() {
 
         <h3>Posting Requirements</h3>
         <p>When posting a thread, a title and an attached image is required. When commenting, an image is not required.</p>
-    </div>)
+    </div>);
 }
 
-export default About
+export default About;

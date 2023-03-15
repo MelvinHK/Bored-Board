@@ -1,32 +1,32 @@
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { RichTextBox } from '../components/RichTextBox'
-import { postImage, postThread } from '../firestore'
-import { Timestamp } from 'firebase/firestore'
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { RichTextBox } from '../components/RichTextBox';
+import { postImage, postThread } from '../firestore';
+import { Timestamp } from 'firebase/firestore';
 
-import '../App.css'
-import CircularProgress from '@mui/material/CircularProgress'
+import '../App.css';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Post({ deepLink }) {
-    const navigate = useNavigate()
-    const { forumURL } = useParams()
-    const previousURL = deepLink ? `/${forumURL}` : -1
+    const navigate = useNavigate();
+    const { forumURL } = useParams();
+    const previousURL = deepLink ? `/${forumURL}` : -1;
 
     // const [author, setAuthor] = useState('')
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState(null)
-    const [image, setImage] = useState()
-    const [submitLoading, setSubmitLoading] = useState(false)
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState(null);
+    const [image, setImage] = useState();
+    const [submitLoading, setSubmitLoading] = useState(false);
 
     useEffect(() => {
-        document.body.style.overflow = 'hidden'
-        return () => { document.body.style.overflow = 'unset' }
-    }, [])
+        document.body.style.overflow = 'hidden';
+        return () => { document.body.style.overflow = 'unset'; };
+    }, []);
 
     const handleSubmit = async () => { // Does not abort if user leaves page
         if (image) {
-            var url = await postImage(image)
-            if (!url) return
+            var url = await postImage(image);
+            if (!url) return;
         }
         const res = await postThread({
             author: 'Anonymous',
@@ -36,9 +36,9 @@ function Post({ deepLink }) {
             createdAt: Timestamp.fromDate(new Date()),
             imageURL: url ? url : null,
             totalComments: 0
-        })
-        navigate(`/${forumURL}/thread/${res.id}`)
-    }
+        });
+        navigate(`/${forumURL}/thread/${res.id}`);
+    };
 
     return (
         <div className='modal-div'>
@@ -58,9 +58,9 @@ function Post({ deepLink }) {
                     getImage={(file) => setImage(file)}
                     placeholderText={'Description'}
                     submitEvent={async () => {
-                        setSubmitLoading(true)
-                        await handleSubmit()
-                        setSubmitLoading(false)
+                        setSubmitLoading(true);
+                        await handleSubmit();
+                        setSubmitLoading(false);
                     }}
                     cancelEvent={() => navigate(previousURL)}
                     submitDisabled={title === '' || title.trim().length === 0}
@@ -73,7 +73,7 @@ function Post({ deepLink }) {
                 visibility: submitLoading ? 'visible' : 'hidden'
             }} />
         </div>
-    )
+    );
 }
 
-export default Post
+export default Post;

@@ -1,36 +1,36 @@
-import { useEffect, useState } from "react"
-import { Link, Outlet, useLocation, useParams } from 'react-router-dom'
-import NotFound from '../components/NotFound'
-import { getForum } from '../firestore'
-import '../App.css'
-import { setPageTitle } from "../utils"
+import { useEffect, useState } from "react";
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
+import NotFound from '../components/NotFound';
+import { getForum } from '../firestore';
+import '../App.css';
+import { setPageTitle } from "../utils";
 
 function Forum() {
-    const [forum, setForum] = useState()
-    const [loading, setLoading] = useState(true)
-    const { forumURL } = useParams()
-    const { threadID } = useParams()
-    const location = useLocation()
+    const [forum, setForum] = useState();
+    const [loading, setLoading] = useState(true);
+    const { forumURL } = useParams();
+    const { threadID } = useParams();
+    const location = useLocation();
 
     useEffect(() => {
         const handleGetForum = async () => {
-            const data = await getForum(forumURL)
-            setForum(data)
-            setLoading(false)
-        }
-        handleGetForum()
-    }, [forumURL])
+            const data = await getForum(forumURL);
+            setForum(data);
+            setLoading(false);
+        };
+        handleGetForum();
+    }, [forumURL]);
 
     useEffect(() => {
         if (forum)
-            setPageTitle(forum.title)
-    }, [forum, threadID])
+            setPageTitle(forum.title);
+    }, [forum, threadID]);
 
     if (loading)
-        return
+        return;
 
     if (!forum)
-        return <NotFound error={"Board does not exist"} />
+        return <NotFound error={"Board does not exist"} />;
 
     return (<>
         <div className='left-column'>
@@ -54,7 +54,7 @@ function Forum() {
                 <div id='bottom' className='column-bottom' />
             </div>
         </div>
-    </>)
+    </>);
 }
 
-export default Forum
+export default Forum;

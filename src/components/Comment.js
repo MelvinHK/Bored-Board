@@ -1,37 +1,37 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import parse from 'html-react-parser'
+import parse from 'html-react-parser';
 
-import { timeSince } from "../utils"
-import Replies from "./Replies"
-import '../App.css'
+import { timeSince } from "../utils";
+import Replies from "./Replies";
+import '../App.css';
 
 import ReplyIcon from '@mui/icons-material/Reply';
 import CommentRichTextBox from "./CommentRichTextBox";
-import LinkIcon from '@mui/icons-material/Link'
+import LinkIcon from '@mui/icons-material/Link';
 
 function Comment({ comment }) {
-    const { forumURL } = useParams()
-    const { threadID } = useParams()
+    const { forumURL } = useParams();
+    const { threadID } = useParams();
 
-    const [expandCommentBox, setExpandCommentBox] = useState(false)
-    const [showTooltip, setShowTooltip] = useState(false)
-    const [shareText, setShareText] = useState('Share')
+    const [expandCommentBox, setExpandCommentBox] = useState(false);
+    const [showTooltip, setShowTooltip] = useState(false);
+    const [shareText, setShareText] = useState('Share');
 
-    const [date, setDate] = useState(null)
-    const [totalReplies, setTotalReplies] = useState(0)
-    const [expandComment, setExpandComment] = useState(true)
+    const [date, setDate] = useState(null);
+    const [totalReplies, setTotalReplies] = useState(0);
+    const [expandComment, setExpandComment] = useState(true);
 
-    const [submittedReplies, setSubmittedReplies] = useState([])
+    const [submittedReplies, setSubmittedReplies] = useState([]);
 
     useEffect(() => {
-        setTotalReplies(comment.totalReplies)
-        setDate(timeSince(comment.createdAt.toDate()))
-    }, [comment])
+        setTotalReplies(comment.totalReplies);
+        setDate(timeSince(comment.createdAt.toDate()));
+    }, [comment]);
 
     return (<>
         <li onMouseEnter={() => setShowTooltip(true)}
-            onMouseLeave={() => { setShowTooltip(false); setShareText('Share') }}>
+            onMouseLeave={() => { setShowTooltip(false); setShareText('Share'); }}>
             <span className={`f12 flex f-center gray ${!expandComment ? 'mb10' : ''}`}>
                 <span>
                     <span className='author'>{comment.author}</span> <span title={comment.date}>{date}</span>
@@ -43,10 +43,10 @@ function Comment({ comment }) {
                         <ReplyIcon fontSize='small' />&nbsp;Reply
                     </button>
                     <button className={`${expandComment ? 'button-link f12 flex f-center ml10' : 'd-none'}`}
-                        onFocus={() => setShowTooltip(true)} onBlur={() => { setShowTooltip(false); setShareText('Share') }}
+                        onFocus={() => setShowTooltip(true)} onBlur={() => { setShowTooltip(false); setShareText('Share'); }}
                         onClick={() => {
-                            setShareText('Link copied!')
-                            navigator.clipboard.writeText(`${window.location.origin}/${forumURL}/thread/${threadID}/comment/${comment.id}`)
+                            setShareText('Link copied!');
+                            navigator.clipboard.writeText(`${window.location.origin}/${forumURL}/thread/${threadID}/comment/${comment.id}`);
                         }}>
                         <LinkIcon fontSize='small' />&nbsp;{shareText}
                     </button>
@@ -72,7 +72,7 @@ function Comment({ comment }) {
                     expand={(value) => setExpandCommentBox(value)}
                     parentCommentID={comment.id}
                     onSubmitted={(res) => {
-                        setSubmittedReplies([...submittedReplies, res])
+                        setSubmittedReplies([...submittedReplies, res]);
                     }}
                     placeholderText='Leave a reply'
                 />
@@ -90,7 +90,7 @@ function Comment({ comment }) {
                     )}
                 </div>}
         </span>
-    </>)
+    </>);
 }
 
-export default Comment
+export default Comment;

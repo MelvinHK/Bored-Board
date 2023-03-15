@@ -1,29 +1,29 @@
-import { useState } from "react"
-import { getReplies, replyAmount } from "../firestore"
-import Comment from "./Comment"
+import { useState } from "react";
+import { getReplies, replyAmount } from "../firestore";
+import Comment from "./Comment";
 
 function Replies({ label, parentComment, ignoreSubmittedReplies }) {
-    const [fetched, setFetched] = useState(false)
-    const [expanded, setExpanded] = useState(false)
+    const [fetched, setFetched] = useState(false);
+    const [expanded, setExpanded] = useState(false);
 
-    const [replies, setReplies] = useState([])
-    const [previousReplies, setPreviousReplies] = useState([])
+    const [replies, setReplies] = useState([]);
+    const [previousReplies, setPreviousReplies] = useState([]);
 
     const handleGetReplies = async (parentCommentID, lastReplyID = undefined) => {
-        const data = await getReplies(parentCommentID, lastReplyID)
+        const data = await getReplies(parentCommentID, lastReplyID);
         const filtered = data.filter((fetchedReply) =>
             !ignoreSubmittedReplies.find((ignoredReply) =>
                 ignoredReply.id === fetchedReply.id
-            ))
-        setReplies(filtered)
-        setFetched(true)
-    }
+            ));
+        setReplies(filtered);
+        setFetched(true);
+    };
 
     return (<>
         <button className='button-link' onClick={async () => {
-            setExpanded(!expanded)
+            setExpanded(!expanded);
             if (!fetched)
-                await handleGetReplies(parentComment.id)
+                await handleGetReplies(parentComment.id);
         }}>
             {!expanded ? '\u23F7' : '\u23F6'} {label}
         </button>
@@ -35,22 +35,22 @@ function Replies({ label, parentComment, ignoreSubmittedReplies }) {
                         return (
                             <button
                                 onClick={async () => {
-                                    setReplies(replies.slice(0, -1))
-                                    await handleGetReplies(parentComment.id, reply.id)
-                                    setPreviousReplies(previousReplies.concat(replies))
+                                    setReplies(replies.slice(0, -1));
+                                    await handleGetReplies(parentComment.id, reply.id);
+                                    setPreviousReplies(previousReplies.concat(replies));
                                 }}
                                 className='button-link'
                                 key={reply.id}>
                                 Show more replies
                             </button>
-                        )
+                        );
                     return (
                         <Comment comment={reply} key={reply.id} />
-                    )
+                    );
                 })}
             </ul>
         </div>
-    </>)
+    </>);
 }
 
-export default Replies
+export default Replies;

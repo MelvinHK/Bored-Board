@@ -1,50 +1,50 @@
-import { useCallback } from 'react'
+import { useCallback } from 'react';
 
-import FormatBoldIcon from '@mui/icons-material/FormatBold'
-import FormatItalicIcon from '@mui/icons-material/FormatItalic'
-import StrikethroughSIcon from '@mui/icons-material/StrikethroughS'
-import LinkIcon from '@mui/icons-material/Link'
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
-import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered'
-import ImageIcon from '@mui/icons-material/Image'
+import FormatBoldIcon from '@mui/icons-material/FormatBold';
+import FormatItalicIcon from '@mui/icons-material/FormatItalic';
+import StrikethroughSIcon from '@mui/icons-material/StrikethroughS';
+import LinkIcon from '@mui/icons-material/Link';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+import ImageIcon from '@mui/icons-material/Image';
 
-import '../App.css'
-import { isValidHttpUrl } from '../utils'
+import '../App.css';
+import { isValidHttpUrl } from '../utils';
 
 export function MenuBar({ editor, passImage }) {
     const toggleLink = useCallback(() => {
-        const previousUrl = editor.getAttributes('link').href
-        var url = window.prompt('Enter URL:', previousUrl)
+        const previousUrl = editor.getAttributes('link').href;
+        var url = window.prompt('Enter URL:', previousUrl);
 
         if (url === null)
-            return
+            return;
 
         if (url === '') {
-            editor.chain().focus().extendMarkRange('link').unsetLink().run()
-            return
+            editor.chain().focus().extendMarkRange('link').unsetLink().run();
+            return;
         }
 
         if (isValidHttpUrl(url)) {
             if (!url.startsWith('https://') && !url.startsWith('http://'))
-                url = 'https://' + url
-            editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
-            return
+                url = 'https://' + url;
+            editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+            return;
         }
-        window.alert('Invalid URL')
-    }, [editor])
+        window.alert('Invalid URL');
+    }, [editor]);
 
     const chooseImage = () => {
-        let input = document.createElement('input')
-        input.type = 'file'
+        let input = document.createElement('input');
+        input.type = 'file';
         input.onchange = async _ => {
-            const selectedFile = Array.from(input.files)[0]
-            passImage(selectedFile)
-        }
-        input.click()
-    }
+            const selectedFile = Array.from(input.files)[0];
+            passImage(selectedFile);
+        };
+        input.click();
+    };
 
     if (!editor)
-        return null
+        return null;
 
     return (<>
         <button
@@ -93,7 +93,7 @@ export function MenuBar({ editor, passImage }) {
         <button onClick={chooseImage} className={`rtb-menu-btns`}>
             <ImageIcon />
         </button>
-    </>)
+    </>);
 }
 
-export default MenuBar
+export default MenuBar;

@@ -61,14 +61,16 @@ img {
   width: 92%;
 }
 
-.black-link, .nav a {
+.black-link,
+.nav a {
   color: black !important;
   padding: 10px;
   margin-left: -10px;
   border-radius: 5px;
 }
 
-.black-link:hover {
+.black-link:hover,
+.nav a:hover {
   background-color: #e7e7e7;
 }
 
@@ -93,7 +95,6 @@ img {
 }
 
 .main-column {
-  position: relative;
   width: 700px;
   border: solid 1px #e7e7e7;
   border-radius: 5px;
@@ -240,6 +241,7 @@ input {
   padding: 10px;
   font-size: 15px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .rtb {
@@ -419,10 +421,6 @@ input {
   font-size: 15px;
 }
 
-input {
-  width: 100%;
-}
-
 .searchbar {
   padding-left: 40px;
 }
@@ -549,6 +547,10 @@ input {
 
 .mr30 {
   margin-right: 30px !important;
+}
+
+.mrauto {
+  margin-right: auto !important;
 }
 
 .gray {

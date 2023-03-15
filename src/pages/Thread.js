@@ -1,86 +1,86 @@
-import { useParams, Link } from 'react-router-dom'
-import { useEffect, useState } from "react"
-import NotFound from '../components/NotFound'
-import parse from 'html-react-parser'
-import { getThread, getComments, getComment } from '../firestore'
-import '../App.css'
-import Comment from '../components/Comment'
-import CommentRichTextBox from '../components/CommentRichTextBox'
-import { setPageTitle } from '../utils'
+import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import NotFound from '../components/NotFound';
+import parse from 'html-react-parser';
+import { getThread, getComments, getComment } from '../firestore';
+import '../App.css';
+import Comment from '../components/Comment';
+import CommentRichTextBox from '../components/CommentRichTextBox';
+import { setPageTitle } from '../utils';
 
 function Thread() {
-    const { threadID } = useParams()
-    const { commentID } = useParams()
+    const { threadID } = useParams();
+    const { commentID } = useParams();
 
-    const [thread, setThread] = useState()
-    const [loading, setLoading] = useState(true)
+    const [thread, setThread] = useState();
+    const [loading, setLoading] = useState(true);
 
-    const [expandCommentBox, setExpandCommentBox] = useState(false)
+    const [expandCommentBox, setExpandCommentBox] = useState(false);
 
-    const [comments, setComments] = useState([])
-    const [queried, setQueried] = useState(false)
-    const [moreComments, setMoreComments] = useState(false)
+    const [comments, setComments] = useState([]);
+    const [queried, setQueried] = useState(false);
+    const [moreComments, setMoreComments] = useState(false);
 
     useEffect(() => {
         const handleGetThread = async () => {
-            const threadData = await getThread(threadID)
-            setThread(threadData)
-        }
+            const threadData = await getThread(threadID);
+            setThread(threadData);
+        };
 
         const handleGetComments = async () => {
             if (commentID) {
-                var commentsData = await getComment(commentID)
+                var commentsData = await getComment(commentID);
                 if (!commentsData || commentsData[0].threadID !== threadID)
-                    return setComments(null)
+                    return setComments(null);
                 else
-                    setQueried(true)
+                    setQueried(true);
             } else
-                commentsData = await getComments(threadID)
+                commentsData = await getComments(threadID);
             if (commentsData[10]) {
-                commentsData.pop()
-                setMoreComments(true)
+                commentsData.pop();
+                setMoreComments(true);
             }
-            setComments(commentsData)
-        }
+            setComments(commentsData);
+        };
 
         const loadData = async () => {
-            await handleGetThread()
-            await handleGetComments()
-            setLoading(false)
-        }
-        
-        setQueried(false)
-        loadData()
-    }, [commentID, threadID])
+            await handleGetThread();
+            await handleGetComments();
+            setLoading(false);
+        };
+
+        setQueried(false);
+        loadData();
+    }, [commentID, threadID]);
 
     useEffect(() => {
-        if (thread) setPageTitle(thread.title)
-    }, [thread])
+        if (thread) setPageTitle(thread.title);
+    }, [thread]);
 
     const getMoreComments = async () => {
         if (moreComments) {
-            const nextComments = await getComments(threadID, comments[comments.length - 1].id)
+            const nextComments = await getComments(threadID, comments[comments.length - 1].id);
             if (nextComments.length < 11)
-                setMoreComments(false)
-            setComments(comments.concat(nextComments))
+                setMoreComments(false);
+            setComments(comments.concat(nextComments));
         }
-    }
+    };
 
     useEffect(() => {
         let observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting)
-                    getMoreComments()
-            })
-        })
-        observer.observe(document.getElementById('bottom'))
-    })
+                    getMoreComments();
+            });
+        });
+        observer.observe(document.getElementById('bottom'));
+    });
 
     if (loading)
-        return
+        return;
 
     if (!thread)
-        return <NotFound error={"Thread does not exist"} />
+        return <NotFound error={"Thread does not exist"} />;
 
     return (<>
         <h3 className='mt0 mb10'>{thread.title}</h3>
@@ -95,7 +95,7 @@ function Thread() {
         </h4>
         {!expandCommentBox ?
             <div className='comment-box-unexpanded'
-                onClick={(e) => { if (e.type === 'click') setExpandCommentBox(true) }}>
+                onClick={(e) => { if (e.type === 'click') setExpandCommentBox(true); }}>
                 <span tabIndex={0} onFocus={() => setExpandCommentBox(true)} />
                 Leave a comment
             </div>
@@ -103,7 +103,7 @@ function Thread() {
             <CommentRichTextBox
                 expand={(value) => setExpandCommentBox(value)}
                 onSubmitted={(value) => {
-                    setComments([value, ...comments])
+                    setComments([value, ...comments]);
                 }}
             />}
         {comments ?
@@ -113,7 +113,7 @@ function Thread() {
                         <div key={comment.id} className='mt20'>
                             <Comment comment={comment} />
                         </div>
-                    )
+                    );
                 })}
             </ul>
             :
@@ -124,7 +124,7 @@ function Thread() {
                     View full thread
                 </button>
             </Link>}
-    </>)
+    </>);
 }
 
-export default Thread
+export default Thread;

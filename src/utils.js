@@ -1,6 +1,6 @@
 export function setPageTitle(title = undefined) {
-    const defaultTitle = 'Bored Bored'
-    document.title = title ? `${title} - ${defaultTitle}` : defaultTitle
+    const defaultTitle = 'Bored Bored';
+    document.title = title ? `${title} - ${defaultTitle}` : defaultTitle;
 }
 
 export function isValidHttpUrl(string) {
@@ -12,7 +12,7 @@ export function isValidHttpUrl(string) {
         '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
         '(\\#[-a-z\\d_]*)?$', // fragment locator
         'i'
-    )
+    );
     return pattern.test(string);
 }
 

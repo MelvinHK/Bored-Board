@@ -1,16 +1,16 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
-import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import Placeholder from '@tiptap/extension-placeholder'
-import Link from '@tiptap/extension-link'
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Placeholder from '@tiptap/extension-placeholder';
+import Link from '@tiptap/extension-link';
 import CloseIcon from '@mui/icons-material/Close';
 
-import '../App.css'
-import MenuBar from './RTBMenuBar'
+import '../App.css';
+import MenuBar from './RTBMenuBar';
 
 export function RichTextBox({ getDescription, getImage, submitEvent, cancelEvent, placeholderText, imageRequired = true, submitDisabled = false, autofocus = false }) {
-    const [image, setImage] = useState()
+    const [image, setImage] = useState();
     const editor = useEditor({
         autofocus: autofocus,
         extensions: [
@@ -24,21 +24,21 @@ export function RichTextBox({ getDescription, getImage, submitEvent, cancelEvent
             })
         ],
         onUpdate: ({ editor }) => {
-            getDescription(editor.getHTML())
+            getDescription(editor.getHTML());
         }
-    })
+    });
 
     const passImage = (file) => {
-        setImage(file)
-        getImage(file)
-    }
+        setImage(file);
+        getImage(file);
+    };
 
     const contentInvalid = () => {
         if (imageRequired)
-            return submitDisabled || !image
+            return submitDisabled || !image;
         else
-            return submitDisabled || (!image && (editor.isEmpty || editor.getText().trim().length === 0))
-    }
+            return submitDisabled || (!image && (editor.isEmpty || editor.getText().trim().length === 0));
+    };
 
     return (<>
         {editor && <>
@@ -71,7 +71,7 @@ export function RichTextBox({ getDescription, getImage, submitEvent, cancelEvent
                 </button>
             </div>
         </>}
-    </>)
+    </>);
 }
 
-export default RichTextBox
+export default RichTextBox;
