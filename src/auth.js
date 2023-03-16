@@ -36,5 +36,6 @@ export const useAuth = () => {
 };
 
 export const signOut = async () => {
-    await auth.signOut()
+    await auth.signOut();
+    window.location.reload();
 };

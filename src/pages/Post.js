@@ -27,7 +27,7 @@ function Post({ deepLink }) {
 
     useEffect(() => {
         if (!userLoading && !user)
-            navigate('/login');
+            navigate(`/${forumURL}`);
     }, [user, userLoading, navigate]);
 
     const handleSubmit = async () => { // Does not abort if user leaves page
