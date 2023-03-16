@@ -112,6 +112,14 @@ img {
   width: 300px;
 }
 
+.w700 {
+  width: 700px;
+}
+
+.mw700 {
+  max-width: 700px;
+}
+
 /* Zooming out */
 @media only screen and (min-width:1549px) {
   .spacer {
@@ -215,7 +223,9 @@ img {
   box-shadow: 0 0 8px rgba(95, 95, 95, 0.4);
 }
 
-button, input[type='submit'] {
+button,
+.btn,
+input[type='submit'] {
   background-color: white;
   color: black;
   border: 1px solid #e7e7e7;
@@ -225,15 +235,21 @@ button, input[type='submit'] {
   font-size: 15px;
 }
 
-button:hover, input[type='submit']:hover {
+button:hover,
+.btn:hover,
+input[type='submit']:hover {
   background-color: #e7e7e7;
 }
 
-button:active, input[type='submit']:active {
+button:active,
+.btn:active,
+input[type='submit']:active {
   background-color: #efefef;
 }
 
-button:disabled, input[type='submit']:disabled {
+button:disabled,
+.btn:disabled,
+input[type='submit']:disabled {
   background-color: rgba(0, 0, 0, 0);
   color: rgb(175, 175, 175);
   cursor: default;
@@ -458,8 +474,16 @@ input {
   justify-content: flex-end;
 }
 
-.f-break {
-  width: 100%;
+.w100 {
+  width: 100% !important;
+}
+
+.a-btn {
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  color: black !important;
+  text-decoration: none !important;
 }
 
 .mr5 {

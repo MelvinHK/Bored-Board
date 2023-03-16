@@ -41,10 +41,8 @@ function Forum() {
                 </Link>
             </h2>
             <p>{forum.description}</p>
-            <Link to={`/${forumURL}/post`} state={{ postModalBackground: location }} tabIndex={-1}>
-                <button style={{ width: '100%' }}>
-                    Post Thread
-                </button>
+            <Link to={`/${forumURL}/post`} state={{ postModalBackground: location }} className='btn a-btn w100'>
+                Post Thread
             </Link>
         </div>
         <div className='flex'>

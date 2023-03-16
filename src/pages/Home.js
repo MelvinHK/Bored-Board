@@ -6,8 +6,10 @@ function Home() {
 
     return (
         <div className='home-page-logo'>
-            <h1>Boards:</h1>
-            <ForumList />
+            <div className='mw700'>
+                <h1>Boards:</h1>
+                <ForumList />
+            </div>
         </div>
     );
 }

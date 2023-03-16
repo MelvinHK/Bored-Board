@@ -11,7 +11,7 @@ export function ImagePreview({ imageURL }) {
             <AttachFileIcon className='paperclip-icon' fontSize='small' />
         </button>
         {toggleImage && <>
-            <div className='f-break' />
+            <div className='w100' />
             <img alt='preview' src={imageURL} className='preview-img' />
         </>}
     </>);

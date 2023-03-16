@@ -68,13 +68,13 @@ function ThreadList() {
                             {thread.title}
                         </Link>
                     </h4>
-                    <p className='flex f-start f-center f-wrap mt15 gray'>
+                    <span className='flex f-start f-center f-wrap mt15 gray f15'>
                         <span className='author'>{thread.author}&nbsp;</span>
                         <span title={thread.date}>{timeSince(thread.createdAt.toDate())}</span>
                         <ChatBubbleOutlineIcon className='chat-icon' fontSize='small' />
                         {thread.totalComments}
                         {thread.imageURL && <ImagePreview imageURL={thread.imageURL} />}
-                    </p>
+                    </span>
                 </li>
             )}
         </ul>
