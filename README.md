@@ -13,6 +13,7 @@ Features:
 
 To Do:
 <ul>
+  <li>Email verification, password reset</li>
   <li>Server-side validation for posting, commenting, signup</li>
   <li>Abort functions for when user leaves page during requests</li>
 </ul>
