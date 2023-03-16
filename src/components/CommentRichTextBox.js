@@ -3,14 +3,15 @@ import { postComment, incrementReplies, postImage } from "../firestore";
 import { useParams } from "react-router-dom";
 import { Timestamp } from "firebase/firestore";
 import RichTextBox from "./RichTextBox";
+import { useAuth } from "../auth";
 
 function CommentRichTextBox({ expand, onSubmitted, parentCommentID, placeholderText = 'Leave a comment' }) {
     const { threadID } = useParams();
-
-    // const [author, setAuthor] = useState('')
     const [comment, setComment] = useState(null);
     const [image, setImage] = useState();
     const [submitLoading, setSubmitLoading] = useState(false);
+
+    const { user } = useAuth();
 
     const handleSubmitComment = async (parentID) => {
         if (image) {
@@ -18,7 +19,7 @@ function CommentRichTextBox({ expand, onSubmitted, parentCommentID, placeholderT
             if (!url) return;
         }
         const res = await postComment({
-            author: 'Anonymous',
+            author: user.displayName,
             description: comment,
             threadID: threadID,
             totalReplies: 0,
