@@ -19,8 +19,8 @@ function App() {
             <Routes location={postModalBackground || location}>
                 <Route path='/' element={<Home />} />
                 <Route path='about' element={<About />} />
-                <Route path='login' element={<Login />} />
-                <Route path='signup' element={<Signup />} />
+                <Route path='login' element={<Login deepLink={true} />} />
+                <Route path='signup' element={<Signup deepLink={true} />} />
                 <Route path=':forumURL' element={<Forum />}>
                     <Route index element={<ThreadList />} />
                     <Route exact path='thread/:threadID' element={<Thread />} >
@@ -32,7 +32,9 @@ function App() {
             </Routes>
             {postModalBackground && (
                 <Routes>
-                    <Route path=":forumURL/post" element={<Post />} />
+                    <Route path=':forumURL/post' element={<Post />} />
+                    <Route path='signup' element={<Signup />} />
+                    <Route path='login' element={<Login />} />
                 </Routes>
             )}
             <div className='nav-box' />

@@ -6,22 +6,29 @@ import { Timestamp } from 'firebase/firestore';
 
 import '../App.css';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useAuth } from '../auth';
 
 function Post({ deepLink }) {
     const navigate = useNavigate();
     const { forumURL } = useParams();
     const previousURL = deepLink ? `/${forumURL}` : -1;
 
-    // const [author, setAuthor] = useState('')
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState(null);
     const [image, setImage] = useState();
     const [submitLoading, setSubmitLoading] = useState(false);
 
+    const { user, userLoading } = useAuth();
+
     useEffect(() => {
         document.body.style.overflow = 'hidden';
         return () => { document.body.style.overflow = 'unset'; };
     }, []);
+
+    useEffect(() => {
+        if (!userLoading && !user)
+            navigate('/login');
+    }, [user, userLoading, navigate]);
 
     const handleSubmit = async () => { // Does not abort if user leaves page
         if (image) {
@@ -29,7 +36,7 @@ function Post({ deepLink }) {
             if (!url) return;
         }
         const res = await postThread({
-            author: 'Anonymous',
+            author: user.displayName,
             title: title,
             description: description,
             forumID: forumURL,
@@ -40,12 +47,13 @@ function Post({ deepLink }) {
         navigate(`/${forumURL}/thread/${res.id}`);
     };
 
-    return (
+    return !userLoading && user && (
         <div className='modal-div'>
             <div className={`modal ${submitLoading ? 'disabled-input' : ''}`}>
                 <h3>Post Thread</h3>
                 <span className='flex'>
                     <input
+                        type='text'
                         placeholder='Title*'
                         className='mb10'
                         value={title}

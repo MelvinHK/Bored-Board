@@ -4,19 +4,22 @@ import NotFound from '../components/NotFound';
 import { getForum } from '../firestore';
 import '../App.css';
 import { setPageTitle } from "../utils";
+import { useAuth } from "../auth";
 
 function Forum() {
     const [forum, setForum] = useState();
-    const [loading, setLoading] = useState(true);
+    const [dataLoading, setDataLoading] = useState(true);
     const { forumURL } = useParams();
     const { threadID } = useParams();
     const location = useLocation();
+
+    const { user, userLoading } = useAuth();
 
     useEffect(() => {
         const handleGetForum = async () => {
             const data = await getForum(forumURL);
             setForum(data);
-            setLoading(false);
+            setDataLoading(false);
         };
         handleGetForum();
     }, [forumURL]);
@@ -26,13 +29,13 @@ function Forum() {
             setPageTitle(forum.title);
     }, [forum, threadID]);
 
-    if (loading)
+    if (dataLoading)
         return;
 
     if (!forum)
         return <NotFound error={"Board does not exist"} />;
 
-    return (<>
+    return !userLoading && (<>
         <div className='left-column'>
             <h2>
                 <Link style={{ color: 'black', textDecoration: 'none' }} to={`/${forum.id}`}>
@@ -41,7 +44,8 @@ function Forum() {
                 </Link>
             </h2>
             <p>{forum.description}</p>
-            <Link to={`/${forumURL}/post`} state={{ postModalBackground: location }} className='btn a-btn w100'>
+            <Link to={user ? `/${forumURL}/post` : '/login'}
+                state={{ postModalBackground: location }} className='btn a-btn w100'>
                 Post Thread
             </Link>
         </div>

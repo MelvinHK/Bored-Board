@@ -7,21 +7,27 @@ const UserContext = createContext();
 export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUser(user);
+                setLoading(false);
             } else {
                 setUser();
+                setLoading(false);
             }
         });
+        return () => {
+            unsubscribe();
+        };
     }, []);
 
     return (
-        <UserContext.Provider value={user}>
+        <UserContext.Provider value={{ user: user, userLoading: loading }}>
             {children}
-        </UserContext.Provider>
+        </UserContext.Provider >
     );
 };
 
@@ -29,8 +35,6 @@ export const useAuth = () => {
     return useContext(UserContext);
 };
 
-export const signOut = () => {
-    auth.signOut()
-        .then(value => { })
-        .catch(reason => { console.error(reason); });
+export const signOut = async () => {
+    await auth.signOut()
 };

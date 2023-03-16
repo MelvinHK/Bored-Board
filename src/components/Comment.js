@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import parse from 'html-react-parser';
 
 import { timeSince } from "../utils";
@@ -9,6 +9,7 @@ import '../App.css';
 import ReplyIcon from '@mui/icons-material/Reply';
 import CommentRichTextBox from "./CommentRichTextBox";
 import LinkIcon from '@mui/icons-material/Link';
+import { useAuth } from "../auth";
 
 function Comment({ comment }) {
     const { forumURL } = useParams();
@@ -24,6 +25,9 @@ function Comment({ comment }) {
 
     const [submittedReplies, setSubmittedReplies] = useState([]);
 
+    const { user } = useAuth();
+    const location = useLocation();
+
     useEffect(() => {
         setTotalReplies(comment.totalReplies);
         setDate(timeSince(comment.createdAt.toDate()));
@@ -32,16 +36,22 @@ function Comment({ comment }) {
     return (<>
         <li onMouseEnter={() => setShowTooltip(true)}
             onMouseLeave={() => { setShowTooltip(false); setShareText('Share'); }}>
+
+            {/* Header */}
             <span className={`f12 flex f-center gray ${!expandComment ? 'mb10' : ''}`}>
                 <span>
                     <span className='author'>{comment.author}</span> <span title={comment.date}>{date}</span>
                 </span>
                 <span className='flex f-center' style={{ opacity: showTooltip ? '100' : '0' }}>
-                    <button className={`${expandComment ? 'button-link f12 flex f-center ml10' : 'd-none'}`}
+
+                    {/* Hide */}
+                    <button className='button-link f12 flex f-center ml10' style={{ height: '20px' }}
                         onFocus={() => setShowTooltip(true)} onBlur={() => setShowTooltip(false)}
-                        onClick={() => setExpandCommentBox(true)}>
-                        <ReplyIcon fontSize='small' />&nbsp;Reply
+                        onClick={() => setExpandComment(!expandComment)}>
+                        {expandComment ? 'Hide' : 'Show'}
                     </button>
+
+                    {/* Share */}
                     <button className={`${expandComment ? 'button-link f12 flex f-center ml10' : 'd-none'}`}
                         onFocus={() => setShowTooltip(true)} onBlur={() => { setShowTooltip(false); setShareText('Share'); }}
                         onClick={() => {
@@ -50,13 +60,23 @@ function Comment({ comment }) {
                         }}>
                         <LinkIcon fontSize='small' />&nbsp;{shareText}
                     </button>
-                    <button className='button-link f12 flex f-center ml10' style={{ height: '20px' }}
-                        onFocus={() => setShowTooltip(true)} onBlur={() => setShowTooltip(false)}
-                        onClick={() => setExpandComment(!expandComment)}>
-                        {expandComment ? 'Hide' : 'Show'}
-                    </button>
+
+                    {/* Reply */}
+                    {user ?
+                        <button className={`${expandComment ? 'button-link f12 flex f-center ml10' : 'd-none'}`}
+                            onFocus={() => setShowTooltip(true)} onBlur={() => setShowTooltip(false)}
+                            onClick={() => setExpandCommentBox(true)}>
+                            <ReplyIcon fontSize='small' />&nbsp;Reply
+                        </button>
+                        :
+                        <Link to='/login' state={{ postModalBackground: location, authError: 'You must log in to reply!' }}
+                            className={`${expandComment ? 'button-link f12 flex f-center ml10 gray' : 'd-none'}`}>
+                            <ReplyIcon fontSize='small' />&nbsp;Reply
+                        </Link>}
                 </span>
             </span>
+
+            {/* Content */}
             <span className={`${expandComment ? '' : 'd-none'}`}>
                 {comment.imageURL &&
                     <a href={comment.imageURL} target='_blank' rel='noopener noreferrer'
@@ -67,6 +87,8 @@ function Comment({ comment }) {
             </span>
         </li>
         <span className={`${expandComment ? '' : 'd-none'}`}>
+
+            {/* Comment Box */}
             {expandCommentBox && <div className='mb10'>
                 <CommentRichTextBox
                     expand={(value) => setExpandCommentBox(value)}
@@ -75,14 +97,17 @@ function Comment({ comment }) {
                         setSubmittedReplies([...submittedReplies, res]);
                     }}
                     placeholderText='Leave a reply'
-                />
-            </div>}
+                /></div>}
+
+            {/* No. Replies Button */}
             {totalReplies > 0 &&
                 <Replies
                     parentComment={comment}
                     label={`${totalReplies} repl${totalReplies === 1 ? 'y' : 'ies'}`}
                     ignoreSubmittedReplies={submittedReplies}
                 />}
+
+            {/* Replies that the user just submitted are appended here */}
             {submittedReplies.length > 0 &&
                 <div className='reply-line'>
                     {submittedReplies.map((reply) =>

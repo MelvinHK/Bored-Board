@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import NotFound from '../components/NotFound';
 import parse from 'html-react-parser';
@@ -7,19 +7,23 @@ import '../App.css';
 import Comment from '../components/Comment';
 import CommentRichTextBox from '../components/CommentRichTextBox';
 import { setPageTitle } from '../utils';
+import { useAuth } from '../auth';
 
 function Thread() {
     const { threadID } = useParams();
     const { commentID } = useParams();
 
     const [thread, setThread] = useState();
-    const [loading, setLoading] = useState(true);
+    const [dataLoading, setDataLoading] = useState(true);
 
     const [expandCommentBox, setExpandCommentBox] = useState(false);
 
     const [comments, setComments] = useState([]);
     const [queried, setQueried] = useState(false);
     const [moreComments, setMoreComments] = useState(false);
+
+    const { user, userLoading } = useAuth();
+    const location = useLocation();
 
     useEffect(() => {
         const handleGetThread = async () => {
@@ -46,7 +50,7 @@ function Thread() {
         const loadData = async () => {
             await handleGetThread();
             await handleGetComments();
-            setLoading(false);
+            setDataLoading(false);
         };
 
         setQueried(false);
@@ -76,13 +80,13 @@ function Thread() {
         observer.observe(document.getElementById('bottom'));
     });
 
-    if (loading)
+    if (dataLoading)
         return;
 
     if (!thread)
         return <NotFound error={"Thread does not exist"} />;
 
-    return (<>
+    return !userLoading && (<>
         <h3 className='mt0 mb10'>{thread.title}</h3>
         <p className='mb30 gray'><span className='author'>{thread.author}</span> {thread.date}</p>
         {thread.imageURL &&
@@ -95,8 +99,12 @@ function Thread() {
         </h4>
         {!expandCommentBox ?
             <div className='comment-box-unexpanded'
-                onClick={(e) => { if (e.type === 'click') setExpandCommentBox(true); }}>
-                <span tabIndex={0} onFocus={() => setExpandCommentBox(true)} />
+                onClick={(e) => {
+                    if (user && e.type === 'click')
+                        setExpandCommentBox(true);
+                }}
+                tabIndex={0} onFocus={() => { if (user) setExpandCommentBox(true); }}>
+                {!user && <Link className='comment-box-unexpanded-unauth' to='/login' state={{ postModalBackground: location }}></Link>}
                 Leave a comment
             </div>
             :

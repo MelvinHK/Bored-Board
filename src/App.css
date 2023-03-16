@@ -58,7 +58,7 @@ img {
   position: fixed;
   top: 0;
   box-sizing: border-box;
-  width: 92%;
+  width: 91%;
 }
 
 .black-link,
@@ -106,10 +106,6 @@ img {
 .column-bottom {
   position: 'absolute';
   bottom: '0';
-}
-
-.form {
-  width: 300px;
 }
 
 .w700 {
@@ -223,6 +219,10 @@ img {
   box-shadow: 0 0 8px rgba(95, 95, 95, 0.4);
 }
 
+.form {
+  width: 400px !important;
+}
+
 button,
 .btn,
 input[type='submit'] {
@@ -255,7 +255,8 @@ input[type='submit']:disabled {
   cursor: default;
 }
 
-input {
+input[type='text'],
+input[type='password'] {
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 10px;
@@ -364,17 +365,35 @@ input {
   cursor: text;
 }
 
+.comment-box-unexpanded-unauth {
+  display: block;
+  position: relative;
+  max-width: 700px;
+  cursor: text;
+  height: 25px;
+  margin-bottom: -25px;
+}
+
+.a-btn {
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  color: black !important;
+  text-decoration: none !important;
+}
+
 .button-link {
   margin: 0;
   cursor: pointer;
   padding: 0px;
   border: none;
-  color: gray;
+  color: gray !important;
 }
 
 .button-link:hover {
-  background-color: rgba(255, 255, 255, 0);
-  color: black;
+  background-color: rgba(255, 255, 255, 0) !important;
+  color: black !important;
+  text-decoration: none !important;
 }
 
 .comment-tooltip:hover {
@@ -442,7 +461,7 @@ input {
 }
 
 .searchbar {
-  padding-left: 40px;
+  padding-left: 40px !important;
 }
 
 .p-abs {
@@ -476,14 +495,6 @@ input {
 
 .w100 {
   width: 100% !important;
-}
-
-.a-btn {
-  display: block;
-  text-align: center;
-  box-sizing: border-box;
-  color: black !important;
-  text-decoration: none !important;
 }
 
 .mr5 {

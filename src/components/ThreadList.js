@@ -58,7 +58,7 @@ function ThreadList() {
     return (<>
         <div className='flex f-center'>
             <SearchIcon className='p-abs ml10' color='action' />
-            <input placeholder={'Search'} className='searchbar' />
+            <input type='text' placeholder={'Search'} className='searchbar' />
         </div>
         <ul id='threadList' className='list ml10'>
             {threads.map((thread) =>
