@@ -8,6 +8,7 @@ Features:
   <li>Nested replies</li>
   <li>Collapse comments, copy their link</li>
   <li>Preview attached images on threads in thread lists</li>
+  <li>Bottomless scrolling when browsing threads, comments</li>
 </ul>
 
 To Do:
