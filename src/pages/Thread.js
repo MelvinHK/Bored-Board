@@ -115,7 +115,7 @@ function Thread() {
                 }}
             />}
         {comments ?
-            <ul className='comments list mt20'>
+            <div className='comments list mt20'>
                 {comments.map((comment) => {
                     return (
                         <div key={comment.id} className='mt20'>
@@ -123,7 +123,7 @@ function Thread() {
                         </div>
                     );
                 })}
-            </ul>
+            </div>
             :
             <p className='mt30'>Comment does not exist</p>}
         {queried &&

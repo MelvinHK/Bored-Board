@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import '../App.css';
 import MenuBar from './RTBMenuBar';
 
-export function RichTextBox({ getDescription, getImage, submitEvent, cancelEvent, placeholderText, imageRequired = true, submitDisabled = false, autofocus = false }) {
+export function RichTextBox({ getDescription, getImage, submitEvent, cancelEvent, placeholderText, imageRequired = true, imageDisabled = false, submitDisabled = false, editContent, autofocus = false }) {
     const [image, setImage] = useState();
     const editor = useEditor({
         autofocus: autofocus,
@@ -25,7 +25,8 @@ export function RichTextBox({ getDescription, getImage, submitEvent, cancelEvent
         ],
         onUpdate: ({ editor }) => {
             getDescription(editor.getHTML());
-        }
+        },
+        content: editContent
     });
 
     const passImage = (file) => {
@@ -44,7 +45,7 @@ export function RichTextBox({ getDescription, getImage, submitEvent, cancelEvent
         {editor && <>
             <div className='rtb'>
                 <div className='rtb-menu'>
-                    <MenuBar editor={editor} passImage={passImage} />
+                    <MenuBar editor={editor} passImage={passImage} imageDisabled={imageDisabled} />
                 </div>
                 <EditorContent editor={editor} />
             </div>

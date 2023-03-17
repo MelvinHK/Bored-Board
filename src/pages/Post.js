@@ -37,6 +37,7 @@ function Post({ deepLink }) {
         }
         const res = await postThread({
             author: user.displayName,
+            authorID: user.uid,
             title: title,
             description: description,
             forumID: forumURL,

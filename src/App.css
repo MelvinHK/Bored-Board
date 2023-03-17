@@ -411,13 +411,9 @@ input[type='password'] {
   margin-bottom: 0;
 }
 
-.comments li p:not(.ProseMirror) {
+.comments div p:not(.comment-box p) {
   margin-top: 5px;
   margin-bottom: 10px;
-}
-
-.reply-line ul li:last-child p:not(.ProseMirror) {
-  margin-bottom: 0;
 }
 
 .d-none {
@@ -491,6 +487,10 @@ input[type='password'] {
 
 .f-end {
   justify-content: flex-end;
+}
+
+.f-grow {
+  flex-grow: 1;
 }
 
 .w100 {

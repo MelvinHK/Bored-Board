@@ -11,7 +11,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import '../App.css';
 import { isValidHttpUrl } from '../utils';
 
-export function MenuBar({ editor, passImage }) {
+export function MenuBar({ editor, passImage, imageDisabled = false }) {
     const toggleLink = useCallback(() => {
         const previousUrl = editor.getAttributes('link').href;
         var url = window.prompt('Enter URL:', previousUrl);
@@ -90,9 +90,9 @@ export function MenuBar({ editor, passImage }) {
         >
             <FormatListNumberedIcon />
         </button>
-        <button onClick={chooseImage} className={`rtb-menu-btns`}>
+        {!imageDisabled && <button onClick={chooseImage} className={`rtb-menu-btns`}>
             <ImageIcon />
-        </button>
+        </button>}
     </>);
 }
 

@@ -169,7 +169,7 @@ export const getReplies = async (commentID, lastReplyID = undefined) => {
 export const postComment = async (data) => {
     const commentRef = await addDoc(commentsRef, data);
     const threadRef = doc(db, "threads", data.threadID);
-    await updateDoc(threadRef, { totalComments: increment(1) });
+    await updateDoc(threadRef, { totalComments: increment(1) }); // Should be a server-side function effect
     const comment = await getDoc(commentRef);
     return {
         ...comment.data(),
@@ -178,7 +178,28 @@ export const postComment = async (data) => {
     };
 };
 
-export const incrementReplies = async (parentID, amount) => {
+export const editComment = async (commentID, description) => {
+    await updateDoc(doc(db, "comments", commentID), {
+        description: description,
+        edited: true
+    });
+};
+
+export const deleteComment = async (comment) => {
+    await updateDoc(doc(db, "comments", comment.id), {
+        author: null,
+        authorID: null,
+        description: "<p>[deleted]</p>",
+        imageURL: null,
+        edited: null
+    });
+
+    if (comment.parentID)
+        await incrementReplies(comment.parentID, -1); // These should be a server-side function effect
+    await updateDoc(doc(db, "threads", comment.threadID), { totalComments: increment(-1) });
+};
+
+export const incrementReplies = async (parentID, amount) => { // Should be a server-side function effect
     const commentRef = doc(db, "comments", parentID);
     await updateDoc(commentRef, {
         totalReplies: increment(amount)

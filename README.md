@@ -16,10 +16,11 @@ To Do:
   <li>Email verification, password reset</li>
   <li>Server-side validation for posting, commenting, signup</li>
   <li>Abort functions for when user leaves page during requests</li>
+  <li>Update threads/comments</li>
 </ul>
 
 In the future:
 <ul>
-  <li>Use MongoDB Atlas instead because it has features that are free, such as text field indexing, and server-side functions
+  <li>Use MongoDB Atlas instead because it has features that are free, such as field indexing (for searching), and server-side functions
   </li>
 </ul>
