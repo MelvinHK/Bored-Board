@@ -4,7 +4,7 @@ import { getThreads } from '../firestore';
 import { timeSince } from "../utils";
 
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import SearchIcon from '@mui/icons-material/Search';
+// import SearchIcon from '@mui/icons-material/Search';
 import ImagePreview from "./ImagePreview";
 
 function ThreadList() {
@@ -56,11 +56,11 @@ function ThreadList() {
         );
 
     return (<>
-        <div className='flex f-center'>
+        {/* <div className='flex f-center'>
             <SearchIcon className='p-abs ml10' color='action' />
             <input type='text' placeholder={'Search'} className='searchbar' />
-        </div>
-        <ul id='threadList' className='list ml10'>
+        </div> */}
+        <ul id='threadList' className='list'>
             {threads.map((thread) =>
                 <li key={thread.id}>
                     <h4 className='mt30 mb10'>

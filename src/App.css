@@ -103,6 +103,10 @@ img {
   min-height: 600px;
 }
 
+#threadList li:first-child h4 {
+  margin-top: 0 !important;
+}
+
 .column-bottom {
   position: 'absolute';
   bottom: '0';
@@ -215,7 +219,6 @@ img {
   padding: 30px;
   padding-bottom: 20px;
   padding-top: 5px;
-  margin-top: 59px;
   box-shadow: 0 0 8px rgba(95, 95, 95, 0.4);
 }
 
@@ -425,7 +428,6 @@ input[type='password'] {
 }
 
 .paperclip-icon {
-  transform: rotate(45deg);
   margin: 0px 5px 0px 5px
 }
 

@@ -28,7 +28,7 @@ function Login({ deepLink }) {
             navigate(previousURL);
         } catch (error) {
             setSubmitLoading(false);
-            console.error('Error signing in user: ', error);
+            window.alert(error);
         }
     };
 

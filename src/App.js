@@ -16,6 +16,8 @@ function App() {
 
     return (
         <>
+            <div className='nav-box' />
+            <Navbar />
             <Routes location={postModalBackground || location}>
                 <Route path='/' element={<Home />} />
                 <Route path='about' element={<About />} />
@@ -37,8 +39,6 @@ function App() {
                     <Route path='login' element={<Login />} />
                 </Routes>
             )}
-            <div className='nav-box' />
-            <Navbar />
         </>
     );
 }

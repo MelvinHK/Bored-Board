@@ -24,7 +24,7 @@ function Signup({ deepLink }) {
             await updateProfile(credential.user, { displayName: username });
             console.log('User signed up successfully!');
         } catch (error) {
-            console.error('Error signing up user: ', error);
+            window.alert(error);
         }
     };
 
@@ -33,9 +33,10 @@ function Signup({ deepLink }) {
             <div className='modal form'>
                 <form onSubmit={(e) => handleRegister(e)}>
                     <h2>Sign up</h2>
-                    <input type='text' placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} className='mb10' />
-                    <input type='text' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} className='mb10' />
-                    <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className='mb10' />
+                    <input type='text' placeholder='Username*' value={username} onChange={(e) => setUsername(e.target.value)} className='mb10' />
+                    <input type='text' placeholder='Email*' value={email} onChange={(e) => setEmail(e.target.value)} className='mb10' />
+                    <input type='password' placeholder='Password*' value={password} onChange={(e) => setPassword(e.target.value)} className='mb10' />
+                    <p className='f12 gray mt0'>Password must have at least 8 characters, with at least 1 letter and 1 number.</p>
                     <div className='flex f-end'>
                         <input className='btn mr10' type='submit' />
                         <button onClick={(e) => { e.preventDefault(); navigate(previousURL); }}>Cancel</button>
