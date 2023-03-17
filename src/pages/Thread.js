@@ -117,11 +117,13 @@ function Thread() {
         {comments ?
             <div className='comments list mt20'>
                 {comments.map((comment) => {
-                    return (
-                        <div key={comment.id} className='mt20'>
-                            <Comment comment={comment} />
-                        </div>
-                    );
+                    if (comment.author || (!comment.author && comment.totalReplies > 0))
+                        return (
+                            <div key={comment.id} className='mt20'>
+                                <Comment comment={comment} />
+                            </div>
+                        );
+                    return <></>;
                 })}
             </div>
             :
