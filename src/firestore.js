@@ -1,6 +1,6 @@
 import { db } from "./firestoreConfig";
-import { collection, getDocs, query, where, doc, getDoc, addDoc, limit, startAfter, orderBy, updateDoc, increment } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { collection, getDocs, query, where, doc, getDoc, addDoc, limit, startAfter, orderBy, updateDoc, increment, deleteDoc } from "firebase/firestore";
+import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 const forumsRef = collection(db, "forums");
 const threadsRef = collection(db, "threads");
@@ -186,16 +186,27 @@ export const editComment = async (commentID, description) => {
 };
 
 export const deleteComment = async (comment) => {
-    await updateDoc(doc(db, "comments", comment.id), {
-        author: null,
-        authorID: null,
-        description: "<p>[deleted]</p>",
-        imageURL: null,
-        edited: null
-    });
+    if (comment.imageURL) {
+        const storage = getStorage();
+        deleteObject(ref(storage, comment.imageURL));
+    }
 
-    if (comment.parentID)
-        await incrementReplies(comment.parentID, -1); // These should be a server-side function effect
+    // If a comment has no replies, delete it from the database,
+    if (comment.totalReplies === 0)
+        deleteDoc(doc(db, "comments", comment.id));
+    else {
+        // otherwise just null its fields.
+        await updateDoc(doc(db, "comments", comment.id), {
+            author: null,
+            authorID: null,
+            description: "<p>[deleted]</p>",
+            imageURL: null,
+            edited: null
+        });
+
+        if (comment.parentID)
+            await incrementReplies(comment.parentID, -1); // These should be a server-side function effect
+    }
     await updateDoc(doc(db, "threads", comment.threadID), { totalComments: increment(-1) });
 };
 

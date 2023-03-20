@@ -15,9 +15,9 @@ function NavBar() {
                 <NavLink to="/login" state={{ postModalBackground: location }} className='btn mlauto mr20' tabIndex={3}>Log in</NavLink>
                 <NavLink to="/signup" state={{ postModalBackground: location }} className='btn' tabIndex={4}>Sign up</NavLink>
             </> :
-                <button className='mlauto' onClick={() => signOut()}>Sign out</button>
+                <button className='mlauto' onClick={async () => { await signOut(); window.location.reload(); }}>Sign out</button>
             }
-        </div>
+        </div >
     );
 }
 

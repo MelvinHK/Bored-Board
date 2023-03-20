@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { postComment, incrementReplies, postImage, editComment } from "../firestore";
+import { postComment, incrementReplies, postImage, editComment, getComment } from "../firestore";
 import { useParams } from "react-router-dom";
 import { Timestamp } from "firebase/firestore";
 import RichTextBox from "./RichTextBox";
@@ -14,6 +14,11 @@ function CommentRichTextBox({ expand, onSubmitted, commentID, parentID, placehol
     const { user } = useAuth();
 
     const handleSubmitComment = async (parentID) => { // If parentID is given, it is a reply to a comment, otherwise it is a root comment.
+        if (parentID) {
+            const checkParent = await getComment(parentID);
+            if (!checkParent)
+                return window.alert(`Comment doesn't exist, it may have been deleted.`);
+        }
         if (image) {
             var url = await postImage(image);
             if (!url) return;

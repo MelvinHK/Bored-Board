@@ -2,7 +2,7 @@ import '../App.css';
 import { useEffect, useState } from 'react';
 import { auth } from '../firestoreConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useAuth } from '../auth';
 
@@ -48,12 +48,14 @@ function Login({ deepLink }) {
                 </div>
                 <CircularProgress style={{
                     position: 'absolute',
-                    marginTop: '50px',
                     color: 'grey',
                     visibility: submitLoading ? 'visible' : 'hidden'
                 }} />
             </> :
-                <p className='f-self-center'>Already logged in!</p>
+                <div className='modal form'>
+                    <h2>Hello!</h2>
+                    <p className='f-self-center'>You're already logged in! Click <Link to='/'>here</Link> to continue.</p>
+                </div>
             }
         </div>
     );

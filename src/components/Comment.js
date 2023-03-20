@@ -21,8 +21,11 @@ function Comment({ comment }) {
     const [shareText, setShareText] = useState('Share');
     const [editing, setEditing] = useState(false);
 
+    const [author, setAuthor] = useState(null);
     const [date, setDate] = useState(null);
+    const [edited, setEdited] = useState(null);
     const [description, setDescription] = useState(null);
+    const [imageURL, setImageURL] = useState(null);
     const [totalReplies, setTotalReplies] = useState(0);
     const [expandComment, setExpandComment] = useState(true);
 
@@ -32,14 +35,24 @@ function Comment({ comment }) {
     const location = useLocation();
 
     useEffect(() => {
-        setTotalReplies(comment.totalReplies);
+        setAuthor(comment.author ? comment.author : 'Deleted post');
         setDate(timeSince(comment.createdAt.toDate()));
-        setDescription(parse(comment.description));
+        setEdited(comment.edited ? '(edited)' : '');
+        if (comment.description)
+            setDescription(parse(comment.description));
+        setImageURL(comment.imageURL);
+        setTotalReplies(comment.totalReplies);
     }, [comment]);
 
     const handleDelete = async () => {
+        if (!window.confirm('Delete comment?'))
+            return;
         try {
             await deleteComment(comment);
+            setAuthor('Deleted post');
+            setEdited('');
+            setDescription(parse('<p>[deleted]</p>'));
+            setImageURL(null);
         } catch (error) {
             console.log('Error deleting comment: ', error);
         }
@@ -52,8 +65,8 @@ function Comment({ comment }) {
             {/* Header */}
             <span className={`f12 flex f-center gray ${!expandComment ? 'mb10' : ''}`}>
                 <span>
-                    <span className='author'>{comment.author ? comment.author : 'Deleted post'}</span>
-                    <span title={comment.date}> {date} {comment.edited && '(edited)'}</span>
+                    <span className='author'>{author}</span>
+                    <span title={comment.date}> {date} {edited}</span>
                 </span>
                 <span className='flex f-center' style={{ opacity: showTooltip ? '100' : '0' }}>
 
@@ -109,10 +122,10 @@ function Comment({ comment }) {
 
             {/* Content */}
             <span className={`${expandComment ? '' : 'd-none'}`}>
-                {comment.imageURL &&
-                    <a href={comment.imageURL} target='_blank' rel='noopener noreferrer'
+                {imageURL &&
+                    <a href={imageURL} target='_blank' rel='noopener noreferrer'
                         className={`${expandComment ? '' : 'd-none'}`}>
-                        <img className='comment-img' src={comment.imageURL} alt='comment img' />
+                        <img className='comment-img' src={imageURL} alt='comment img' />
                     </a>}
 
                 {!editing &&
@@ -126,7 +139,7 @@ function Comment({ comment }) {
                 <CommentRichTextBox
                     expand={(value) => setEditing(value)}
                     commentID={comment.id}
-                    onSubmitted={(updatedComment) => setDescription(parse(updatedComment))}
+                    onSubmitted={(updatedComment) => { setDescription(parse(updatedComment)); setEdited('(edited)'); }}
                     placeholderText='Edit comment'
                     imageDisabled={true}
                     editContent={comment.description}

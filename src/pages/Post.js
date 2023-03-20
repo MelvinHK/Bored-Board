@@ -77,7 +77,6 @@ function Post({ deepLink }) {
             </div>
             <CircularProgress style={{
                 position: 'absolute',
-                marginTop: '30px',
                 color: 'gray',
                 visibility: submitLoading ? 'visible' : 'hidden'
             }} />

@@ -87,6 +87,7 @@ function Thread() {
         return <NotFound error={"Thread does not exist"} />;
 
     return !userLoading && (<>
+        {/* Thread content */}
         <h3 className='mt0 mb10'>{thread.title}</h3>
         <p className='mb30 gray'><span className='author'>{thread.author}</span> {thread.date}</p>
         {thread.imageURL &&
@@ -94,17 +95,18 @@ function Thread() {
                 <img className='center-img' src={thread.imageURL} alt='thread img' />
             </a>}
         {thread.description && parse(thread.description)}
+
+        {/* Comments counter */}
         <h4 className='mt30'>
             {thread.totalComments} Comment{thread.totalComments !== 1 && 's'}
         </h4>
+
+        {/* Leave a comment on the thread */}
         {!expandCommentBox ?
             <div className='comment-box-unexpanded'
-                onClick={(e) => {
-                    if (user && e.type === 'click')
-                        setExpandCommentBox(true);
-                }}
-                tabIndex={0} onFocus={() => { if (user) setExpandCommentBox(true); }}>
-                {!user && <Link className='comment-box-unexpanded-unauth' to='/login' state={{ postModalBackground: location }}></Link>}
+                onClick={(e) => { if (user && e.type === 'click') setExpandCommentBox(true); }}
+                tabIndex={user ? 0 : -1} onFocus={() => { if (user) setExpandCommentBox(true); }}>
+                {!user && <Link className='comment-box-unexpanded-unauth' to='/login' state={{ postModalBackground: location }} />}
                 Leave a comment
             </div>
             :
@@ -114,6 +116,8 @@ function Thread() {
                     setComments([value, ...comments]);
                 }}
             />}
+
+        {/* Comments list */}
         {comments ?
             <div className='comments list mt20'>
                 {comments.map((comment) => {
@@ -128,6 +132,8 @@ function Thread() {
             </div>
             :
             <p className='mt30'>Comment does not exist</p>}
+
+        {/* If thread is being viewed from a shared comment link: */}
         {queried &&
             <Link to='./' tabIndex={-1}>
                 <button className='button-link'>
