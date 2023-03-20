@@ -170,14 +170,16 @@ img {
   .left-column img {
     height: 50px;
     display: inline;
-    transform: translate(10px, 38px);
+    margin-left: 10px;
+    margin-top: 38px;
+    margin-bottom: -18px;
   }
 
   .left-column a {
     height: 40px;
     width: 120px !important;
     margin-left: auto;
-    transform: translateY(40px);
+    margin-top: 40px;
   }
 
   .main-column {

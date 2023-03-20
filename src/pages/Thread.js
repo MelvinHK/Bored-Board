@@ -131,7 +131,7 @@ function Thread() {
                 })}
             </div>
             :
-            <p className='mt30'>Comment does not exist</p>}
+            <p className='mt30'>Comment does not exist. The URL may be incorrect or the comment was deleted.</p>}
 
         {/* If thread is being viewed from a shared comment link: */}
         {queried &&

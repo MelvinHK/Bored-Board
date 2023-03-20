@@ -19,28 +19,36 @@ function CommentRichTextBox({ expand, onSubmitted, commentID, parentID, placehol
             if (!checkParent)
                 return window.alert(`Comment doesn't exist, it may have been deleted.`);
         }
-        if (image) {
-            var url = await postImage(image);
-            if (!url) return;
+        try {
+            if (image) {
+                var url = await postImage(image);
+                if (!url) return;
+            }
+            const res = await postComment({
+                author: user.displayName,
+                authorID: user.uid,
+                description: comment,
+                threadID: threadID,
+                totalReplies: 0,
+                parentID: parentID === undefined ? null : parentID,
+                createdAt: Timestamp.fromDate(new Date()),
+                imageURL: url ? url : null,
+                edited: false
+            });
+            if (parentID)
+                await incrementReplies(parentID, 1);
+            onSubmitted(res); // Return comment to parent
+        } catch (error) {
+            window.alert('Error: Something went wrong with the upload...');
         }
-        const res = await postComment({
-            author: user.displayName,
-            authorID: user.uid,
-            description: comment,
-            threadID: threadID,
-            totalReplies: 0,
-            parentID: parentID === undefined ? null : parentID,
-            createdAt: Timestamp.fromDate(new Date()),
-            imageURL: url ? url : null,
-            edited: false
-        });
-        if (parentID)
-            await incrementReplies(parentID, 1);
-        onSubmitted(res); // Return comment to parent
     };
 
     const handleEditComment = async (commentID) => {
-        await editComment(commentID, comment);
+        try {
+            await editComment(commentID, comment);
+        } catch (error) {
+            window.alert('Error: Unable to edit this comment. You are may be unauthorised to do so.');
+        }
         onSubmitted(comment);
     };
 

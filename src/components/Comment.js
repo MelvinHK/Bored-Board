@@ -28,6 +28,7 @@ function Comment({ comment }) {
     const [imageURL, setImageURL] = useState(null);
     const [totalReplies, setTotalReplies] = useState(0);
     const [expandComment, setExpandComment] = useState(true);
+    const [deleted, setDeleted] = useState(false);
 
     const [submittedReplies, setSubmittedReplies] = useState([]);
 
@@ -53,6 +54,7 @@ function Comment({ comment }) {
             setEdited('');
             setDescription(parse('<p>[deleted]</p>'));
             setImageURL(null);
+            setDeleted(true);
         } catch (error) {
             console.log('Error deleting comment: ', error);
         }
@@ -100,7 +102,7 @@ function Comment({ comment }) {
                         <LinkIcon fontSize='small' />&nbsp;{shareText}
                     </button>
 
-                    {user && user.uid === comment.authorID && <>
+                    {!deleted && user && user.uid === comment.authorID && <>
                         {/* Edit */}
                         <button className={`${expandComment ? 'button-link f12 ml10' : 'd-none'}`}
                             style={{ height: '20px' }}

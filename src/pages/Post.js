@@ -31,21 +31,25 @@ function Post({ deepLink }) {
     }, [user, userLoading, navigate, forumURL]);
 
     const handleSubmit = async () => { // Does not abort if user leaves page
-        if (image) {
-            var url = await postImage(image);
-            if (!url) return;
+        try {
+            if (image) {
+                var url = await postImage(image);
+                if (!url) return;
+            }
+            const res = await postThread({
+                author: user.displayName,
+                authorID: user.uid,
+                title: title,
+                description: description,
+                forumID: forumURL,
+                createdAt: Timestamp.fromDate(new Date()),
+                imageURL: url ? url : null,
+                totalComments: 0
+            });
+            navigate(`/${forumURL}/thread/${res.id}`);
+        } catch (error) {
+            window.alert('Error: Something went wrong with the upload...');
         }
-        const res = await postThread({
-            author: user.displayName,
-            authorID: user.uid,
-            title: title,
-            description: description,
-            forumID: forumURL,
-            createdAt: Timestamp.fromDate(new Date()),
-            imageURL: url ? url : null,
-            totalComments: 0
-        });
-        navigate(`/${forumURL}/thread/${res.id}`);
     };
 
     return !userLoading && user && (
