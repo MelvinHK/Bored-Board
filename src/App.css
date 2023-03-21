@@ -466,7 +466,7 @@ input[type='password'] {
 }
 
 .lighten {
-  filter: opacity(0.6);
+  color: lightgray !important;
 }
 
 .searchbar {
@@ -611,5 +611,5 @@ input[type='password'] {
 }
 
 .gray {
-  color: gray !important;
+  color: gray;
 }
