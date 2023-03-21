@@ -65,19 +65,17 @@ function Comment({ comment }) {
             onMouseLeave={() => { setShowTooltip(false); setShareText('Share'); }}>
 
             {/* Header */}
-            <span className={`f12 flex f-center gray ${!expandComment ? 'mb10' : ''}`}>
+            <span className={`f12 flex f-center gray ${!expandComment ? 'mb10 lighten' : ''}`}>
                 <span>
+                    {/* Hide */}
+                    <button className='button-link f12 fmono mr5' style={{ height: '20px' }}
+                        onClick={() => setExpandComment(!expandComment)}>
+                        {expandComment ? '[-]' : '[+]'}
+                    </button>
                     <span className='author'>{author}</span>
                     <span title={comment.date}> {date} {edited}</span>
                 </span>
                 <span className='flex f-center' style={{ opacity: showTooltip ? '100' : '0' }}>
-
-                    {/* Hide */}
-                    <button className='button-link f12 ml10' style={{ height: '20px' }}
-                        onFocus={() => setShowTooltip(true)} onBlur={() => setShowTooltip(false)}
-                        onClick={() => setExpandComment(!expandComment)}>
-                        {expandComment ? 'Hide' : 'Show'}
-                    </button>
 
                     {/* Reply */}
                     {user ?

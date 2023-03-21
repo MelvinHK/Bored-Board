@@ -460,6 +460,15 @@ input[type='password'] {
   font-size: 15px;
 }
 
+.fmono {
+  font-family: 'Courier New', Courier, monospace !important;
+}
+
+.lighten {
+  filter: opacity(0.6);
+  font-style: italic;
+}
+
 .searchbar {
   padding-left: 40px !important;
 }
