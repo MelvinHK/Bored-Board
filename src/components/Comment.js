@@ -68,7 +68,7 @@ function Comment({ comment }) {
             <span className={`f12 flex f-center gray ${!expandComment ? 'mb10 lighten' : ''}`}>
                 <span>
                     {/* Hide */}
-                    <button className='button-link f12 fmono mr5' style={{ height: '20px' }}
+                    <button title={expandComment ? 'Hide' : 'Show'} className='button-link f12 fmono mr5' style={{ height: '20px' }}
                         onClick={() => setExpandComment(!expandComment)}>
                         {expandComment ? '[-]' : '[+]'}
                     </button>

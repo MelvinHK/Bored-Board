@@ -462,11 +462,11 @@ input[type='password'] {
 
 .fmono {
   font-family: 'Courier New', Courier, monospace !important;
+  font-weight: bold;
 }
 
 .lighten {
   filter: opacity(0.6);
-  font-style: italic;
 }
 
 .searchbar {
