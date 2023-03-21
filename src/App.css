@@ -469,6 +469,10 @@ input[type='password'] {
   color: rgb(199, 199, 199) !important;
 }
 
+.red {
+  color: red !important;
+}
+
 .searchbar {
   padding-left: 40px !important;
 }

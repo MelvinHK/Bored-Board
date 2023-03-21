@@ -15,8 +15,8 @@ function Login() {
     const { user, userLoading } = useAuth();
 
     const location = useLocation();
-    const background = location.state && location.state.modalBackground;
-    const previousURL = location.state ? location.state.modalBackground.pathname : '/';
+    const background = location.state && location.state.modalBackground && location.state.modalBackground;
+    const previousURL = location.state && location.state.modalBackground ? location.state.modalBackground.pathname : '/';
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';
