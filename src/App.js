@@ -12,17 +12,17 @@ import Signup from './pages/Signup';
 
 function App() {
     const location = useLocation();
-    const postModalBackground = location.state && location.state.postModalBackground;
+    const modalBackground = location.state && location.state.modalBackground;
 
     return (
         <>
             <div className='nav-box' />
             <Navbar />
-            <Routes location={postModalBackground || location}>
+            <Routes location={modalBackground || location}>
                 <Route path='/' element={<Home />} />
                 <Route path='about' element={<About />} />
-                <Route path='login' element={<Login deepLink={true} />} />
-                <Route path='signup' element={<Signup deepLink={true} />} />
+                <Route path='login' element={<Login />} />
+                <Route path='signup' element={<Signup />} />
                 <Route path=':forumURL' element={<Forum />}>
                     <Route index element={<ThreadList />} />
                     <Route exact path='thread/:threadID' element={<Thread />} >
@@ -32,7 +32,7 @@ function App() {
                 </Route>
                 <Route path='*' element={<NotFound />} />
             </Routes>
-            {postModalBackground && (
+            {modalBackground && ( // Modal routes with previous route in the background
                 <Routes>
                     <Route path=':forumURL/post' element={<Post />} />
                     <Route path='signup' element={<Signup />} />

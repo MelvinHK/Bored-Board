@@ -45,7 +45,7 @@ function Forum() {
             </h2>
             <p>{forum.description}</p>
             <Link to={user ? `/${forumURL}/post` : '/login'}
-                state={{ postModalBackground: location }} className='btn a-btn w100'>
+                state={{ modalBackground: location }} className='btn a-btn w100'>
                 Post Thread
             </Link>
         </div>

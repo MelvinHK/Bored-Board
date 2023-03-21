@@ -87,7 +87,8 @@ function Comment({ comment }) {
                             <ReplyIcon fontSize='small' />&nbsp;Reply
                         </button>
                         :
-                        <Link to='/login' state={{ postModalBackground: location }}
+                        <Link to='/login' state={{ modalBackground: location }}
+                            onFocus={() => setShowTooltip(true)} onBlur={() => setShowTooltip(false)}
                             className={`${expandComment ? 'button-link f12 flex f-center ml10 gray' : 'd-none'}`}>
                             <ReplyIcon fontSize='small' />&nbsp;Reply
                         </Link>}

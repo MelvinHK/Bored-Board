@@ -104,9 +104,9 @@ function Thread() {
         {/* Leave a comment on the thread */}
         {!expandCommentBox ?
             <div className='comment-box-unexpanded'
-                onClick={(e) => { if (user && e.type === 'click') setExpandCommentBox(true); }}
+                onClick={() => { if (user) setExpandCommentBox(true); }}
                 tabIndex={user ? 0 : -1} onFocus={() => { if (user) setExpandCommentBox(true); }}>
-                {!user && <Link className='comment-box-unexpanded-unauth' to='/login' state={{ postModalBackground: location }} />}
+                {!user && <Link className='comment-box-unexpanded-unauth' to='/login' state={{ modalBackground: location }} />}
                 Leave a comment
             </div>
             :
@@ -131,7 +131,7 @@ function Thread() {
                 })}
             </div>
             :
-            <p className='mt30'>Comment does not exist. The URL may be incorrect or the comment was deleted.</p>}
+            <p className='mt30'>Comment does not exist. The URL is incorrect or the comment was deleted.</p>}
 
         {/* If thread is being viewed from a shared comment link: */}
         {queried &&

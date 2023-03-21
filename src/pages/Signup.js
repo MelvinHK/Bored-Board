@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { auth } from '../firestoreConfig';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import '../App.css';
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useAuth } from "../auth";
 import { CircularProgress } from "@mui/material";
 
-function Signup({ deepLink }) {
+function Signup() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -15,7 +15,10 @@ function Signup({ deepLink }) {
     const [attemptingSignup, setAttemptingSignup] = useState(false);
 
     const navigate = useNavigate();
-    const previousURL = deepLink ? '/' : -1;
+
+    const location = useLocation();
+    const background = location.state && location.state.modalBackground;
+    const previousURL = location.state ? location.state.modalBackground.pathname : '/';
 
     const { user, userLoading } = useAuth();
 
@@ -49,9 +52,13 @@ function Signup({ deepLink }) {
                             <input type='text' placeholder='Email*' value={email} onChange={(e) => setEmail(e.target.value)} className='mb10' />
                             <input type='password' placeholder='Password*' value={password} onChange={(e) => setPassword(e.target.value)} className='mb10' />
                             <p className='f12 gray mt0'>Password must have at least 8 characters, with at least 1 letter and 1 number.</p>
-                            <div className='flex f-end'>
-                                <input className='btn mr10' type='submit' />
-                                <button onClick={(e) => { e.preventDefault(); navigate(previousURL); }}>Cancel</button>
+                            <div className='flex f-center'>
+                                <span className='f12'>Have an account? <Link to='/login' state={{ modalBackground: background }}>
+                                    <strong>Log in</strong></Link></span>
+                                <div className='mlauto'>
+                                    <input className='btn mr10' type='submit' />
+                                    <button onClick={(e) => { e.preventDefault(); navigate(previousURL); }}>Cancel</button>
+                                </div>
                             </div>
                         </> : <>
                             <p>Sign up complete!</p>
