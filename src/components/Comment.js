@@ -66,15 +66,12 @@ function Comment({ comment }) {
 
             {/* Header */}
             <span className={`f12 flex f-center gray ${!expandComment ? 'mb10 lighten' : ''}`}>
-                <span>
-                    {/* Hide */}
-                    <button title={expandComment ? 'Hide' : 'Show'} className='button-link f12 fmono mr5' style={{ height: '20px' }}
-                        onClick={() => setExpandComment(!expandComment)}>
-                        {expandComment ? '[-]' : '[+]'}
-                    </button>
-                    <span className='author'>{author}</span>
-                    <span title={comment.date}> {date} {edited}</span>
-                </span>
+                {/* Hide */}
+                <button title={expandComment ? 'Hide' : 'Show'} className='button-link f12 fmono mr5' style={{ height: '20px' }}
+                    onClick={() => setExpandComment(!expandComment)}>
+                    {expandComment ? '[-]' : '[+]'}
+                </button>
+                <span className='author'>{author}&nbsp;</span><span title={comment.date}> {date} {edited}</span>
                 <span className='flex f-center' style={{ opacity: showTooltip ? '100' : '0' }}>
 
                     {/* Reply */}
