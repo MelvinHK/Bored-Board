@@ -473,6 +473,10 @@ input[type='password'] {
   color: red !important;
 }
 
+.red-border {
+  border-color: red !important;
+}
+
 .searchbar {
   padding-left: 40px !important;
 }

@@ -92,15 +92,23 @@ function Signup() {
                         <h2>Sign up</h2>
                         {!signupComplete ? <>
 
-                            <input type='text' placeholder='Username*' value={username} onChange={(e) => setUsername(e.target.value)} className='mb10' />
+                            <input type='text' placeholder='Username*'
+                                value={username} onChange={(e) => setUsername(e.target.value)}
+                                className={`mb10 ${usernameValid === false ? 'red-border' : ''}`} />
                             <p className={`f12 mt0 ${usernameValid === false ? 'red' : 'gray'}`}>
                                 Username must have 3-20 characters and only contain letters, numbers, underscore.</p>
 
-                            <input type='text' placeholder='Email*' value={email} onChange={(e) => setEmail(e.target.value)} className='mb10' />
-                            {emailValid.valid === false && <p className='f12 red mt0'>Invalid email address.{emailValid.exists && ' Already in use.'}</p>}
+                            <input type='text' placeholder='Email*'
+                                value={email} onChange={(e) => setEmail(e.target.value)}
+                                className={`mb10 ${emailValid.valid === false ? 'red-border' : ''}`} />
+                            {emailValid.valid === false && <p className='f12 red mt0'>
+                                Invalid email address.{emailValid.exists && ' Already in use.'}</p>}
 
-                            <input type='password' placeholder='Password*' value={password} onChange={(e) => setPassword(e.target.value)} className='mb10' />
-                            <p className={`f12 mt0 ${passwordValid === false ? 'red' : 'gray'}`}>Password must have at least 8 characters, with at least 1 letter and 1 number.</p>
+                            <input type='password' placeholder='Password*'
+                                value={password} onChange={(e) => setPassword(e.target.value)}
+                                className={`mb10 ${passwordValid === false ? 'red-border' : ''}`} />
+                            <p className={`f12 mt0 ${passwordValid === false ? 'red' : 'gray'}`}>
+                                Password must have at least 8 characters, with at least 1 letter and 1 number.</p>
 
                             <div className='flex f-center'>
                                 <span className='f12'>Have an account? <Link to='/login' state={{ modalBackground: background }}>
