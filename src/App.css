@@ -380,15 +380,27 @@ input[type='password'] {
   border-bottom: solid 1px lightgray;
   margin-bottom: 10px;
   cursor: text;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-radius: 0;
+  width: 100%;
+  text-align: left;
+  padding-left: 0;
+}
+
+.comment-box-unexpanded:hover {
+  background-color: initial;
 }
 
 .comment-box-unexpanded-unauth {
   display: block;
   position: relative;
-  max-width: 700px;
   cursor: text;
-  height: 25px;
-  margin-bottom: -25px;
+  height: 30px;
+  margin-top: -10px;
+  margin-bottom: -30px;
+  padding-top: 10px;
 }
 
 .a-btn {
@@ -453,15 +465,8 @@ input[type='password'] {
   position: relative;
 }
 
-.author {
+.bold {
   font-weight: 600;
-}
-
-.author-help-button {
-  color: gray;
-  right: 0;
-  margin-right: 8.5px;
-  padding-top: 4px;
 }
 
 .f12 {

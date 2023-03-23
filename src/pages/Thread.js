@@ -1,4 +1,4 @@
-import { useParams, Link, useLocation } from 'react-router-dom';
+import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import NotFound from '../components/NotFound';
 import parse from 'html-react-parser';
@@ -24,6 +24,7 @@ function Thread() {
 
     const { user, userLoading } = useAuth();
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleGetThread = async () => {
@@ -90,7 +91,7 @@ function Thread() {
         {/* Thread content */}
         <h3 className='mt0 mb10'>{thread.title}</h3>
         <p className='mb30 gray'>
-                <Link to={`/user/${thread.authorID}`} className='button-link'>{thread.author}</Link> {thread.date}</p>
+            <Link to={`/user/${thread.authorID}`} className='button-link'>{thread.author}</Link> {'\u2022'} {thread.date}</p>
         {thread.imageURL &&
             <a href={thread.imageURL} target='_blank' rel='noopener noreferrer'>
                 <img className='center-img' src={thread.imageURL} alt='thread img' />
@@ -104,12 +105,15 @@ function Thread() {
 
         {/* Leave a comment on the thread */}
         {!expandCommentBox ?
-            <div className='comment-box-unexpanded'
-                onClick={() => { if (user) setExpandCommentBox(true); }}
-                tabIndex={user ? 0 : -1} onFocus={() => { if (user) setExpandCommentBox(true); }}>
-                {!user && <Link className='comment-box-unexpanded-unauth' to='/login' state={{ modalBackground: location }} />}
+            <button className='comment-box-unexpanded'
+                onClick={() => {
+                    if (user)
+                        setExpandCommentBox(true);
+                    else
+                        navigate('/login', { state: { modalBackground: location } });
+                }}>
                 Leave a comment
-            </div>
+            </button>
             :
             <CommentRichTextBox
                 expand={(value) => setExpandCommentBox(value)}

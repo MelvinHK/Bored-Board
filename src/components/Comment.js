@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useLocation } from "react-router-dom";
+import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import parse from 'html-react-parser';
 
 import { timeSince } from "../utils";
@@ -34,6 +34,7 @@ function Comment({ comment }) {
 
     const { user } = useAuth();
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         setAuthor(comment.author ? comment.author : 'Deleted post');
@@ -71,25 +72,23 @@ function Comment({ comment }) {
                     onClick={() => setExpandComment(!expandComment)}>
                     {expandComment ? '[-]' : '[+]'}
                 </button>
-                <span className='author'>
-                    <Link to={`/user/${comment.authorID}`} className='button-link'>{author}&nbsp;</Link>
-                </span>
+                <Link to={`/user/${comment.authorID}`}
+                    className={`button-link bold ${expandComment ? '' : 'lighten'} `}>{author}&nbsp;</Link>
                 <span title={comment.date}> {date} {edited}</span>
                 <span className='flex f-center' style={{ opacity: showTooltip ? '100' : '0' }}>
 
                     {/* Reply */}
-                    {user ?
-                        <button className={`${expandComment ? 'button-link f12 flex f-center ml10' : 'd-none'}`}
-                            onFocus={() => setShowTooltip(true)} onBlur={() => setShowTooltip(false)}
-                            onClick={() => { setExpandCommentBox(true); setEditing(false); }}>
-                            <ReplyIcon fontSize='small' />&nbsp;Reply
-                        </button>
-                        :
-                        <Link to='/login' state={{ modalBackground: location }}
-                            onFocus={() => setShowTooltip(true)} onBlur={() => setShowTooltip(false)}
-                            className={`${expandComment ? 'button-link f12 flex f-center ml10 gray' : 'd-none'}`}>
-                            <ReplyIcon fontSize='small' />&nbsp;Reply
-                        </Link>}
+                    <button className={`${expandComment ? 'button-link f12 flex f-center ml10' : 'd-none'}`}
+                        onFocus={() => setShowTooltip(true)} onBlur={() => setShowTooltip(false)}
+                        onClick={() => {
+                            if (user) {
+                                setExpandCommentBox(true);
+                                setEditing(false);
+                            } else
+                                navigate('/login', { state: { modalBackground: location } });
+                        }}>
+                        <ReplyIcon fontSize='small' />&nbsp;Reply
+                    </button>
 
                     {/* Share */}
                     <button className={`${expandComment ? 'button-link f12 flex f-center ml10' : 'd-none'}`}
