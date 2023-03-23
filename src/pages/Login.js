@@ -41,7 +41,7 @@ function Login() {
                 <div className={`modal form ${submitLoading ? 'disabled-input' : ''}`}>
                     <form onSubmit={(e) => handleLogin(e)}>
                         <h2>Log in</h2>
-                        <input type='text' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} className='mb10' />
+                        <input type='text' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} className='mb10' autoFocus />
                         <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className='mb10' />
                         <div className='flex f-center'>
                             <span className='f12'>Need an account? <Link to='/signup' state={{ modalBackground: background }}>

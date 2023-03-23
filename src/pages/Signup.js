@@ -94,7 +94,7 @@ function Signup() {
 
                             <input type='text' placeholder='Username*'
                                 value={username} onChange={(e) => setUsername(e.target.value)}
-                                className={`mb10 ${usernameValid === false ? 'red-border' : ''}`} />
+                                className={`mb10 ${usernameValid === false ? 'red-border' : ''}`} autoFocus />
                             <p className={`f12 mt0 ${usernameValid === false ? 'red' : 'gray'}`}>
                                 Username must have 3-20 characters and only contain letters, numbers, underscore.</p>
 

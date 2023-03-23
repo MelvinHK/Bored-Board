@@ -69,7 +69,6 @@ function CommentRichTextBox({ expand, onSubmitted, commentID, parentID, placehol
                     expand(false);
                     setComment(null);
                 }}
-                imageRequired={false}
                 imageDisabled={imageDisabled}
                 cancelEvent={() => { expand(false); setComment(null); }}
                 editContent={editContent}
