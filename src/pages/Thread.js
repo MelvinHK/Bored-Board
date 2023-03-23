@@ -133,7 +133,7 @@ function Thread() {
             :
             <p className='mt30'>Comment does not exist. The URL is incorrect or the comment was deleted.</p>}
 
-        {/* If thread is being viewed from a shared comment link: */}
+        {/* If thread is being viewed from a shared-comment link: */}
         {queried &&
             <Link to='./' tabIndex={-1}>
                 <button className='button-link'>

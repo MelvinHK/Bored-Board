@@ -9,6 +9,7 @@ import ThreadList from './components/ThreadList';
 import Post from './pages/Post';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Profile from './pages/Profile';
 
 function App() {
     const location = useLocation();
@@ -30,6 +31,7 @@ function App() {
                     </Route>
                     <Route path='post' element={<Post deepLink={true} />} />
                 </Route>
+                <Route path='user/:userID' element={<Profile />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
             {modalBackground && ( // Modal routes with previous route in the background

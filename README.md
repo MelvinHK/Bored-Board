@@ -21,6 +21,6 @@ To Do:
 In the future:
 <ul>
   <li>Use MongoDB Atlas instead because it has features that are free, 
-    such as field indexing for searching, and server-side functions for observing requests
+    such as field indexing for searching, and server-side functions for observing requests. Basicallly use MERN instead.
   </li>
 </ul>
