@@ -89,7 +89,8 @@ function Thread() {
     return !userLoading && (<>
         {/* Thread content */}
         <h3 className='mt0 mb10'>{thread.title}</h3>
-        <p className='mb30 gray'><span className='author'>{thread.author}</span> {thread.date}</p>
+        <p className='mb30 gray'>
+                <Link to={`/user/${thread.authorID}`} className='button-link'>{thread.author}</Link> {thread.date}</p>
         {thread.imageURL &&
             <a href={thread.imageURL} target='_blank' rel='noopener noreferrer'>
                 <img className='center-img' src={thread.imageURL} alt='thread img' />

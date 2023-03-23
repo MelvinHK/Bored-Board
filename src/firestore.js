@@ -22,7 +22,7 @@ export const getForum = async (forumURL) => {
 };
 
 // Get threads from a forum, can specify a starting point for the search which is used for pagination
-export const getThreads = async (forumID, lastThreadID = undefined) => {
+export const getThreadsByForumURL = async (forumID, lastThreadID = undefined) => {
     const amount = 11;
 
     if (lastThreadID) {
@@ -37,6 +37,38 @@ export const getThreads = async (forumID, lastThreadID = undefined) => {
     } else {
         q = query(threadsRef,
             where('forumID', '==', forumID),
+            orderBy('createdAt', "desc"),
+            limit(amount)
+        );
+    }
+
+    const threads = await getDocs(q);
+
+    if (!threads.empty)
+        return threads.docs.map((thread) => ({
+            ...thread.data(),
+            id: thread.id,
+            date: thread.data().createdAt.toDate().toLocaleDateString(undefined, { dateStyle: 'medium' })
+        }));
+
+    return [];
+};
+
+export const getThreadsByUserID = async (userID, lastThreadID = undefined) => {
+    const amount = 11;
+
+    if (lastThreadID) {
+        const threadRef = doc(db, "threads", lastThreadID);
+        const lastThread = await getDoc(threadRef);
+        var q = query(threadsRef,
+            where('authorID', '==', userID),
+            orderBy('createdAt', "desc"),
+            startAfter(lastThread),
+            limit(amount)
+        );
+    } else {
+        q = query(threadsRef,
+            where('authorID', '==', userID),
             orderBy('createdAt', "desc"),
             limit(amount)
         );
@@ -215,4 +247,16 @@ export const incrementReplies = async (parentID, amount) => { // Should be a ser
     await updateDoc(commentRef, {
         totalReplies: increment(amount)
     });
+};
+
+export const getUserByID = async (userID) => {
+    const user = await getDoc(doc(db, "users", userID));
+    if (user.exists())
+        return {
+            ...user.data(),
+            id: user.id,
+            date: user.data().createdAt.toDate().toLocaleDateString(undefined, { dateStyle: 'medium' })
+        };
+    else
+        return null;
 };

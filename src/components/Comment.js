@@ -71,7 +71,10 @@ function Comment({ comment }) {
                     onClick={() => setExpandComment(!expandComment)}>
                     {expandComment ? '[-]' : '[+]'}
                 </button>
-                <span className='author'>{author}&nbsp;</span><span title={comment.date}> {date} {edited}</span>
+                <span className='author'>
+                    <Link to={`/user/${comment.authorID}`} className='button-link'>{author}&nbsp;</Link>
+                </span>
+                <span title={comment.date}> {date} {edited}</span>
                 <span className='flex f-center' style={{ opacity: showTooltip ? '100' : '0' }}>
 
                     {/* Reply */}
