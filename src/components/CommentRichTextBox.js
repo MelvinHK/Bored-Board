@@ -47,7 +47,7 @@ function CommentRichTextBox({ expand, onSubmitted, commentID, parentID, placehol
         try {
             await editComment(commentID, comment);
         } catch (error) {
-            window.alert('Error: Unable to edit this comment. You are may be unauthorised to do so.');
+            window.alert('Error: Unable to edit this comment. You may be unauthorised to do so.');
         }
         onSubmitted(comment);
     };
