@@ -28,14 +28,16 @@ function Profile() {
             <div className='left-column'>
                 <h2 id='username'>{userInfo.username}</h2>
                 <p className='mb30 gray'>Joined: {userInfo.date}</p>
+                <h3>
+                    <NavLink to={`/user/${userInfo.id}`} className='black-link options' end>Posts</NavLink>
+                </h3>
+                <h3>
+                    <NavLink to={`/user/${userInfo.id}/comments`} className='black-link options'>Comments</NavLink>
+                </h3>
             </div>
             <div className='flex'>
                 <div className='spacer' />
                 <div className='main-column'>
-                    <h2 className='mt0 mb30 flex'>
-                        <NavLink to={`/user/${userInfo.id}`} className='black-link'>Posts</NavLink>
-                        <NavLink to={`/user/${userInfo.id}/comments`} className='black-link ml15'>Comments</NavLink>
-                    </h2>
                     <Outlet />
                     <div id='bottom' className='column-bottom' />
                 </div>

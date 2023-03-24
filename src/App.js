@@ -10,6 +10,7 @@ import Post from './pages/Post';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import User from './pages/User';
+import UserCommentsList from './components/UserCommentsList';
 
 function App() {
     const location = useLocation();
@@ -26,14 +27,14 @@ function App() {
                 <Route path='signup' element={<Signup />} />
                 <Route path=':forumURL' element={<Forum />}>
                     <Route index element={<ThreadList />} />
-                    <Route exact path='thread/:threadID' element={<Thread />} >
-                        <Route exact path='comment/:commentID' element={null} />
+                    <Route path='thread/:threadID' element={<Thread />} >
+                        <Route path='comment/:commentID' element={null} />
                     </Route>
                     <Route path='post' element={<Post deepLink={true} />} />
                 </Route>
                 <Route path='user/:userID' element={<User />} >
                     <Route index element={<ThreadList />} />
-                    <Route exact path='comments' />
+                    <Route path='comments' element={<UserCommentsList />} />
                 </Route>
                 <Route path='*' element={<NotFound />} />
             </Routes>

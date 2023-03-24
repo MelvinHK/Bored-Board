@@ -154,6 +154,38 @@ export const getComments = async (threadID, lastCommentID = undefined) => {
     return [];
 };
 
+export const getCommentsByUserID = async (userID, lastCommentID = undefined) => {
+    const amount = 11;
+    if (lastCommentID) {
+        const commentRef = doc(db, "comments", lastCommentID);
+        const lastComment = await getDoc(commentRef);
+        var q = query(commentsRef,
+            where('authorID', '==', userID),
+            where('parentID', '==', null),
+            orderBy('createdAt', 'asc'),
+            startAfter(lastComment),
+            limit(amount));
+    } else {
+        q = query(commentsRef,
+            where('authorID', '==', userID),
+            where('parentID', '==', null),
+            orderBy('createdAt', 'asc'),
+            limit(amount));
+    }
+
+    const comments = await getDocs(q);
+
+    if (!comments.empty)
+        return comments.docs.map((comment) => ({
+            ...comment.data(),
+            id: comment.id,
+            date: comment.data().createdAt.toDate().toLocaleDateString(undefined, { dateStyle: 'medium' })
+        }));
+
+    return [];
+};
+
+
 export const getComment = async (commentID) => {
     const commentRef = doc(db, "comments", commentID);
     const comment = await getDoc(commentRef);

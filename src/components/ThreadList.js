@@ -12,6 +12,7 @@ function ThreadList() {
     const { userID } = useParams();
     const [threads, setThreads] = useState([]);
     const [moreThreads, setMoreThreads] = useState(false);
+    const [dataLoading, setDataLoading] = useState(true);
 
     useEffect(() => {
         const handleGetThreads = async () => {
@@ -24,6 +25,7 @@ function ThreadList() {
                 setMoreThreads(true);
             }
             setThreads(data);
+            setDataLoading(false);
         };
 
         handleGetThreads();
@@ -52,14 +54,15 @@ function ThreadList() {
         observer.observe(document.getElementById('bottom'));
     });
 
-    if (!threads)
+    if (dataLoading)
+        return;
+
+    if (threads.length === 0)
         return (
-            <ul className='list'>
-                <li>
-                    <h3>It's empty...</h3>
-                    No threads posted yet
-                </li>
-            </ul>
+            <>
+                <h3 className='mt10'>It's empty...</h3>
+                <span className='f15'>No threads posted yet</span>
+            </>
         );
 
     return (<>
@@ -76,10 +79,10 @@ function ThreadList() {
                         </Link>
                     </h4>
                     <span className='flex f-start f-center f-wrap mt15 gray f15'>
-                        {userID &&
+                        {userID && // If thread list is on a user profile, show the forum it was posted in
                             <Link to={`/${thread.forumID}`} className='button-link'>/{thread.forumID}</Link>
                         }
-                        {!userID &&
+                        {forumURL && // If thread list is on a forum, show the user it was posted by
                             <Link to={`/user/${thread.authorID}`} className='button-link'>{thread.author}</Link>
                         }
                         <span title={thread.date}>&nbsp;{'\u2022'} {timeSince(thread.createdAt.toDate())}</span>
