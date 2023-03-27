@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import User from './pages/User';
 import UserCommentsList from './components/UserCommentsList';
+import Settings from './pages/Settings';
 
 function App() {
     const location = useLocation();
@@ -36,6 +37,7 @@ function App() {
                     <Route index element={<ThreadList />} />
                     <Route path='comments' element={<UserCommentsList />} />
                 </Route>
+                <Route path='settings' element={<Settings />} />    
                 <Route path='*' element={<NotFound />} />
             </Routes>
             {modalBackground && ( // Modal routes with previous route in the background

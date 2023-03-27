@@ -4,7 +4,7 @@ function About() {
     setPageTitle('About');
 
     return (<div className='mw700'>
-        <h2>About</h2>
+        <h1>About</h1>
         <p>Bored Bored is a simple messsage board site where you can post comments and share images.
             A few discussion boards with dedicated topics are available.</p>
 

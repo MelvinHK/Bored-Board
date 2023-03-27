@@ -34,7 +34,7 @@ function NavBar() {
                                     <AccountBoxIcon className='mr10' />
                                     Profile
                                 </NavLink>
-                                <NavLink className='btn a-btn flex f-center'>
+                                <NavLink to='/settings' className='btn a-btn flex f-center'>
                                     <SettingsIcon className='mr10' />
                                     Settings
                                 </NavLink>

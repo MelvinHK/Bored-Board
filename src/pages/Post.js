@@ -29,7 +29,7 @@ function Post({ deepLink }) {
         if (!userLoading && !user) {
             navigate('/login');
         }
-    }, [user, userLoading, navigate, forumURL]);
+    }, [user, userLoading, navigate]);
 
     const handleSubmit = async () => { // Does not abort if user leaves page
         try {
