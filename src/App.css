@@ -62,12 +62,14 @@ img {
 }
 
 .black-link,
-.nav a {
+.nav a:not(.dropdown a) {
   color: black !important;
   padding: 10px;
   margin-left: -10px;
   border-radius: 5px;
 }
+
+
 
 .black-link:hover,
 .nav a:hover {
@@ -212,6 +214,10 @@ img {
     margin-left: 20px;
     margin-right: 20px;
     max-width: 640px;
+  }
+
+  .dropdown {
+    margin-top: 70px !important;
   }
 
   .ProseMirror:not(.comment-box) {
@@ -471,6 +477,40 @@ input[type='password'] {
 
 .chat-icon {
   margin: 1px 5px 0px 10px
+}
+
+.profile-btn {
+  margin-right: -4px;
+  margin-top: 3px;
+  padding: 0 !important;
+  border: none;
+}
+
+.profile-btn:hover {
+  background-color: initial !important;
+}
+
+.dropdown {
+  border: solid 1px #e7e7e7;
+  padding: 10px 0 10px 0;
+  border-radius: 5px;
+  width: 275px;
+  position: fixed;
+  top: 0;
+  margin-top: 80px;
+  margin-right: 4.5vw;
+  right: 0;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown button,
+.dropdown .btn {
+  border-radius: 0;
+  padding-left: 20px;
+  text-align: left;
+  border: none;
 }
 
 .p-relative {

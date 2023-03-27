@@ -1,5 +1,5 @@
 import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import NotFound from '../components/NotFound';
 import parse from 'html-react-parser';
 import { getThread, getComments, getComment } from '../firestore';
@@ -8,6 +8,8 @@ import Comment from '../components/Comment';
 import CommentRichTextBox from '../components/CommentRichTextBox';
 import { setPageTitle } from '../utils';
 import { useAuth } from '../auth';
+
+export const ThreadContext = createContext();
 
 function Thread() {
     const { threadID } = useParams();
@@ -79,6 +81,7 @@ function Thread() {
             });
         });
         observer.observe(document.getElementById('bottom'));
+        return () => observer.disconnect();
     });
 
     if (dataLoading)
@@ -87,63 +90,65 @@ function Thread() {
     if (!thread)
         return <NotFound error={"Thread does not exist"} />;
 
-    return !userLoading && (<>
-        {/* Thread content */}
-        <h3 className='mt0 mb10'>{thread.title}</h3>
-        <p className='mb30 gray'>
-            <Link to={`/user/${thread.authorID}`} className='button-link'>{thread.author}</Link> {'\u2022'} {thread.date}</p>
-        {thread.imageURL &&
-            <a href={thread.imageURL} target='_blank' rel='noopener noreferrer'>
-                <img className='center-img' src={thread.imageURL} alt='thread img' />
-            </a>}
-        {thread.description && parse(thread.description)}
+    return !userLoading && (
+        <ThreadContext.Provider value={thread}>
+            {/* Thread content */}
+            <h3 className='mt0 mb10'>{thread.title}</h3>
+            <p className='mb30 gray'>
+                <Link to={`/user/${thread.authorID}`} className='button-link'>{thread.author}</Link> {'\u2022'} {thread.date}</p>
+            {thread.imageURL &&
+                <a href={thread.imageURL} target='_blank' rel='noopener noreferrer'>
+                    <img className='center-img' src={thread.imageURL} alt='thread img' />
+                </a>}
+            {thread.description && parse(thread.description)}
 
-        {/* Comments counter */}
-        <h4 className='mt30'>
-            {thread.totalComments} Comment{thread.totalComments !== 1 && 's'}
-        </h4>
+            {/* Comments counter */}
+            <h4 className='mt30'>
+                {thread.totalComments} Comment{thread.totalComments !== 1 && 's'}
+            </h4>
 
-        {/* Leave a comment on the thread */}
-        {!expandCommentBox ?
-            <button className='comment-box-unexpanded'
-                onClick={() => {
-                    if (user)
-                        setExpandCommentBox(true);
-                    else
-                        navigate('/login', { state: { modalBackground: location } });
-                }}>
-                Leave a comment
-            </button>
-            :
-            <CommentRichTextBox
-                expand={(value) => setExpandCommentBox(value)}
-                onSubmitted={(value) => {
-                    setComments([value, ...comments]);
-                }}
-            />}
-
-        {/* Comments list */}
-        {comments ?
-            <div className='comments list mt20'>
-                {comments.map((comment) => {
-                    return (
-                        <div key={comment.id} className='mt20'>
-                            <Comment comment={comment} />
-                        </div>
-                    );
-                })}
-            </div>
-            :
-            <p className='mt30'>Comment does not exist. The URL is incorrect or the comment was deleted.</p>}
-
-        {/* If thread is being viewed from a shared-comment link: */}
-        {queried &&
-            <Link to='./' tabIndex={-1}>
-                <button className='button-link'>
-                    View full thread
+            {/* Leave a comment on the thread */}
+            {!expandCommentBox ?
+                <button className='comment-box-unexpanded'
+                    onClick={() => {
+                        if (user)
+                            setExpandCommentBox(true);
+                        else
+                            navigate('/login', { state: { modalBackground: location } });
+                    }}>
+                    Leave a comment
                 </button>
-            </Link>}
-    </>);
+                :
+                <CommentRichTextBox
+                    expand={(value) => setExpandCommentBox(value)}
+                    onSubmitted={(value) => {
+                        setComments([value, ...comments]);
+                    }}
+                />}
+
+            {/* Comments list */}
+            {comments ?
+                <div className='comments list mt20'>
+                    {comments.map((comment) => {
+                        return (
+                            <div key={comment.id} className='mt20'>
+                                <Comment comment={comment} />
+                            </div>
+                        );
+                    })}
+                </div>
+                :
+                <p className='mt30'>Comment does not exist. The URL is incorrect or the comment was deleted.</p>}
+
+            {/* If thread is being viewed from a shared-comment link: */}
+            {queried &&
+                <Link to='./' tabIndex={-1}>
+                    <button className='button-link'>
+                        View full thread
+                    </button>
+                </Link>}
+        </ThreadContext.Provider>
+    );
 }
 
 export default Thread;

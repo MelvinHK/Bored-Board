@@ -52,6 +52,7 @@ function ThreadList() {
             });
         });
         observer.observe(document.getElementById('bottom'));
+        return () => observer.disconnect();
     });
 
     if (dataLoading)

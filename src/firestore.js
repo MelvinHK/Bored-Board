@@ -161,14 +161,12 @@ export const getCommentsByUserID = async (userID, lastCommentID = undefined) => 
         const lastComment = await getDoc(commentRef);
         var q = query(commentsRef,
             where('authorID', '==', userID),
-            where('parentID', '==', null),
             orderBy('createdAt', 'asc'),
             startAfter(lastComment),
             limit(amount));
     } else {
         q = query(commentsRef,
             where('authorID', '==', userID),
-            where('parentID', '==', null),
             orderBy('createdAt', 'asc'),
             limit(amount));
     }

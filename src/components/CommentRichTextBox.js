@@ -7,6 +7,8 @@ import { useAuth } from "../auth";
 
 function CommentRichTextBox({ expand, onSubmitted, commentID, parentID, placeholderText = 'Leave a comment', imageDisabled = false, editContent }) {
     const { threadID } = useParams();
+    const { forumURL } = useParams();
+
     const [comment, setComment] = useState(null);
     const [image, setImage] = useState();
     const [submitLoading, setSubmitLoading] = useState(false);
@@ -29,6 +31,7 @@ function CommentRichTextBox({ expand, onSubmitted, commentID, parentID, placehol
                 authorID: user.uid,
                 description: comment,
                 threadID: threadID,
+                forumID: forumURL,
                 totalReplies: 0,
                 parentID: parentID === undefined ? null : parentID,
                 createdAt: Timestamp.fromDate(new Date()),

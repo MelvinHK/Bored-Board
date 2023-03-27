@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { getCommentsByUserID } from "../firestore";
+import { timeSince } from "../utils";
 import parse from 'html-react-parser';
+import '../App.css';
 
 function UserCommentsList() {
     const { userID } = useParams();
 
     const [comments, setComments] = useState([]);
     const [moreComments, setMoreComments] = useState(false);
+    const [dataLoading, setDataLoading] = useState(true);
 
     useEffect(() => {
         const handleGetUserComments = async () => {
@@ -17,6 +20,7 @@ function UserCommentsList() {
                 setMoreComments(true);
             }
             setComments(commentsData);
+            setDataLoading(false);
         };
         handleGetUserComments();
     }, [userID]);
@@ -38,14 +42,33 @@ function UserCommentsList() {
             });
         });
         observer.observe(document.getElementById('bottom'));
+        return () => observer.disconnect();
     });
+
+    if (dataLoading)
+        return;
+
+    if (comments.length === 0)
+        return (
+            <>
+                <h3 className='mt10'>It's empty...</h3>
+                <span className='f15'>No comments posted yet</span>
+            </>
+        );
 
     return (
         <>
-            <div className='comments list mt20'>
+            <div className='comments list'>
                 {comments.map((comment) => {
                     return (
-                        <div key={comment.id} className='mt20'>
+                        <div key={comment.id} className='mb20'>
+                            <span className='f12 gray'>
+                                <Link className='button-link' to={`/${comment.forumID}`}>/{comment.forumID}</Link>
+                                <Link to={`/${comment.forumID}/thread/${comment.threadID}/comment/${comment.id}`}
+                                    title={comment.date} className='button-link'>
+                                    &nbsp;{timeSince(comment.createdAt.toDate())}
+                                </Link>
+                            </span>
                             {parse(comment.description)}
                         </div>
                     );
