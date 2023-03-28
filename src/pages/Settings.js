@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../auth";
 import { useNavigate } from "react-router-dom";
 import { EmailAuthProvider, reauthenticateWithCredential, updateEmail, updatePassword, updateProfile } from "firebase/auth";
+import EditIcon from '@mui/icons-material/Edit';
 
 function Settings() {
     const { user, userLoading } = useAuth();
@@ -27,20 +28,13 @@ function Settings() {
 
     const confirmCurrentPassword = async () => {
         const credential = EmailAuthProvider.credential(user.email, checkPassword);
-        try {
-            reauthenticateWithCredential(user, credential);
-            return true;
-        } catch (error) {
-            window.alert('Incorrect password.');
-            return false;
-        }
+        reauthenticateWithCredential(user, credential);
     };
 
     const handleUsernameUpdate = async () => {
         try {
             await confirmCurrentPassword();
             await updateProfile(user, { displayName: newUsername });
-
         } catch (error) {
             console.log(error);
             window.alert('An error occured...');
@@ -84,11 +78,13 @@ function Settings() {
                 <p className='mt0'>{user.displayName}</p>
             </div>
             {!usernameInput &&
-                <button onClick={() => toggleUsernameInput(true)} className='mlauto'>Change</button>}
+                <button onClick={() => toggleUsernameInput(true)} className='mlauto button-link'><EditIcon /></button>}
         </div>
         {usernameInput && <>
-            <input type='password' className='mb10' placeholder='Current Password*' />
             <input type='text' placeholder='New Username*' autoFocus />
+            <p className='f12 gray'>
+                Username must have 3-20 characters and only contain letters, numbers, underscore.</p>
+            <input type='password' placeholder='Current Password*' />
             <div className='flex mt10'>
                 <button className='mlauto mr10'>Submit</button>
                 <button onClick={() => toggleUsernameInput(false)}>Cancel</button>
@@ -102,10 +98,11 @@ function Settings() {
                 <p className='mt0'>{user.email}</p>
             </div>
             {!emailInput &&
-                <button onClick={() => toggleEmailInput(true)} className='mlauto'>Change</button>}
+                <button onClick={() => toggleEmailInput(true)} className='mlauto button-link'><EditIcon /></button>}
         </div>
         {emailInput && <>
-            <input type='text' placeholder='New Email' autoFocus />
+            <input type='text' placeholder='New Email*' className='mb10' autoFocus />
+            <input type='password' placeholder='Current Password*' />
             <div className='flex mt10'>
                 <button className='mlauto mr10'>Submit</button>
                 <button onClick={() => toggleEmailInput(false)}>Cancel</button>
@@ -115,8 +112,19 @@ function Settings() {
         {/* Password */}
         <div className='flex f-center'>
             <h3>Password</h3>
-            <button className='mlauto mt15'>Change</button>
+            {!passwordInput &&
+                <button onClick={() => togglePasswordInput(true)} className='mlauto mt15 button-link'><EditIcon /></button>}
         </div>
+        {passwordInput && <>
+            <input type='text' placeholder='New Password*' autoFocus />
+            <p className='f12 gray'>
+                Password must have at least 8 characters, with at least 1 letter and 1 number.</p>
+            <input type='password' placeholder='Current Password*' />
+            <div className='flex mt10'>
+                <button className='mlauto mr10'>Submit</button>
+                <button onClick={() => togglePasswordInput(false)}>Cancel</button>
+            </div>
+        </>}
 
         {/* Delete Account */}
         <button className='flex mlauto mt30 button-link'>Delete Account</button>
