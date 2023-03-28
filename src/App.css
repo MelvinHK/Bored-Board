@@ -492,6 +492,7 @@ input[type='password'] {
 
 .dropdown {
   border: solid 1px #e7e7e7;
+  box-shadow: 0 0 10px rgba(95, 95, 95, 0.1);
   padding: 10px 0 10px 0;
   border-radius: 5px;
   width: 275px;
@@ -621,6 +622,14 @@ input[type='password'] {
 
 .mt30 {
   margin-top: 30px !important;
+}
+
+.mb0 {
+  margin-bottom: 0;
+}
+
+.mb5 {
+  margin-bottom: 5px;
 }
 
 .mb10 {

@@ -25,7 +25,6 @@ function NavBar() {
                 <button className='mlauto profile-btn' onClick={() => toggleDropdown(!dropdown)}>
                     <AccountBoxIcon sx={{ fontSize: "40px" }} />
                 </button>
-                {/* <button onClick={async () => { await signOut(); window.location.reload(); }}>Sign out</button> */}
                 {dropdown &&
                     <ClickAwayListener onClickAway={() => toggleDropdown(!dropdown)}>
                         <div className='dropdown'>

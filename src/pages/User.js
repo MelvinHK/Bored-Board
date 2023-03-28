@@ -29,10 +29,12 @@ function Profile() {
                 <h2 id='username'>{userInfo.username}</h2>
                 <p className='mb30 gray'>Joined: {userInfo.date}</p>
                 <h3>
-                    <NavLink to={`/user/${userInfo.id}`} className='black-link options' end>Posts</NavLink>
+                    <NavLink onClick={() => window.scrollTo(0, 0)}
+                        to={`/user/${userInfo.id}`} className='black-link options' end>Posts</NavLink>
                 </h3>
                 <h3>
-                    <NavLink to={`/user/${userInfo.id}/comments`} className='black-link options'>Comments</NavLink>
+                    <NavLink onClick={() => window.scrollTo(0, 0)}
+                        to={`/user/${userInfo.id}/comments`} className='black-link options'>Comments</NavLink>
                 </h3>
             </div>
             <div className='flex'>
