@@ -28,16 +28,21 @@ function Settings() {
 
     const confirmCurrentPassword = async () => {
         const credential = EmailAuthProvider.credential(user.email, checkPassword);
-        reauthenticateWithCredential(user, credential);
+        await reauthenticateWithCredential(user, credential);
     };
 
     const handleUsernameUpdate = async () => {
         try {
             await confirmCurrentPassword();
             await updateProfile(user, { displayName: newUsername });
+            // batch update username on firestore
+            window.alert('Username succesfully updated!');
+            toggleUsernameInput(false);
         } catch (error) {
-            console.log(error);
-            window.alert('An error occured...');
+            if (error.code === 'auth/wrong-password')
+                window.alert('Incorrect password.');
+            else
+                window.alert('An error occured...');
         }
     };
 
@@ -45,28 +50,36 @@ function Settings() {
         try {
             await confirmCurrentPassword();
             await updateEmail(user, newEmail);
+            window.alert('Email succesfully updated!');
+            toggleEmailInput(false);
         } catch (error) {
-            console.log(error);
-            window.alert('An error occured...');
+            if (error.code === 'auth/wrong-password')
+                window.alert('Incorrect password.');
+            else
+                window.alert('An error occured...');
         }
     };
 
-    const handleUpdatePassword = async () => {
+    const handlePasswordUpdate = async () => {
         try {
             await confirmCurrentPassword();
             await updatePassword(user, newPassword);
+            window.alert('Password succesfully updated!');
+            togglePasswordInput(false);
         } catch (error) {
-            console.log(error);
-            window.alert('An error occured...');
+            if (error.code === 'auth/wrong-password')
+                window.alert('Incorrect password.');
+            else
+                window.alert('An error occured...');
         }
     };
 
-    const clearFields = () => {
+    useEffect(() => {
         setNewUsername('');
         setNewEmail('');
         setNewPassword('');
         setCheckPassword('');
-    };
+    }, [usernameInput, emailInput, passwordInput]);
 
     return !userLoading && user && (<div className='form'>
         <h1>Settings</h1>
@@ -78,15 +91,31 @@ function Settings() {
                 <p className='mt0'>{user.displayName}</p>
             </div>
             {!usernameInput &&
-                <button onClick={() => toggleUsernameInput(true)} className='mlauto button-link'><EditIcon /></button>}
+                <button
+                    onClick={() => {
+                        toggleUsernameInput(true);
+                        toggleEmailInput(false);
+                        togglePasswordInput(false);
+                    }}
+                    className='mlauto button-link'>
+                    <EditIcon />
+                </button>}
         </div>
         {usernameInput && <>
-            <input type='text' placeholder='New Username*' autoFocus />
+            <input
+                type='text'
+                value={newUsername}
+                onChange={(e) => setNewUsername(e.target.value)}
+                placeholder='New Username*' autoFocus />
             <p className='f12 gray'>
                 Username must have 3-20 characters and only contain letters, numbers, underscore.</p>
-            <input type='password' placeholder='Current Password*' />
+            <input
+                type='password'
+                value={checkPassword}
+                onChange={(e) => setCheckPassword(e.target.value)}
+                placeholder='Current Password*' />
             <div className='flex mt10'>
-                <button className='mlauto mr10'>Submit</button>
+                <button onClick={() => handleUsernameUpdate()} className='mlauto mr10'>Submit</button>
                 <button onClick={() => toggleUsernameInput(false)}>Cancel</button>
             </div>
         </>}
@@ -98,13 +127,31 @@ function Settings() {
                 <p className='mt0'>{user.email}</p>
             </div>
             {!emailInput &&
-                <button onClick={() => toggleEmailInput(true)} className='mlauto button-link'><EditIcon /></button>}
+                <button
+                    onClick={() => {
+                        toggleUsernameInput(false);
+                        toggleEmailInput(true);
+                        togglePasswordInput(false);
+                    }}
+                    className='mlauto button-link'>
+                    <EditIcon />
+                </button>}
         </div>
         {emailInput && <>
-            <input type='text' placeholder='New Email*' className='mb10' autoFocus />
-            <input type='password' placeholder='Current Password*' />
+            <input
+                type='text'
+                value={newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
+                placeholder='New Email*'
+                className='mb10'
+                autoFocus />
+            <input
+                type='password'
+                value={checkPassword}
+                onChange={(e) => setCheckPassword(e.target.value)}
+                placeholder='Current Password*' />
             <div className='flex mt10'>
-                <button className='mlauto mr10'>Submit</button>
+                <button onClick={() => handleEmailUpdate()} className='mlauto mr10'>Submit</button>
                 <button onClick={() => toggleEmailInput(false)}>Cancel</button>
             </div>
         </>}
@@ -113,15 +160,32 @@ function Settings() {
         <div className='flex f-center'>
             <h3>Password</h3>
             {!passwordInput &&
-                <button onClick={() => togglePasswordInput(true)} className='mlauto mt15 button-link'><EditIcon /></button>}
+                <button
+                    onClick={() => {
+                        toggleUsernameInput(false);
+                        toggleEmailInput(false);
+                        togglePasswordInput(true);
+                    }}
+                    className='mlauto mt15 button-link'>
+                    <EditIcon />
+                </button>}
         </div>
         {passwordInput && <>
-            <input type='text' placeholder='New Password*' autoFocus />
+            <input
+                type='password'
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder='New Password*'
+                autoFocus />
             <p className='f12 gray'>
                 Password must have at least 8 characters, with at least 1 letter and 1 number.</p>
-            <input type='password' placeholder='Current Password*' />
+            <input
+                type='password'
+                value={checkPassword}
+                onChange={(e) => setCheckPassword(e.target.value)}
+                placeholder='Current Password*' />
             <div className='flex mt10'>
-                <button className='mlauto mr10'>Submit</button>
+                <button onClick={() => handlePasswordUpdate()} className='mlauto mr10'>Submit</button>
                 <button onClick={() => togglePasswordInput(false)}>Cancel</button>
             </div>
         </>}
