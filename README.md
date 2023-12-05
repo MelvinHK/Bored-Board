@@ -1,3 +1,15 @@
+Old CRUD study. Terrible React code.
+
+In the future:
+<ul>
+  <li>
+    Properly structure components in a top-down flow; don't cram many features into a single component. Use useContext more.
+  </li>
+  <li>
+    Use Node.js and MongoDB Atlas instead. It's free and has more customizable queries.
+  </li>
+</ul>
+
 Simple message board site developed using React and Firebase.
 
 Features:
@@ -16,10 +28,4 @@ To Do:
 <ul>
   <li>Email verification, password reset</li>
   <li>Server-side validation for posting, commenting, signup</li>
-</ul>
-
-In the future:
-<ul>
-  <li>Use Node.js and MongoDB Atlas. It's free and has more customizable queries.
-  </li>
 </ul>
